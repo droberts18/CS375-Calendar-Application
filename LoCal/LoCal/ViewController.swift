@@ -60,6 +60,7 @@ class ViewController: UIViewController {
         calendarView.autoMatchDimension(.Width, toDimension: .Width, ofView: self.view, withOffset: -sideBarWidth)
         calendarView.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view)
         calendarView.autoPinEdge(.Top, toEdge: .Bottom, ofView: statusBarView, withOffset: 0)
+        calendarView.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: 0, relation: .GreaterThanOrEqual)
         //end calendar view
         
         //Sidebar
@@ -76,15 +77,15 @@ class ViewController: UIViewController {
         dateTable.autoPinEdge(.Top, toEdge: .Top, ofView: sideBar)
         dateTable.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: sideBar)
         dateTable.autoPinEdge(.Right, toEdge: .Right, ofView: sideBar)
-        dateTable.autoSetDimension(.Width, toSize: sideBarWidth)
+        self.sideBarWidthConstraint = dateTable.autoSetDimension(.Width, toSize: sideBarWidth)
         
 
         sideBar.insertSubview(mapContainer, belowSubview: dateTable)
         mapContainer.autoPinEdge(.Top, toEdge: .Bottom, ofView: statusBarView, withOffset: 0)
         mapContainer.autoPinEdge(.Left, toEdge: .Left, ofView: sideBar, withOffset: 0)
-        mapContainer.autoPinEdge(.Right, toEdge: .Right, ofView: dateTable, withOffset: 0)
+        mapContainer.autoPinEdge(.Right, toEdge: .Right, ofView: dateTable, withOffset: -1)
         mapContainer.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: sideBar, withOffset: -300)
-        
+        mapContainer.autoMatchDimension(.Height, toDimension: .Height, ofView: sideBar, withMultiplier: 0.4)
         mapContainer.addSubview(myMap)
         myMap.autoPinEdgesToSuperviewEdges()
         myMap.alpha = 0                         //hide map
@@ -94,20 +95,12 @@ class ViewController: UIViewController {
         sideBar.addGestureRecognizer(panGesture)
         //end sidebar
         
-        
-        let rect = CGRectMake(0, 0, 50, 50)
-        let addEventBtn = UIButton(frame: rect)
-        addEventBtn.backgroundColor = UIColor.blueColor()
-        sideBar.addSubview(addEventBtn)
-        
-        calendarView.addSubview(addEventBtn)
-        
         //add event button
         let addEventImage = UIImage(named: "AddEventButton.png")
         let addEventImageView = UIImageView(image: addEventImage)
         calendarView.addSubview(addEventImageView)
-        addEventImageView.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view, withOffset: -10)
-        addEventImageView.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: -10)
+        addEventImageView.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarView, withOffset: -10)
+        addEventImageView.autoPinEdge(.Right, toEdge: .Right, ofView: calendarView, withOffset: -10)
         addEventImageView.autoSetDimension(.Height, toSize: 60)
         addEventImageView.autoSetDimension(.Width, toSize: 60)
         
@@ -115,14 +108,10 @@ class ViewController: UIViewController {
         let addLocationImage = UIImage(named: "AddLocationButton.png")
         let addLocationImageView = UIImageView(image: addLocationImage)
         calendarView.addSubview(addLocationImageView)
-        addLocationImageView.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view, withOffset: -10)
+        addLocationImageView.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarView, withOffset: -10)
         addLocationImageView.autoPinEdge(.Right, toEdge: .Left, ofView: addEventImageView, withOffset: -10)
         addLocationImageView.autoSetDimension(.Height, toSize: 60)
         addLocationImageView.autoSetDimension(.Width, toSize: 60)
-        
-        
-        
-        //let outerCircle = UI
         
     }
     
