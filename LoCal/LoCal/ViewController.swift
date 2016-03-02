@@ -106,41 +106,42 @@ class ViewController: UIViewController {
         //end sidebar
         
         //add event button
-//        let addLocationButton = NavButton(buttonColor: addEventButtonColor, imageFileName: "AddEventButtonPlus.png")
-//        calendarView.addSubview(addLocationButton)
-//        addLocationButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarView, withOffset: -10)
-//        addLocationButton.autoPinEdge(.Right, toEdge: .Right, ofView: calendarView, withOffset: -10)
-//        addLocationButton.autoSetDimension(.Width, toSize: navButtonSize)
-//        addLocationButton.autoSetDimension(.Height, toSize: navButtonSize)
+        let addLocationButton = NavButton(buttonColor: addEventButtonColor, imageFileName: "AddEventButtonPlus.png")
+        addLocationButton.translatesAutoresizingMaskIntoConstraints = false
+        calendarView.addSubview(addLocationButton)
+        addLocationButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarView, withOffset: -10)
+        addLocationButton.autoPinEdge(.Right, toEdge: .Right, ofView: calendarView, withOffset: -10)
+        addLocationButton.autoSetDimension(.Width, toSize: navButtonSize)
+        addLocationButton.autoSetDimension(.Height, toSize: navButtonSize)
 
-        calendarView.addSubview(eventView)
-        eventView.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarView, withOffset: -10)
-        eventView.autoPinEdge(.Right, toEdge: .Right, ofView: calendarView, withOffset: -10)
-        eventView.backgroundColor = UIColor.whiteColor()
-        self.addLocationScreenWidth = eventView.autoSetDimension(.Width, toSize: navButtonSize)
-        self.addLocationScreenHeight = eventView.autoSetDimension(.Height, toSize: navButtonSize)
-        eventView.layer.cornerRadius = navButtonSize/2
-        eventView.backgroundColor = addEventButtonColor
-        
-        eventView.addSubview(addEventButton)
-        addEventButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: eventView)
-        addEventButton.autoPinEdge(.Right, toEdge: .Right, ofView: eventView)
-        addEventButton.autoMatchDimension(.Width, toDimension: .Width, ofView: eventView)
-        addEventButton.autoMatchDimension(.Height, toDimension: .Height, ofView: eventView)
-        addEventButton.backgroundColor = addEventButtonColor
-        addEventButton.layer.cornerRadius = navButtonSize/2
-        addEventButton.layer.borderWidth = navButtonBorderWidth
-        addEventButton.layer.borderColor = navButtonBorderColor.CGColor
-        
-        let addEventImage = UIImage(named: "AddEventButtonPlus.png")
-        let addEventImageView = UIImageView(image: addEventImage)
-        eventView.addSubview(addEventImageView)
-        addEventImageView.autoCenterInSuperview()
-        addEventImageView.autoSetDimension(.Height, toSize: navButtonImageSize)
-        addEventImageView.autoSetDimension(.Width, toSize: navButtonImageSize)
-        
-        let addEventTouch = UITapGestureRecognizer(target:self, action:  "onButtonTap:")
-        addEventButton.addGestureRecognizer(addEventTouch)
+//        calendarView.addSubview(eventView)
+//        eventView.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarView, withOffset: -10)
+//        eventView.autoPinEdge(.Right, toEdge: .Right, ofView: calendarView, withOffset: -10)
+//        eventView.backgroundColor = UIColor.whiteColor()
+//        self.addLocationScreenWidth = eventView.autoSetDimension(.Width, toSize: navButtonSize)
+//        self.addLocationScreenHeight = eventView.autoSetDimension(.Height, toSize: navButtonSize)
+//        eventView.layer.cornerRadius = navButtonSize/2
+//        eventView.backgroundColor = addEventButtonColor
+//        
+//        eventView.addSubview(addEventButton)
+//        addEventButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: eventView)
+//        addEventButton.autoPinEdge(.Right, toEdge: .Right, ofView: eventView)
+//        addEventButton.autoMatchDimension(.Width, toDimension: .Width, ofView: eventView)
+//        addEventButton.autoMatchDimension(.Height, toDimension: .Height, ofView: eventView)
+//        addEventButton.backgroundColor = addEventButtonColor
+//        addEventButton.layer.cornerRadius = navButtonSize/2
+//        addEventButton.layer.borderWidth = navButtonBorderWidth
+//        addEventButton.layer.borderColor = navButtonBorderColor.CGColor
+//        
+//        let addEventImage = UIImage(named: "AddEventButtonPlus.png")
+//        let addEventImageView = UIImageView(image: addEventImage)
+//        eventView.addSubview(addEventImageView)
+//        addEventImageView.autoCenterInSuperview()
+//        addEventImageView.autoSetDimension(.Height, toSize: navButtonImageSize)
+//        addEventImageView.autoSetDimension(.Width, toSize: navButtonImageSize)
+//        
+//        let addEventTouch = UITapGestureRecognizer(target:self, action:  "onButtonTap:")
+//        addEventButton.addGestureRecognizer(addEventTouch)
         
         
         //add location button
@@ -235,16 +236,19 @@ class ViewController: UIViewController {
     
     func onButtonTap(f: UITapGestureRecognizer){
         print("Tap happened")
+    
+        let AddEventVC = AddEventViewController()
+        self.presentViewController(AddEventVC, animated: true, completion: nil)
         
-        if let view = f.view{
-            addLocationScreenHeight?.constant = self.view.frame.size.height
-            addLocationScreenWidth?.constant = self.view.frame.size.width
-            UIView.animateWithDuration(self.animationTime, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
-                self.view.setNeedsLayout()
-                self.view.layoutIfNeeded()
-                }, completion: { finished in
-            })
-        }
+//        if let view = f.view{
+//            addLocationScreenHeight?.constant = self.view.frame.size.height
+//            addLocationScreenWidth?.constant = self.view.frame.size.width
+//            UIView.animateWithDuration(self.animationTime, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
+//                self.view.setNeedsLayout()
+//                self.view.layoutIfNeeded()
+//                }, completion: { finished in
+//            })
+//        }
     }
     
 //    

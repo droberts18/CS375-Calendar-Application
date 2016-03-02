@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LoCal/ViewController.swift"
-            timestampString = "478588435.0559"
+            timestampString = "478647265.798173"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "121"
-            endingLineNumber = "121"
-            landmarkName = "viewDidLoad()"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
+            landmarkName = "onButtonTap(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -37,11 +37,16 @@ class NavButton: UIView {
     }
     
     func customInitialization(){
+        self.addSubview(eventView)
+        eventView.translatesAutoresizingMaskIntoConstraints = false
+        addEventButton.translatesAutoresizingMaskIntoConstraints = false
+        
         eventView.backgroundColor = UIColor.whiteColor()
         eventView.autoSetDimension(.Width, toSize: navButtonSize)
         eventView.autoMatchDimension(.Height, toDimension: .Width, ofView: eventView, withMultiplier: 1)
         eventView.layer.cornerRadius = navButtonSize/2
         eventView.backgroundColor = buttonColor
+        eventView.autoCenterInSuperview()
         
         eventView.addSubview(addEventButton)
         addEventButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: eventView)
@@ -60,11 +65,10 @@ class NavButton: UIView {
         addEventImageView.autoSetDimension(.Height, toSize: navButtonImageSize)
         addEventImageView.autoSetDimension(.Width, toSize: navButtonImageSize)
         
-        let addEventTouch = UITapGestureRecognizer(target:self, action:  "onButtonTap:")
-        addEventButton.addGestureRecognizer(addEventTouch)
+        addEventButton.addTarget(self, action: "onButtonTap:", forControlEvents: UIControlEvents.TouchUpInside)
     }
     
-    func onButtonTap(){
+    func onButtonTap(sender:UIButton!){
         print("This worked!!")
     }
     

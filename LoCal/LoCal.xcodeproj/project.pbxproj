@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AF060EA01C878B22002AEDDC /* AddEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF060E9F1C878B22002AEDDC /* AddEventViewController.swift */; };
 		C3306FB61C7F03E8000207AB /* ALView+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C3306FAE1C7F03E8000207AB /* ALView+PureLayout.m */; };
 		C3306FB71C7F03E8000207AB /* NSArray+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C3306FB01C7F03E8000207AB /* NSArray+PureLayout.m */; };
 		C3306FB81C7F03E8000207AB /* NSLayoutConstraint+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C3306FB21C7F03E8000207AB /* NSLayoutConstraint+PureLayout.m */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AF060E9F1C878B22002AEDDC /* AddEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddEventViewController.swift; sourceTree = "<group>"; };
 		C3306FAC1C7F0223000207AB /* LoCal-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LoCal-Bridging-Header.h"; sourceTree = "<group>"; };
 		C3306FAD1C7F03E8000207AB /* ALView+PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALView+PureLayout.h"; sourceTree = "<group>"; };
 		C3306FAE1C7F03E8000207AB /* ALView+PureLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALView+PureLayout.m"; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				C3CFFA7A1C7CF8230061E7B6 /* Assets.xcassets */,
 				C3CFFA7C1C7CF8230061E7B6 /* LaunchScreen.storyboard */,
 				C3CFFA7F1C7CF8230061E7B6 /* Info.plist */,
+				AF060E9F1C878B22002AEDDC /* AddEventViewController.swift */,
 			);
 			path = LoCal;
 			sourceTree = "<group>";
@@ -182,6 +185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3CFFA761C7CF8230061E7B6 /* ViewController.swift in Sources */,
+				AF060EA01C878B22002AEDDC /* AddEventViewController.swift in Sources */,
 				C3CFFA741C7CF8230061E7B6 /* AppDelegate.swift in Sources */,
 				C3CFFA861C7CF8460061E7B6 /* LocationManager.swift in Sources */,
 				C3306FB61C7F03E8000207AB /* ALView+PureLayout.m in Sources */,
