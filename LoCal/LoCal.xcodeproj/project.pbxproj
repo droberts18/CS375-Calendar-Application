@@ -130,7 +130,7 @@
 				TargetAttributes = {
 					C3CFFA6F1C7CF8220061E7B6 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = F63F9F65P7;
+						DevelopmentTeam = P537ZEA4SP;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -298,7 +298,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = LoCal/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Skysoft;
+				PRODUCT_BUNDLE_IDENTIFIER = "Drew-Roberts";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LoCal-Bridging-Header.h";
@@ -313,7 +313,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = LoCal/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Skysoft;
+				PRODUCT_BUNDLE_IDENTIFIER = "Drew-Roberts";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LoCal-Bridging-Header.h";

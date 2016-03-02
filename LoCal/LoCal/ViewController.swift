@@ -96,19 +96,33 @@ class ViewController: UIViewController {
         //end sidebar
         
         //add event button
+        let eventView = UIView()
+        calendarView.addSubview(eventView)
+        eventView.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarView, withOffset: -10)
+        eventView.autoPinEdge(.Right, toEdge: .Right, ofView: calendarView, withOffset: -10)
+        eventView.backgroundColor = UIColor.whiteColor()
+        eventView.autoSetDimension(.Width, toSize: 60)
+        eventView.autoSetDimension(.Height, toSize: 60)
         
         let addEventImage = UIImage(named: "AddEventButton.png")
         let addEventImageView = UIImageView(image: addEventImage)
-        calendarView.addSubview(addEventImageView)
-        addEventImageView.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarView, withOffset: -10)
-        addEventImageView.autoPinEdge(.Right, toEdge: .Right, ofView: calendarView, withOffset: -10)
+        eventView.addSubview(addEventImageView)
+        addEventImageView.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: eventView)
+        addEventImageView.autoPinEdge(.Right, toEdge: .Right, ofView: eventView)
         addEventImageView.autoSetDimension(.Height, toSize: 60)
         addEventImageView.autoSetDimension(.Width, toSize: 60)
         
+//        let eventButtonView = UIView()
+//        calendarView.addSubview(eventButtonView)
+//        eventButtonView.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarView, withOffset: -10)
+//        eventButtonView.autoPinEdge(.Right, toEdge: .Right, ofView: calendarView, withOffset: -10)
+//        eventButtonView.autoSetDimension(.Width, toSize: 60)
+//        eventButtonView.autoSetDimension(.Height, toSize: 60)
+        
         let addEventButton = UIButton()
-        addEventImageView.addSubview(addEventButton)
-        addEventButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view, withOffset: -10)
-        addEventButton.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: -10)
+        eventView.addSubview(addEventButton)
+        addEventButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: eventView)
+        addEventButton.autoPinEdge(.Right, toEdge: .Right, ofView: eventView)
         addEventButton.autoSetDimension(.Width, toSize: 60)
         addEventButton.autoSetDimension(.Height, toSize: 60)
         addEventButton.backgroundColor = UIColor.redColor()
@@ -119,14 +133,32 @@ class ViewController: UIViewController {
         
         
         //add location button
-        let addLocationImage = UIImage(named: "AddLocationButton.png")
-        let addLocationImageView = UIImageView(image: addLocationImage)
-        calendarView.addSubview(addLocationImageView)
-        addLocationImageView.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarView, withOffset: -10)
-        addLocationImageView.autoPinEdge(.Right, toEdge: .Left, ofView: addEventImageView, withOffset: -10)
-        addLocationImageView.autoSetDimension(.Height, toSize: 60)
-        addLocationImageView.autoSetDimension(.Width, toSize: 60)
-        
+//        let addLocationImage = UIImage(named: "AddLocationButton.png")
+//        let addLocationImageView = UIImageView(image: addLocationImage)
+//        calendarView.addSubview(addLocationImageView)
+//        addLocationImageView.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarView, withOffset: -10)
+//        addLocationImageView.autoPinEdge(.Right, toEdge: .Left, ofView: addEventImageView, withOffset: -10)
+//        addLocationImageView.autoSetDimension(.Height, toSize: 60)
+//        addLocationImageView.autoSetDimension(.Width, toSize: 60)
+//        
+//        let locationButtonView = UIView()
+//        calendarView.addSubview(locationButtonView)
+//        locationButtonView.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarView, withOffset: -10)
+//        locationButtonView.autoPinEdge(.Right, toEdge: .Right, ofView: addEventImageView, withOffset: -10)
+//        locationButtonView.autoSetDimension(.Width, toSize: 60)
+//        locationButtonView.autoSetDimension(.Height, toSize: 60)
+//        
+//        let addLocationButton = UIButton()
+//        addLocationImageView.addSubview(addLocationButton)
+//        addLocationButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarView, withOffset: -10)
+//        addLocationButton.autoPinEdge(.Right, toEdge: .Left, ofView: addEventImageView, withOffset:-10)
+//        addLocationButton.autoSetDimension(.Height, toSize: 60)
+//        addLocationButton.autoSetDimension(.Width, toSize: 60)
+//        addLocationButton.backgroundColor = UIColor.purpleColor()
+//        addLocationButton.layer.cornerRadius = 30
+//        
+//        let addLocationTouch = UITapGestureRecognizer(target:self, action: "tap")
+//        addLocationButton.addGestureRecognizer(addLocationTouch)
     }
     
     func showSideBar(){
@@ -190,7 +222,7 @@ class ViewController: UIViewController {
         g.setTranslation(CGPointZero, inView: self.view)
     }
     
-    func tap(){
+    func tap(f: UITapGestureRecognizer){
         print("Tap happened")
     }
     
