@@ -15,17 +15,28 @@ class ViewController: UIViewController {
     var sideBarLayoutConstraint : NSLayoutConstraint?
     var sideBarWidthConstraint : NSLayoutConstraint?
     var sideBarWidth : CGFloat = 70
+    
+    //Button stuff
+    var navButtonSize : CGFloat = 60
+    var navButtonImageSize : CGFloat = 40
+    var navButtonBorderWidth : CGFloat = 2
+    var navButtonBorderColor = UIColor.whiteColor()
+    var addLocationScreenWidth : NSLayoutConstraint?
+    var addLocationScreenHeight : NSLayoutConstraint?
+    
     let animationTime = 0.4
     var translationOffset : CGFloat = 0
     var calendarViewAnimationRatio : CGFloat = 5
     let backgColor = UIColor(red: 42/255, green: 45/255, blue: 53/255, alpha: 1)
     let sidebColor = UIColor(red: 24/255, green: 26/255, blue: 33/255, alpha: 1)
+    let addEventButtonColor = UIColor(red: 44/255, green: 105/255, blue: 157/255, alpha: 1)
     
     let sideBar  = UIView()
     let mapContainer = UIView()
     let myMap = MKMapView()
     let dateTable = UITableView()
-
+    let eventView = UIView()
+    let addEventButton = UIButton()
 
     
     override func viewDidLoad() {
@@ -79,7 +90,6 @@ class ViewController: UIViewController {
         dateTable.autoPinEdge(.Right, toEdge: .Right, ofView: sideBar)
         self.sideBarWidthConstraint = dateTable.autoSetDimension(.Width, toSize: sideBarWidth)
         
-
         sideBar.insertSubview(mapContainer, belowSubview: dateTable)
         mapContainer.autoPinEdge(.Top, toEdge: .Bottom, ofView: statusBarView, withOffset: 0)
         mapContainer.autoPinEdge(.Left, toEdge: .Left, ofView: sideBar, withOffset: 0)
@@ -88,7 +98,7 @@ class ViewController: UIViewController {
         mapContainer.autoMatchDimension(.Height, toDimension: .Height, ofView: sideBar, withMultiplier: 0.4)
         mapContainer.addSubview(myMap)
         myMap.autoPinEdgesToSuperviewEdges()
-        myMap.alpha = 0                         //hide map
+        myMap.alpha = 0  //hide map
         
         
         let panGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
@@ -96,39 +106,40 @@ class ViewController: UIViewController {
         //end sidebar
         
         //add event button
-        let eventView = UIView()
+//        let addLocationButton = NavButton(buttonColor: addEventButtonColor, imageFileName: "AddEventButtonPlus.png")
+//        calendarView.addSubview(addLocationButton)
+//        addLocationButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarView, withOffset: -10)
+//        addLocationButton.autoPinEdge(.Right, toEdge: .Right, ofView: calendarView, withOffset: -10)
+//        addLocationButton.autoSetDimension(.Width, toSize: navButtonSize)
+//        addLocationButton.autoSetDimension(.Height, toSize: navButtonSize)
+
         calendarView.addSubview(eventView)
         eventView.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarView, withOffset: -10)
         eventView.autoPinEdge(.Right, toEdge: .Right, ofView: calendarView, withOffset: -10)
         eventView.backgroundColor = UIColor.whiteColor()
-        eventView.autoSetDimension(.Width, toSize: 60)
-        eventView.autoSetDimension(.Height, toSize: 60)
+        self.addLocationScreenWidth = eventView.autoSetDimension(.Width, toSize: navButtonSize)
+        self.addLocationScreenHeight = eventView.autoSetDimension(.Height, toSize: navButtonSize)
+        eventView.layer.cornerRadius = navButtonSize/2
+        eventView.backgroundColor = addEventButtonColor
         
-        let addEventImage = UIImage(named: "AddEventButton.png")
-        let addEventImageView = UIImageView(image: addEventImage)
-        eventView.addSubview(addEventImageView)
-        addEventImageView.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: eventView)
-        addEventImageView.autoPinEdge(.Right, toEdge: .Right, ofView: eventView)
-        addEventImageView.autoSetDimension(.Height, toSize: 60)
-        addEventImageView.autoSetDimension(.Width, toSize: 60)
-        
-//        let eventButtonView = UIView()
-//        calendarView.addSubview(eventButtonView)
-//        eventButtonView.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarView, withOffset: -10)
-//        eventButtonView.autoPinEdge(.Right, toEdge: .Right, ofView: calendarView, withOffset: -10)
-//        eventButtonView.autoSetDimension(.Width, toSize: 60)
-//        eventButtonView.autoSetDimension(.Height, toSize: 60)
-        
-        let addEventButton = UIButton()
         eventView.addSubview(addEventButton)
         addEventButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: eventView)
         addEventButton.autoPinEdge(.Right, toEdge: .Right, ofView: eventView)
-        addEventButton.autoSetDimension(.Width, toSize: 60)
-        addEventButton.autoSetDimension(.Height, toSize: 60)
-        addEventButton.backgroundColor = UIColor.redColor()
-        addEventButton.layer.cornerRadius = 30
+        addEventButton.autoMatchDimension(.Width, toDimension: .Width, ofView: eventView)
+        addEventButton.autoMatchDimension(.Height, toDimension: .Height, ofView: eventView)
+        addEventButton.backgroundColor = addEventButtonColor
+        addEventButton.layer.cornerRadius = navButtonSize/2
+        addEventButton.layer.borderWidth = navButtonBorderWidth
+        addEventButton.layer.borderColor = navButtonBorderColor.CGColor
         
-        let addEventTouch = UITapGestureRecognizer(target:self, action:  "tap")
+        let addEventImage = UIImage(named: "AddEventButtonPlus.png")
+        let addEventImageView = UIImageView(image: addEventImage)
+        eventView.addSubview(addEventImageView)
+        addEventImageView.autoCenterInSuperview()
+        addEventImageView.autoSetDimension(.Height, toSize: navButtonImageSize)
+        addEventImageView.autoSetDimension(.Width, toSize: navButtonImageSize)
+        
+        let addEventTouch = UITapGestureRecognizer(target:self, action:  "onButtonTap:")
         addEventButton.addGestureRecognizer(addEventTouch)
         
         
@@ -222,8 +233,18 @@ class ViewController: UIViewController {
         g.setTranslation(CGPointZero, inView: self.view)
     }
     
-    func tap(f: UITapGestureRecognizer){
+    func onButtonTap(f: UITapGestureRecognizer){
         print("Tap happened")
+        
+        if let view = f.view{
+            addLocationScreenHeight?.constant = self.view.frame.size.height
+            addLocationScreenWidth?.constant = self.view.frame.size.width
+            UIView.animateWithDuration(self.animationTime, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
+                self.view.setNeedsLayout()
+                self.view.layoutIfNeeded()
+                }, completion: { finished in
+            })
+        }
     }
     
 //    

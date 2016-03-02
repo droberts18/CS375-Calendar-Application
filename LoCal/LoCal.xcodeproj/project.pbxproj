@@ -16,6 +16,7 @@
 		C3CFFA7B1C7CF8230061E7B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3CFFA7A1C7CF8230061E7B6 /* Assets.xcassets */; };
 		C3CFFA7E1C7CF8230061E7B6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3CFFA7C1C7CF8230061E7B6 /* LaunchScreen.storyboard */; };
 		C3CFFA861C7CF8460061E7B6 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CFFA851C7CF8460061E7B6 /* LocationManager.swift */; };
+		C3E8B5FA1C86E0B500C0D535 /* NavButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E8B5F91C86E0B500C0D535 /* NavButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		C3CFFA7D1C7CF8230061E7B6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C3CFFA7F1C7CF8230061E7B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C3CFFA851C7CF8460061E7B6 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		C3E8B5F91C86E0B500C0D535 /* NavButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +91,7 @@
 				C3306FBA1C7F043D000207AB /* PureLayout */,
 				C3CFFA731C7CF8230061E7B6 /* AppDelegate.swift */,
 				C3CFFA751C7CF8230061E7B6 /* ViewController.swift */,
+				C3E8B5F91C86E0B500C0D535 /* NavButton.swift */,
 				C3CFFA851C7CF8460061E7B6 /* LocationManager.swift */,
 				C3CFFA771C7CF8230061E7B6 /* Main.storyboard */,
 				C3CFFA7A1C7CF8230061E7B6 /* Assets.xcassets */,
@@ -130,7 +133,7 @@
 				TargetAttributes = {
 					C3CFFA6F1C7CF8220061E7B6 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = P537ZEA4SP;
+						DevelopmentTeam = F63F9F65P7;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -184,6 +187,7 @@
 				C3306FB61C7F03E8000207AB /* ALView+PureLayout.m in Sources */,
 				C3306FB71C7F03E8000207AB /* NSArray+PureLayout.m in Sources */,
 				C3306FB81C7F03E8000207AB /* NSLayoutConstraint+PureLayout.m in Sources */,
+				C3E8B5FA1C86E0B500C0D535 /* NavButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,7 +302,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = LoCal/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Drew-Roberts";
+				PRODUCT_BUNDLE_IDENTIFIER = Skysoft;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LoCal-Bridging-Header.h";
@@ -313,7 +317,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = LoCal/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Drew-Roberts";
+				PRODUCT_BUNDLE_IDENTIFIER = Skysoft;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LoCal-Bridging-Header.h";
