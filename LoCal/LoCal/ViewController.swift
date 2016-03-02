@@ -96,6 +96,7 @@ class ViewController: UIViewController {
         //end sidebar
         
         //add event button
+        
         let addEventImage = UIImage(named: "AddEventButton.png")
         let addEventImageView = UIImageView(image: addEventImage)
         calendarView.addSubview(addEventImageView)
@@ -103,6 +104,19 @@ class ViewController: UIViewController {
         addEventImageView.autoPinEdge(.Right, toEdge: .Right, ofView: calendarView, withOffset: -10)
         addEventImageView.autoSetDimension(.Height, toSize: 60)
         addEventImageView.autoSetDimension(.Width, toSize: 60)
+        
+        let addEventButton = UIButton()
+        addEventImageView.addSubview(addEventButton)
+        addEventButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view, withOffset: -10)
+        addEventButton.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: -10)
+        addEventButton.autoSetDimension(.Width, toSize: 60)
+        addEventButton.autoSetDimension(.Height, toSize: 60)
+        addEventButton.backgroundColor = UIColor.redColor()
+        addEventButton.layer.cornerRadius = 30
+        
+        let addEventTouch = UITapGestureRecognizer(target:self, action:  "tap")
+        addEventButton.addGestureRecognizer(addEventTouch)
+        
         
         //add location button
         let addLocationImage = UIImage(named: "AddLocationButton.png")
@@ -174,6 +188,10 @@ class ViewController: UIViewController {
             }
         }
         g.setTranslation(CGPointZero, inView: self.view)
+    }
+    
+    func tap(){
+        print("Tap happened")
     }
     
 //    
