@@ -14,7 +14,7 @@ class NavButton: UIView {
     let addEventButton = UIButton()
     var imageFileName = String()
     
-    var buttonColor = UIColor()
+    var buttonColor = UIColor.whiteColor()
     var navButtonSize : CGFloat = 60
     var navButtonImageSize : CGFloat = 40
     var navButtonBorderWidth : CGFloat = 2
@@ -38,6 +38,9 @@ class NavButton: UIView {
     
     func customInitialization(){
         self.addSubview(eventView)
+        eventView.userInteractionEnabled = true
+        addEventButton.userInteractionEnabled = true
+
         eventView.translatesAutoresizingMaskIntoConstraints = false
         addEventButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -49,14 +52,13 @@ class NavButton: UIView {
         eventView.autoCenterInSuperview()
         
         eventView.addSubview(addEventButton)
-        addEventButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: eventView)
-        addEventButton.autoPinEdge(.Right, toEdge: .Right, ofView: eventView)
+        addEventButton.autoCenterInSuperview()
         addEventButton.autoMatchDimension(.Width, toDimension: .Width, ofView: eventView)
         addEventButton.autoMatchDimension(.Height, toDimension: .Height, ofView: eventView)
         addEventButton.backgroundColor = buttonColor
         addEventButton.layer.cornerRadius = navButtonSize/2
         addEventButton.layer.borderWidth = navButtonBorderWidth
-        addEventButton.layer.borderColor = buttonColor.CGColor
+        addEventButton.layer.borderColor = navButtonBorderColor.CGColor
         
         let addEventImage = UIImage(named: imageFileName)
         let addEventImageView = UIImageView(image: addEventImage)
@@ -70,7 +72,6 @@ class NavButton: UIView {
     
     func onButtonTap(sender:UIButton!){
         print("This worked!!")
+        //self.presentViewController(AddEventViewController(), animated : true, completion : nil)
     }
-    
-
 }
