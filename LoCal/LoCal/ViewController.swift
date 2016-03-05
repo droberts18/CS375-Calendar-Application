@@ -68,10 +68,17 @@ class ViewController: UIViewController {
         dateTable.userInteractionEnabled = true
         sideBar.userInteractionEnabled = true
         
+        myContainer.translatesAutoresizingMaskIntoConstraints = false
+        calendarContainer.translatesAutoresizingMaskIntoConstraints = false
+        calendarView.translatesAutoresizingMaskIntoConstraints = false
+        dateTable.translatesAutoresizingMaskIntoConstraints = false
+        sideBar.translatesAutoresizingMaskIntoConstraints = false
+        
         //Calendar View
         myContainer.addSubview(calendarContainer)
         //calendar container
         calendarContainer.autoMatchDimension(.Width, toDimension: .Width, ofView: myContainer, withMultiplier: 0.5)
+        //calendarContainer.autoMatchDimension(.Width, toDimension: .Width, ofView: self.view, withOffset: 1)
         calendarContainer.autoPinEdge(.Top, toEdge: .Bottom, ofView: statusBarView)
         calendarContainer.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view)
         calendarContainer.autoPinEdge(.Right, toEdge: .Right, ofView: myContainer)
@@ -105,9 +112,10 @@ class ViewController: UIViewController {
         sideBar.backgroundColor = sidebColor
         sideBar.autoPinEdge(.Top, toEdge: .Bottom, ofView: statusBarView)
         sideBar.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: myContainer)
-        sideBar.autoPinEdge(.Right, toEdge: .Left, ofView: calendarContainer)
+        sideBar.autoPinEdge(.Right, toEdge: .Left, ofView: calendarContainer, withOffset: 1)
         sideBar.autoPinEdge(.Left, toEdge: .Left, ofView: myContainer)
-        sideBar.autoMatchDimension(.Width, toDimension: .Width, ofView: myContainer, withMultiplier: 0.5)
+        //sideBar.autoMatchDimension(.Width, toDimension: .Width, ofView: myContainer, withMultiplier: 0.5)
+        sideBar.autoMatchDimension(.Width, toDimension: .Width, ofView: self.view, withOffset: 1)
         
         //panning constraint
         panningConstraint = sideBar.autoConstrainAttribute(.Right, toAttribute: .Left, ofView: self.view, withOffset: 0, relation: .GreaterThanOrEqual)
