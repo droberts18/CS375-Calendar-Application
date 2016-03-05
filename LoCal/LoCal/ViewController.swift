@@ -29,15 +29,15 @@ class ViewController: UIViewController {
     let sidebColor = UIColor(red: 24/255, green: 26/255, blue: 33/255, alpha: 1)
     let addEventButtonColor = UIColor(red: 44/255, green: 105/255, blue: 157/255, alpha: 1)
     
-    let myContainer = UIView()
-    let calendarContainer = UIView()
-    let calendarView = UIView()
-    let sideBar  = UIView()
-    let mapContainer = UIView()
-    let myMap = MKMapView()
-    let dateTable = UITableView()
-    let eventView = UIView()
-    let addEventButton = UIButton()
+    let myContainer = UIView(forAutoLayout: ())
+    let calendarContainer = UIView(forAutoLayout: ())
+    let calendarView = UIView(forAutoLayout: ())
+    let sideBar  = UIView(forAutoLayout: ())
+    let mapContainer = UIView(forAutoLayout: ())
+    let myMap = MKMapView(forAutoLayout: ())
+    let dateTable = UITableView(forAutoLayout: ())
+    let eventView = UIView(forAutoLayout: ())
+    let addEventButton = UIButton(forAutoLayout: ())
 
     
     override func viewDidLoad() {
@@ -89,9 +89,8 @@ class ViewController: UIViewController {
         calendarView.addSubview(addLocationButton)
         addLocationButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarView, withOffset: -10)
         addLocationButton.autoPinEdge(.Right, toEdge: .Right, ofView: calendarView, withOffset: -10)
-        addLocationButton.autoSetDimension(.Width, toSize: navButtonSize)
-        addLocationButton.autoSetDimension(.Height, toSize: navButtonSize)
-        
+        addLocationButton.addTarget(self, action: "onLocationButtonTap:", forControlEvents: UIControlEvents.TouchUpInside)
+
         
         //date table
         calendarView.addSubview(dateTable)
@@ -185,6 +184,10 @@ class ViewController: UIViewController {
 //        addLocationButton.autoSetDimension(.Height, toSize: navButtonSize)
         //IMPORTANT STUFF END
 
+    }
+    
+    func onLocationButtonTap(sender:UIButton!){
+        self.presentViewController(AddEventViewController(backgroundColor: addEventButtonColor), animated: true, completion: nil)
     }
     
     func showSideBar(){

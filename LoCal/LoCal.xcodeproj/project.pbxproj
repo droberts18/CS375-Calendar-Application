@@ -11,6 +11,7 @@
 		C3306FB61C7F03E8000207AB /* ALView+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C3306FAE1C7F03E8000207AB /* ALView+PureLayout.m */; };
 		C3306FB71C7F03E8000207AB /* NSArray+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C3306FB01C7F03E8000207AB /* NSArray+PureLayout.m */; };
 		C3306FB81C7F03E8000207AB /* NSLayoutConstraint+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C3306FB21C7F03E8000207AB /* NSLayoutConstraint+PureLayout.m */; };
+		C393CD6B1C8A63A800285F39 /* ViewControllerHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C393CD6A1C8A63A800285F39 /* ViewControllerHeader.swift */; };
 		C3CFFA741C7CF8230061E7B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CFFA731C7CF8230061E7B6 /* AppDelegate.swift */; };
 		C3CFFA761C7CF8230061E7B6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CFFA751C7CF8230061E7B6 /* ViewController.swift */; };
 		C3CFFA791C7CF8230061E7B6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3CFFA771C7CF8230061E7B6 /* Main.storyboard */; };
@@ -32,6 +33,7 @@
 		C3306FB31C7F03E8000207AB /* PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PureLayout.h; sourceTree = "<group>"; };
 		C3306FB41C7F03E8000207AB /* PureLayout+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PureLayout+Internal.h"; sourceTree = "<group>"; };
 		C3306FB51C7F03E8000207AB /* PureLayoutDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PureLayoutDefines.h; sourceTree = "<group>"; };
+		C393CD6A1C8A63A800285F39 /* ViewControllerHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerHeader.swift; sourceTree = "<group>"; };
 		C3CFFA701C7CF8220061E7B6 /* LoCal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoCal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3CFFA731C7CF8230061E7B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3CFFA751C7CF8230061E7B6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 				C3CFFA7C1C7CF8230061E7B6 /* LaunchScreen.storyboard */,
 				C3CFFA7F1C7CF8230061E7B6 /* Info.plist */,
 				AF060E9F1C878B22002AEDDC /* AddEventViewController.swift */,
+				C393CD6A1C8A63A800285F39 /* ViewControllerHeader.swift */,
 			);
 			path = LoCal;
 			sourceTree = "<group>";
@@ -188,6 +191,7 @@
 				AF060EA01C878B22002AEDDC /* AddEventViewController.swift in Sources */,
 				C3CFFA741C7CF8230061E7B6 /* AppDelegate.swift in Sources */,
 				C3CFFA861C7CF8460061E7B6 /* LocationManager.swift in Sources */,
+				C393CD6B1C8A63A800285F39 /* ViewControllerHeader.swift in Sources */,
 				C3306FB61C7F03E8000207AB /* ALView+PureLayout.m in Sources */,
 				C3306FB71C7F03E8000207AB /* NSArray+PureLayout.m in Sources */,
 				C3306FB81C7F03E8000207AB /* NSLayoutConstraint+PureLayout.m in Sources */,
