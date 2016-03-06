@@ -19,7 +19,8 @@ class NavButton: UIButton {
     var navButtonImageSize : CGFloat = 25
     var navButtonBorderWidth : CGFloat = 2
     var navButtonBorderColor = UIColor.whiteColor()
-    
+    var buttonWidth = NSLayoutConstraint()
+    var buttonHeight = NSLayoutConstraint()
     
     override init (frame : CGRect) {
         super.init(frame : frame)
@@ -69,8 +70,8 @@ class NavButton: UIButton {
         
         //addEventButton.addTarget(self, action: "onButtonTap:", forControlEvents: UIControlEvents.TouchUpInside)
         
-        self.autoSetDimension(.Width, toSize: navButtonSize)
-        self.autoSetDimension(.Height, toSize: navButtonSize)
+        buttonWidth = self.autoSetDimension(.Width, toSize: navButtonSize)
+        buttonHeight = self.autoSetDimension(.Height, toSize: navButtonSize)
         self.backgroundColor = buttonColor
         self.layer.cornerRadius = navButtonSize/2
         self.layer.borderWidth = 2
@@ -82,10 +83,55 @@ class NavButton: UIButton {
         buttonImageView.autoSetDimension(.Height, toSize: navButtonImageSize)
         buttonImageView.autoSetDimension(.Width, toSize: navButtonImageSize)
         buttonImageView.autoCenterInSuperview()
+        
+        //self.addTarget(self, action: "onSelect:", forControlEvents: UIControlEvents.TouchUpInside)
     }
     
-//    func onButtonTap(sender:UIButton!){
+//    func onSelect(sender:UIButton!){
 //        print("This worked!!")
+//        self.buttonWidth.constant = (self.superview?.frame.width)!
+//        self.buttonHeight.constant = ((self.superview?.frame.height)!)
+//        self.layer.cornerRadius = 0
+//        self.layer.borderWidth = 0
+//        
+//        UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
+//                            self.setNeedsLayout()
+//                            self.layoutIfNeeded()
+//                            }, completion: { finished in
+//                                self.layer.cornerRadius = self.navButtonSize/2
+//                                self.layer.borderWidth = self.navButtonBorderWidth
+//                                self.buttonWidth.constant = self.navButtonSize
+//                                self.buttonHeight.constant = self.navButtonSize
+//                        })
+//        
 //        //self.presentViewController(AddEventViewController(), animated : true, completion : nil)
 //    }
+    
+    func animateButton(width: CGFloat, height: CGFloat, var bottomConstraint: NSLayoutConstraint, var rightConstraint: NSLayoutConstraint){
+        let tempWidth = self.buttonWidth
+        let tempHeight = self.buttonHeight
+        let tempBottom = bottomConstraint.constant
+        let tempRight = rightConstraint.constant
+        self.buttonWidth.constant = width
+        self.buttonHeight.constant = height
+        self.layer.cornerRadius = 0
+        self.layer.borderWidth = 0
+        bottomConstraint.constant = 0
+        rightConstraint.constant = 0
+        
+        UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
+                    self.setNeedsLayout()
+                    self.layoutIfNeeded()
+            }, completion: { finished in
+                    self.layer.cornerRadius = self.navButtonSize/2
+                    self.layer.borderWidth = self.navButtonBorderWidth
+                    self.buttonWidth.constant = self.navButtonSize
+                    self.buttonHeight.constant = self.navButtonSize
+                    self.buttonWidth = tempWidth
+                    self.buttonHeight = tempHeight
+                    bottomConstraint.constant = tempBottom
+                    rightConstraint.constant = tempRight
+            })
+        
+    }
 }

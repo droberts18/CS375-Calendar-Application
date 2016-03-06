@@ -37,7 +37,10 @@ class ViewController: UIViewController {
     let myMap = MKMapView(forAutoLayout: ())
     let dateTable = UITableView(forAutoLayout: ())
     let eventView = UIView(forAutoLayout: ())
-    let addEventButton = UIButton(forAutoLayout: ())
+    
+    var addEventButton = NavButton()
+    var addEventButtonBottomConstraint : NSLayoutConstraint?
+    var addEventButtonRightConstraint : NSLayoutConstraint?
 
     
     override func viewDidLoad() {
@@ -62,6 +65,15 @@ class ViewController: UIViewController {
         myContainer.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view)
         myContainer.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: 0, relation: .GreaterThanOrEqual)
         
+        
+        
+        
+        //FIXME:
+        //myContainer.autoPinEdge(.Left, toEdge: .Left, ofView: self.view, withOffset: 0, relation: .LessThanOrEqual).priority.advancedBy(5000)
+        
+        
+        
+        
         myContainer.userInteractionEnabled = true
         calendarContainer.userInteractionEnabled = true
         calendarView.userInteractionEnabled = true
@@ -78,7 +90,6 @@ class ViewController: UIViewController {
         myContainer.addSubview(calendarContainer)
         //calendar container
         calendarContainer.autoMatchDimension(.Width, toDimension: .Width, ofView: myContainer, withMultiplier: 0.5)
-        //calendarContainer.autoMatchDimension(.Width, toDimension: .Width, ofView: self.view, withOffset: 1)
         calendarContainer.autoPinEdge(.Top, toEdge: .Bottom, ofView: statusBarView)
         calendarContainer.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view)
         calendarContainer.autoPinEdge(.Right, toEdge: .Right, ofView: myContainer)
@@ -91,12 +102,12 @@ class ViewController: UIViewController {
         calendarView.autoMatchDimension(.Width, toDimension: .Width, ofView: calendarContainer, withOffset: -sideBarWidth)
         
         //add event button
-        let addLocationButton = NavButton(buttonColor: addEventButtonColor, imageFileName: "AddEventButtonPlus.png")
-        addLocationButton.translatesAutoresizingMaskIntoConstraints = false
-        calendarView.addSubview(addLocationButton)
-        addLocationButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarView, withOffset: -10)
-        addLocationButton.autoPinEdge(.Right, toEdge: .Right, ofView: calendarView, withOffset: -10)
-        addLocationButton.addTarget(self, action: "onLocationButtonTap:", forControlEvents: UIControlEvents.TouchUpInside)
+        addEventButton = NavButton(buttonColor: addEventButtonColor, imageFileName: "AddEventButtonPlus.png")
+        addEventButton.translatesAutoresizingMaskIntoConstraints = false
+        calendarContainer.addSubview(addEventButton)
+        addEventButtonBottomConstraint = addEventButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarView, withOffset: -10)
+        addEventButtonRightConstraint = addEventButton.autoPinEdge(.Right, toEdge: .Right, ofView: calendarView, withOffset: -10)
+        addEventButton.addTarget(self, action: "onEventButtonTap:", forControlEvents: UIControlEvents.TouchUpInside)
 
         
         //date table
@@ -114,7 +125,6 @@ class ViewController: UIViewController {
         sideBar.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: myContainer)
         sideBar.autoPinEdge(.Right, toEdge: .Left, ofView: calendarContainer, withOffset: 1)
         sideBar.autoPinEdge(.Left, toEdge: .Left, ofView: myContainer)
-        //sideBar.autoMatchDimension(.Width, toDimension: .Width, ofView: myContainer, withMultiplier: 0.5)
         sideBar.autoMatchDimension(.Width, toDimension: .Width, ofView: self.view, withOffset: 1)
         
         //panning constraint
@@ -129,73 +139,22 @@ class ViewController: UIViewController {
         //map
         mapContainer.addSubview(myMap)
         myMap.autoPinEdgesToSuperviewEdges()
-        //myMap.alpha = 0  //hide map
+        myMap.alpha = 0  //hide map
 
         //adding pan gesture
         let panGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
         myContainer.addGestureRecognizer(panGesture)
         
-        
-        
-        
-        
-        
-        
-        
-//        self.view.addSubview(calendarView)
-//        calendarView.backgroundColor = backgColor
-//        calendarView.autoMatchDimension(.Width, toDimension: .Width, ofView: self.view, withOffset: -sideBarWidth)
-//        calendarView.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view)
-//        calendarView.autoPinEdge(.Top, toEdge: .Bottom, ofView: statusBarView, withOffset: 0)
-//        calendarView.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: 0, relation: .GreaterThanOrEqual)
-        //end calendar view
-        
-        //Sidebar
-//        sideBar.backgroundColor = sidebColor
-//        self.view.addSubview(sideBar)
-//        sideBar.autoPinEdgeToSuperviewEdge(.Top)
-//        sideBar.autoMatchDimension(.Width, toDimension: .Width, ofView: self.view)
-//        sideBar.autoMatchDimension(.Height, toDimension: .Height, ofView: self.view)
-//        sideBar.autoPinEdge(.Right, toEdge: .Left, ofView: calendarView, withOffset: 0)
-        //self.sideBarLayoutConstraint = sideBar.autoPinEdge(.Right, toEdge: .Left, ofView: self.view, withOffset: sideBarWidth)
-        
-//        dateTable.backgroundColor = sidebColor
-//        sideBar.addSubview(dateTable)
-//        dateTable.autoPinEdge(.Top, toEdge: .Top, ofView: sideBar)
-//        dateTable.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: sideBar)
-//        dateTable.autoPinEdge(.Right, toEdge: .Right, ofView: sideBar)
-//        self.sideBarWidthConstraint = dateTable.autoSetDimension(.Width, toSize: sideBarWidth)
-        
-        //IMPORTANT STUFF
-//        sideBar.insertSubview(mapContainer, belowSubview: dateTable)
-//        mapContainer.autoPinEdge(.Top, toEdge: .Bottom, ofView: statusBarView, withOffset: 0)
-//        mapContainer.autoPinEdge(.Left, toEdge: .Left, ofView: sideBar, withOffset: 0)
-//        mapContainer.autoPinEdge(.Right, toEdge: .Right, ofView: dateTable, withOffset: -1)
-//        mapContainer.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: sideBar, withOffset: -300)
-//        mapContainer.autoMatchDimension(.Height, toDimension: .Height, ofView: sideBar, withMultiplier: 0.4)
-//        mapContainer.addSubview(myMap)
-//        myMap.autoPinEdgesToSuperviewEdges()
-//        myMap.alpha = 0  //hide map
-//        
-//        
-//        let panGesture = UIPanGestureRecognizer(target: self, action: "onPanGesture:")
-//        sideBar.addGestureRecognizer(panGesture)
-//        //end sidebar
-//        
-//        //add event button
-//        let addLocationButton = NavButton(buttonColor: addEventButtonColor, imageFileName: "AddEventButtonPlus.png")
-//        addLocationButton.translatesAutoresizingMaskIntoConstraints = false
-//        calendarView.addSubview(addLocationButton)
-//        addLocationButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarView, withOffset: -10)
-//        addLocationButton.autoPinEdge(.Right, toEdge: .Right, ofView: calendarView, withOffset: -10)
-//        addLocationButton.autoSetDimension(.Width, toSize: navButtonSize)
-//        addLocationButton.autoSetDimension(.Height, toSize: navButtonSize)
-        //IMPORTANT STUFF END
-
     }
     
-    func onLocationButtonTap(sender:UIButton!){
-        self.presentViewController(AddEventViewController(backgroundColor: addEventButtonColor), animated: true, completion: nil)
+    func onEventButtonTap(sender:UIButton!){
+//        addEventButton.animateButton(self.view.frame.width, height: self.view.frame.height, bottomConstraint: addEventButtonBottomConstraint!, rightConstraint: addEventButtonRightConstraint!)
+        let addEventViewController = AddEventViewController(backgroundColor: addEventButtonColor)
+        //addEventViewController.view.alpha = 0
+        self.presentViewController(addEventViewController, animated: true, completion: nil)
+//        UIView.animateWithDuration(0.3, delay: 0.4, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
+//                addEventViewController.view.alpha = 1
+//            }, completion: nil)
     }
     
     func showSideBar(){
@@ -222,40 +181,31 @@ class ViewController: UIViewController {
     }
     
     func translateScreens(translation: CGPoint, sideBarRightEdgeLocation: CGFloat){
-        print("translationOffset is:\t\t \(translationOffset)")
-        print("translation is:\t\t\t\(translation.x)")
-        //panningConstraint?.constant = translationOffset + translation.x
-        panningConstraint?.constant = translation.x
+        panningConstraint?.constant = translationOffset + translation.x
     }
     
     func onPanGesture(g: UIPanGestureRecognizer){
         if let view = g.view{
             let translation = g.locationInView(self.view)
             let newTranslation : CGPoint
-            
-//            //don't let the sideBar go left if it's already minimized
-//            if((g.velocityInView(view).x < 0 && view.frame.maxX <= sideBarWidth) || (g.velocityInView(view).x) > 0 && view.frame.maxX >= self.view.frame.width){
-//                return
-//            }
-            
-            
+
             //if the gesture started, record the offset of the finger's initial tap location in relation to the screen
             if(g.state == UIGestureRecognizerState.Began){
                 newTranslation = g.locationInView(view)
-                translationOffset = view.frame.size.width - newTranslation.x
+                translationOffset = self.view.frame.size.width - newTranslation.x
             }
                 
             if(g.velocityInView(view).x > 0){
                 if((g.velocityInView(view).x > 10 && g.state == UIGestureRecognizerState.Ended) || (g.state == UIGestureRecognizerState.Ended && view.frame.maxX > self.view.frame.size.width/2)){
                         showSideBar()
                 }else{
-                        translateScreens(translation, sideBarRightEdgeLocation: view.frame.maxX)
+                        translateScreens(translation, sideBarRightEdgeLocation: view.frame.maxX/2)
                 }
             }else{
                 if(((g.velocityInView(view).x < 0 && g.state == UIGestureRecognizerState.Ended)) || (g.state == UIGestureRecognizerState.Ended && view.frame.maxX < self.view.frame.size.width/2)){
                         hideSideBar()
                 }else{
-                    translateScreens(translation, sideBarRightEdgeLocation: view.frame.maxX)
+                    translateScreens(translation, sideBarRightEdgeLocation: view.frame.maxX/2)
                 }
             }
             

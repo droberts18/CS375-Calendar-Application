@@ -21,7 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         locationManager = LocationManager()
         locationManager?.getAddressFromCurrentLocation({ (location) -> Void in
-            print(location!)
+            if(location != nil){
+                print(location!)
+            }
         })
         
         
