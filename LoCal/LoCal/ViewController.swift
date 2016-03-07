@@ -22,7 +22,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var navButtonBorderWidth : CGFloat = 2
     var navButtonBorderColor = UIColor.whiteColor()
     
-    let animationTime = 0.4
+    let animationTime = 0.5
     var translationOffset : CGFloat = 0
     var calendarViewAnimationRatio : CGFloat = 5
     let backgColor = UIColor(red: 42/255, green: 45/255, blue: 53/255, alpha: 1)
@@ -36,7 +36,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     let mapContainer = UIView(forAutoLayout: ())
     let myMap = MKMapView(forAutoLayout: ())
     let dateTable = CalendarDateTable(forAutoLayout: ())
-    //let eventView = UIView(forAutoLayout: ())
     
     var addEventButton = NavButton()
     var addEventButtonBottomConstraint : NSLayoutConstraint?
@@ -172,7 +171,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func hideSideBar(){
         panningConstraint?.constant = 0
-        UIView.animateWithDuration(animationTime, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
+        UIView.animateWithDuration(self.animationTime, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
                 self.view.setNeedsLayout()
                 self.view.layoutIfNeeded()
             }, completion: { finished in
@@ -188,15 +187,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if let view = g.view{
             let translation = g.locationInView(self.view)
             let newTranslation : CGPoint
-            
-            //true is right, false is left
-            //var lastDirection : Bool
-            
-//            if(g.velocityInView(view).x > 0){
-//                lastDirection = true
-//            }else{
-//                lastDirection = false
-//            }
 
             //if the gesture started, record the offset of the finger's initial tap location in relation to the screen
             if(g.state == UIGestureRecognizerState.Began){
@@ -205,18 +195,27 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             }
                 
             if(g.velocityInView(view).x > 0){
-                if((g.velocityInView(view).x > 30 && g.state == UIGestureRecognizerState.Ended) || (g.state == UIGestureRecognizerState.Ended && self.view.frame.size.width/view.frame.maxX <= 0.75)){
+                if(g.velocityInView(view).x > 30 && g.state == UIGestureRecognizerState.Ended){
                         showSideBar()
                 }else{
                         translateScreens(translation, sideBarRightEdgeLocation: view.frame.maxX/2)
                 }
             }else{
-                if(((g.velocityInView(view).x < -30 && g.state == UIGestureRecognizerState.Ended)) || (g.state == UIGestureRecognizerState.Ended && self.view.frame.size.width/view.frame.maxX > 0.75)){
+                if(g.velocityInView(view).x < -30 && g.state == UIGestureRecognizerState.Ended){
                         hideSideBar()
                 }else{
                     translateScreens(translation, sideBarRightEdgeLocation: view.frame.maxX/2)
                 }
             }
+         
+            if(g.state == UIGestureRecognizerState.Ended){
+                if(g.state == UIGestureRecognizerState.Ended && self.view.frame.size.width/view.frame.maxX > 0.65){
+                    hideSideBar()
+                }else{
+                    showSideBar()
+                }
+            }
+            
             
         }
         g.setTranslation(CGPointZero, inView: self.view)
