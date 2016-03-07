@@ -106,7 +106,7 @@
                   moduleName = "LoCal"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/tylerreardon/Google%20Drive/College/Dropbox/Spring/MobileAppDev/AppProject/CS375-Calendar-Application/LoCal/LoCal/LocationManager.swift"
-                  timestampString = "478930845.130359"
+                  timestampString = "479020139.49227"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "42"
@@ -121,7 +121,7 @@
                   moduleName = "LoCal"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/tylerreardon/Google%20Drive/College/Dropbox/Spring/MobileAppDev/AppProject/CS375-Calendar-Application/LoCal/LoCal/LocationManager.swift"
-                  timestampString = "478930845.130603"
+                  timestampString = "479020139.492593"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "44"
@@ -240,6 +240,38 @@
             startingLineNumber = "151"
             endingLineNumber = "151"
             landmarkName = "onEventButtonTap(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LoCal/ViewController.swift"
+            timestampString = "478980283.406135"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "215"
+            endingLineNumber = "215"
+            landmarkName = "onPanGesture(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LoCal/ViewController.swift"
+            timestampString = "478980283.406135"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "209"
+            endingLineNumber = "209"
+            landmarkName = "onPanGesture(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

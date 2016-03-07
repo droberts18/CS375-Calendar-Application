@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import MapKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var panningConstraint : NSLayoutConstraint?
     var sideBarWidthConstraint : NSLayoutConstraint?
@@ -31,12 +31,12 @@ class ViewController: UIViewController {
     
     let myContainer = UIView(forAutoLayout: ())
     let calendarContainer = UIView(forAutoLayout: ())
-    let calendarView = UIView(forAutoLayout: ())
+    let calendarView = CalendarEventTable(forAutoLayout: ())
     let sideBar  = UIView(forAutoLayout: ())
     let mapContainer = UIView(forAutoLayout: ())
     let myMap = MKMapView(forAutoLayout: ())
-    let dateTable = UITableView(forAutoLayout: ())
-    let eventView = UIView(forAutoLayout: ())
+    let dateTable = CalendarDateTable(forAutoLayout: ())
+    //let eventView = UIView(forAutoLayout: ())
     
     var addEventButton = NavButton()
     var addEventButtonBottomConstraint : NSLayoutConstraint?
@@ -77,13 +77,13 @@ class ViewController: UIViewController {
         myContainer.userInteractionEnabled = true
         calendarContainer.userInteractionEnabled = true
         calendarView.userInteractionEnabled = true
-        dateTable.userInteractionEnabled = true
+        //dateTable.userInteractionEnabled = true
         sideBar.userInteractionEnabled = true
         
         myContainer.translatesAutoresizingMaskIntoConstraints = false
         calendarContainer.translatesAutoresizingMaskIntoConstraints = false
         calendarView.translatesAutoresizingMaskIntoConstraints = false
-        dateTable.translatesAutoresizingMaskIntoConstraints = false
+        //dateTable.translatesAutoresizingMaskIntoConstraints = false
         sideBar.translatesAutoresizingMaskIntoConstraints = false
         
         //Calendar View
@@ -111,12 +111,12 @@ class ViewController: UIViewController {
 
         
         //date table
-        calendarView.addSubview(dateTable)
+        calendarContainer.addSubview(dateTable)
         dateTable.backgroundColor = sidebColor
         dateTable.autoPinEdge(.Top, toEdge: .Top, ofView: calendarContainer)
         dateTable.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarContainer)
-        dateTable.autoPinEdge(.Right, toEdge: .Left, ofView: calendarView)
-        dateTable.autoSetDimension(.Width, toSize: sideBarWidth)
+        dateTable.autoPinEdge(.Right, toEdge: .Left, ofView: calendarView, withOffset: 1)
+        dateTable.autoSetDimension(.Width, toSize: sideBarWidth + 1)
         
         //Side Bar
         myContainer.addSubview(sideBar)
@@ -188,6 +188,15 @@ class ViewController: UIViewController {
         if let view = g.view{
             let translation = g.locationInView(self.view)
             let newTranslation : CGPoint
+            
+            //true is right, false is left
+            //var lastDirection : Bool
+            
+//            if(g.velocityInView(view).x > 0){
+//                lastDirection = true
+//            }else{
+//                lastDirection = false
+//            }
 
             //if the gesture started, record the offset of the finger's initial tap location in relation to the screen
             if(g.state == UIGestureRecognizerState.Began){
@@ -196,13 +205,13 @@ class ViewController: UIViewController {
             }
                 
             if(g.velocityInView(view).x > 0){
-                if((g.velocityInView(view).x > 10 && g.state == UIGestureRecognizerState.Ended) || (g.state == UIGestureRecognizerState.Ended && view.frame.maxX > self.view.frame.size.width/2)){
+                if((g.velocityInView(view).x > 30 && g.state == UIGestureRecognizerState.Ended) || (g.state == UIGestureRecognizerState.Ended && self.view.frame.size.width/view.frame.maxX <= 0.75)){
                         showSideBar()
                 }else{
                         translateScreens(translation, sideBarRightEdgeLocation: view.frame.maxX/2)
                 }
             }else{
-                if(((g.velocityInView(view).x < 0 && g.state == UIGestureRecognizerState.Ended)) || (g.state == UIGestureRecognizerState.Ended && view.frame.maxX < self.view.frame.size.width/2)){
+                if(((g.velocityInView(view).x < -30 && g.state == UIGestureRecognizerState.Ended)) || (g.state == UIGestureRecognizerState.Ended && self.view.frame.size.width/view.frame.maxX > 0.75)){
                         hideSideBar()
                 }else{
                     translateScreens(translation, sideBarRightEdgeLocation: view.frame.maxX/2)
@@ -247,6 +256,17 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func tableView(tableView:UITableView, numberOfRowsInSection section:Int) -> Int
+    {
+        return 20
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
+        let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "mycell")
+        return cell
     }
 
 
