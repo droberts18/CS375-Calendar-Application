@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import MapKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
 
     var panningConstraint : NSLayoutConstraint?
     var sideBarWidthConstraint : NSLayoutConstraint?
@@ -32,11 +32,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     let statusBarView = UIView(forAutoLayout: ())
     let myContainer = UIView(forAutoLayout: ())
     let calendarContainer = UIView(forAutoLayout: ())
-    let calendarView = CalendarEventTable(forAutoLayout: ())
+    let calendarView = UITableView(forAutoLayout: ())
     let sideBar  = UIView(forAutoLayout: ())
     let mapContainer = UIView(forAutoLayout: ())
     let myMap = MKMapView(forAutoLayout: ())
-    let dateTable = CalendarDateTable(forAutoLayout: ())
+    let dateTable = UITableView(forAutoLayout: ())
     
     var addEventButton = NavButton()
     var addEventButtonBottomConstraint : NSLayoutConstraint?
@@ -45,6 +45,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = sidebColor
+        
+        //set up date table
+        dateTable.dataSource = self;
+        dateTable.delegate = self;
+        dateTable.registerClass(CalendarDateCell.self, forCellReuseIdentifier: "CalendarDateCell")
+        
+        //set up calendar view table
+        calendarView.dataSource = self
+        calendarView.delegate = self
+        calendarView.registerClass(CalendarEventCell.self, forCellReuseIdentifier: "CalendarEventCell")
         
         //Status Bar View
         let statusBarViewHeight : CGFloat = 20
@@ -63,8 +74,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         myContainer.autoPinEdge(.Top, toEdge: .Bottom, ofView: statusBarView)
         myContainer.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view)
         myContainer.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: 0, relation: .GreaterThanOrEqual)
-        
-        
+        //myContainer.autoMatchDimension(.Width, toDimension: .Width, ofView: self.view)
         
         
         //FIXME --> should prevent user from panning right when the sideBar is showing
@@ -89,9 +99,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         myContainer.addSubview(calendarContainer)
         
         //calendar container --> contains the calendar view and the date table
-        calendarContainer.autoMatchDimension(.Width, toDimension: .Width, ofView: myContainer, withMultiplier: 0.5)
+        calendarContainer.autoMatchDimension(.Width, toDimension: .Width, ofView: self.view)
         calendarContainer.autoPinEdge(.Top, toEdge: .Bottom, ofView: statusBarView)
-        calendarContainer.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view)
+        calendarContainer.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: myContainer)
         calendarContainer.autoPinEdge(.Right, toEdge: .Right, ofView: myContainer)
         
         //calendar view --> where events are displayed
@@ -249,10 +259,40 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return 20
     }
     
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if(tableView == self.calendarView){
+            return 60
+        }else{
+            if(indexPath.row == 0){
+                return 120
+            }else{
+                return 40
+            }
+        }
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "mycell")
-        return cell
+        var cell : UITableViewCell? = nil
+        if(tableView == self.calendarView){
+            cell = UITableViewCell(style: .Default, reuseIdentifier: "cell") //stop it from crashing
+        }else{
+            let dateCell = tableView.dequeueReusableCellWithIdentifier("CalendarDateCell", forIndexPath: indexPath) as! CalendarDateCell
+            dateCell.backgroundColor = sidebColor
+            dateCell.dayName.text = "TUE"
+            dateCell.dayDate.text = String(indexPath.row)
+            cell = dateCell
+        }
+        
+        return cell!
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if (scrollView == self.calendarView){
+            self.dateTable.contentOffset = CGPointMake(0.0, scrollView.contentOffset.y)
+        }else if (scrollView == self.dateTable){
+            
+        }
     }
 
 
