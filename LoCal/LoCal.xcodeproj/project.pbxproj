@@ -11,6 +11,7 @@
 		C3306FB61C7F03E8000207AB /* ALView+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C3306FAE1C7F03E8000207AB /* ALView+PureLayout.m */; };
 		C3306FB71C7F03E8000207AB /* NSArray+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C3306FB01C7F03E8000207AB /* NSArray+PureLayout.m */; };
 		C3306FB81C7F03E8000207AB /* NSLayoutConstraint+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C3306FB21C7F03E8000207AB /* NSLayoutConstraint+PureLayout.m */; };
+		C36F5B2C1C8F6A8D00791E9F /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36F5B2B1C8F6A8D00791E9F /* CalendarManager.swift */; };
 		C3856F5F1C8E5AC00089B502 /* AddLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3856F5E1C8E5AC00089B502 /* AddLocationViewController.swift */; };
 		C3856F611C8E5FC60089B502 /* EventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3856F601C8E5FC60089B502 /* EventView.swift */; };
 		C393CD6F1C8D41A100285F39 /* CalendarEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C393CD6E1C8D41A100285F39 /* CalendarEventCell.swift */; };
@@ -36,6 +37,7 @@
 		C3306FB31C7F03E8000207AB /* PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PureLayout.h; sourceTree = "<group>"; };
 		C3306FB41C7F03E8000207AB /* PureLayout+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PureLayout+Internal.h"; sourceTree = "<group>"; };
 		C3306FB51C7F03E8000207AB /* PureLayoutDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PureLayoutDefines.h; sourceTree = "<group>"; };
+		C36F5B2B1C8F6A8D00791E9F /* CalendarManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
 		C3856F5E1C8E5AC00089B502 /* AddLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddLocationViewController.swift; sourceTree = "<group>"; };
 		C3856F601C8E5FC60089B502 /* EventView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventView.swift; sourceTree = "<group>"; };
 		C393CD6E1C8D41A100285F39 /* CalendarEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarEventCell.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 				C3306FBA1C7F043D000207AB /* PureLayout */,
 				C3CFFA731C7CF8230061E7B6 /* AppDelegate.swift */,
 				C3CFFA751C7CF8230061E7B6 /* ViewController.swift */,
+				C36F5B2B1C8F6A8D00791E9F /* CalendarManager.swift */,
 				C3856F601C8E5FC60089B502 /* EventView.swift */,
 				C393CD6E1C8D41A100285F39 /* CalendarEventCell.swift */,
 				C393CD721C8D435200285F39 /* CalendarDateCell.swift */,
@@ -208,6 +211,7 @@
 				C3306FB71C7F03E8000207AB /* NSArray+PureLayout.m in Sources */,
 				C3306FB81C7F03E8000207AB /* NSLayoutConstraint+PureLayout.m in Sources */,
 				C3E8B5FA1C86E0B500C0D535 /* NavButton.swift in Sources */,
+				C36F5B2C1C8F6A8D00791E9F /* CalendarManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,10 +11,17 @@ import CoreLocation
 import MapKit
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
+    
+    //These will eventually be replaced with day objects
+    let events : [EventView] = [EventView(time: "2:55pm", title: "Mobile App Development", location: "Whitworth University"), EventView(time: "4:50pm", title: "Artificial Intelligence", location: "Eric Johnston 301")]
+    //end
+    
+    let calendarManager : CalendarManager = CalendarManager()
+    
 
     var panningConstraint : NSLayoutConstraint?
     var sideBarWidthConstraint : NSLayoutConstraint?
-    var sideBarWidth : CGFloat = 60
+    var sideBarWidth : CGFloat = 65
     
     //Button stuff
     var navButtonSize : CGFloat = 60
@@ -35,6 +42,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     let statusBarView = UIView(forAutoLayout: ())
     let myContainer = UIView(forAutoLayout: ())
+    
     let calendarContainer = UIView(forAutoLayout: ())
     let calendarView = UITableView(forAutoLayout: ())
     let dateTable = UITableView(forAutoLayout: ())
@@ -76,7 +84,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         myContainer.autoPinEdge(.Top, toEdge: .Bottom, ofView: statusBarView)
         myContainer.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view)
         myContainer.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: 0, relation: .GreaterThanOrEqual)
-        //myContainer.autoMatchDimension(.Width, toDimension: .Width, ofView: self.view)
         
         
         //FIXME --> should prevent user from panning right when the sideBar is showing
@@ -104,7 +111,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         calendarContainer.autoPinEdge(.Right, toEdge: .Right, ofView: myContainer)
         
         
-        
         //MONTH DESCRIPTION
         calendarContainer.addSubview(yearAndDateContainer)
         yearAndDateContainer.autoPinEdge(.Top, toEdge: .Bottom, ofView: statusBarView)
@@ -117,15 +123,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         yearAndDateContainer.addSubview(monthDesc)
 
         monthDesc.textColor = whiteColor
-        monthDesc.text = "March"
+        monthDesc.text = "FEBRUARY"
         monthDesc.autoPinEdge(.Right, toEdge: .Left, ofView: yearDesc, withOffset: -20)
         monthDesc.autoPinEdge(.Left, toEdge: .Left, ofView: calendarContainer, withOffset: sideBarWidth + 10)
+        //monthDesc.autoPinEdge(.Right, toEdge: .Left, ofView: yearDesc, withOffset: -10)
         monthDesc.autoPinEdge(.Top, toEdge: .Top, ofView: calendarContainer)
+        monthDesc.font = monthDesc.font.fontWithSize(40)
+
         
         yearDesc.textColor = whiteColor
         yearDesc.text = "2016"
         yearDesc.autoPinEdge(.Top, toEdge: .Top, ofView: monthDesc)
         yearDesc.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: monthDesc)
+        //yearDesc.autoPinEdge(.Right, toEdge: .Right, ofView: yearAndDateContainer, withOffset: -10)
+        yearDesc.font = yearDesc.font.fontWithSize(20)
         //END MONTH DESCRIPTION
         
         
@@ -147,7 +158,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         calendarView.registerClass(CalendarEventCell.self, forCellReuseIdentifier: "CalendarEventCell")
         
         //date table --> displays the days and dates of the week
-        calendarContainer.addSubview(dateTable)
+//        calendarContainer.addSubview(dateTable)
+        calendarContainer.insertSubview(dateTable, belowSubview: calendarView)
         dateTable.backgroundColor = sidebColor
         dateTable.autoPinEdge(.Top, toEdge: .Bottom, ofView: yearAndDateContainer)
         dateTable.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarContainer)
@@ -316,20 +328,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     //TABLE VIEW FUNCTIONS ----------------------------------------------------------------------------------------------------------
     func tableView(tableView:UITableView, numberOfRowsInSection section:Int) -> Int
     {
-        return 20
+        return 31
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if(tableView == self.calendarView){
-            return 75
+        
+        if(self.events.count > 0){
+            return 25 + CGFloat(self.events.count)*(self.events.first?.eventHeight)!
         }else{
-//            if(indexPath.row == 0){
-//                return 120
-//            }else{
-//                return 75
-//            }
             return 75
         }
+        
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
@@ -339,34 +348,29 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             let eventCell = tableView.dequeueReusableCellWithIdentifier("CalendarEventCell", forIndexPath: indexPath) as! CalendarEventCell
             eventCell.backgroundColor = backgColor
             
-            
-            let events : [EventView] = [EventView(time: "2:55pm", title: "Mobile App Development", location: "Whitworth University"), EventView(time: "4:50pm", title: "Artificial Intelligence", location: "Eric Johnston 301")]
-            
             var lastEvent : EventView = EventView()
             var first : Bool = true
             
-            for event in events{
+            for event in self.events{
                 eventCell.contentView.addSubview(event)
                 event.autoPinEdge(.Left, toEdge: .Left, ofView: eventCell.contentView)
                 event.autoMatchDimension(.Width, toDimension: .Width, ofView: eventCell.contentView)
                 if(first){
                     first = false
+                    event.autoPinEdge(.Top, toEdge: .Top, ofView: eventCell.contentView)
                 }else{
-                    event.autoPinEdge(.Top, toEdge: .Bottom, ofView: lastEvent)
+                    event.autoPinEdge(.Top, toEdge: .Bottom, ofView: lastEvent) //stack events on top of each other
                 }
-                lastEvent = event
+                
+                lastEvent = event //store the last event so events can stack
             }
-            
-            
-            
-            
-            
             cell = eventCell
         }else{
             let dateCell = tableView.dequeueReusableCellWithIdentifier("CalendarDateCell", forIndexPath: indexPath) as! CalendarDateCell
             dateCell.backgroundColor = sidebColor
             dateCell.dayName.text = "TUE"
-            dateCell.dayDate.text = String(indexPath.row)
+            dateCell.dayDate.text = String(indexPath.row + 1)
+            
             cell = dateCell
         }
         
@@ -378,6 +382,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             self.dateTable.contentOffset = CGPointMake(0.0, scrollView.contentOffset.y)
         }else if (scrollView == self.dateTable){
             self.calendarView.contentOffset = CGPointMake(0.0, scrollView.contentOffset.y)
+        }
+    }
+    
+    //select functions
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if(tableView == self.calendarView){
+            self.dateTable.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+        }else if (tableView == self.dateTable){
+            self.calendarView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
         }
     }
 

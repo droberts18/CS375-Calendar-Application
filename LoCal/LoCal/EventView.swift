@@ -20,6 +20,7 @@ class EventView: UIView {
     var currentEvent : Bool = false
     
     var topSpace : CGFloat = 5
+    let eventHeight : CGFloat = 35
     let whiteColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
     let timeColor = UIColor(red: 215/255, green: 131/255, blue: 25/255, alpha: 1)
 
@@ -35,7 +36,7 @@ class EventView: UIView {
         self.titleLabel.textColor = whiteColor
         self.locationLabel.textColor = whiteColor
         self.timeLabel.textColor = whiteColor
-        self.autoSetDimension(.Height, toSize: 35)
+        self.autoSetDimension(.Height, toSize: self.eventHeight)
         
         //TIME CONTAINER
         self.addSubview(timeContainer)

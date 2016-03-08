@@ -34,16 +34,18 @@ class CalendarDateCell: UITableViewCell {
         dayName.autoPinEdge(.Left, toEdge: .Left, ofView: container)
         dayName.autoPinEdge(.Right, toEdge: .Right, ofView: container)
         dayName.autoPinEdge(.Bottom, toEdge: .Top, ofView: dayDate, withOffset: 5)
-        dayName.font = UIFont(name: dayName.font.fontName, size: 15)
+        dayName.font = UIFont(name: dayName.font.fontName, size: 14)
         dayName.textAlignment = .Center
         
         dayDate.autoPinEdge(.Left, toEdge: .Left, ofView: container)
         dayDate.autoPinEdge(.Right, toEdge: .Right, ofView: container)
         dayDate.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: container)
-        dayDate.font = UIFont(name: dayDate.font.fontName, size: 30)
+        dayDate.font = UIFont(name: dayDate.font.fontName, size: 27)
         dayDate.textAlignment = .Center
         
-        container.autoCenterInSuperview()
+//        container.autoCenterInSuperview()
+        container.autoPinEdgesToSuperviewMarginsExcludingEdge(.Bottom)
+        
         
     }
 
