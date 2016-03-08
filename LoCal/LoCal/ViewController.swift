@@ -339,10 +339,26 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             let eventCell = tableView.dequeueReusableCellWithIdentifier("CalendarEventCell", forIndexPath: indexPath) as! CalendarEventCell
             eventCell.backgroundColor = backgColor
             
-            let event = EventView(time: "2:55pm", title: "Mobile App Development", location: "Whitworth University")
-            eventCell.contentView.addSubview(event)
-            event.autoPinEdge(.Left, toEdge: .Left, ofView: eventCell.contentView)
-            event.autoMatchDimension(.Width, toDimension: .Width, ofView: eventCell.contentView)
+            
+            let events : [EventView] = [EventView(time: "2:55pm", title: "Mobile App Development", location: "Whitworth University"), EventView(time: "4:50pm", title: "Artificial Intelligence", location: "Eric Johnston 301")]
+            
+            var lastEvent : EventView = EventView()
+            var first : Bool = true
+            
+            for event in events{
+                eventCell.contentView.addSubview(event)
+                event.autoPinEdge(.Left, toEdge: .Left, ofView: eventCell.contentView)
+                event.autoMatchDimension(.Width, toDimension: .Width, ofView: eventCell.contentView)
+                if(first){
+                    first = false
+                }else{
+                    event.autoPinEdge(.Top, toEdge: .Bottom, ofView: lastEvent)
+                }
+                lastEvent = event
+            }
+            
+            
+            
             
             
             cell = eventCell
