@@ -21,41 +21,42 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var navButtonImageSize : CGFloat = 40
     var navButtonBorderWidth : CGFloat = 2
     var navButtonBorderColor = UIColor.whiteColor()
+    var buttonOffset : CGFloat = 10
     
     let animationTime = 0.5
     var translationOffset : CGFloat = 0
     var calendarViewAnimationRatio : CGFloat = 5
+    
     let backgColor = UIColor(red: 42/255, green: 45/255, blue: 53/255, alpha: 1)
     let sidebColor = UIColor(red: 24/255, green: 26/255, blue: 33/255, alpha: 1)
     let addEventButtonColor = UIColor(red: 44/255, green: 105/255, blue: 157/255, alpha: 1)
+    let addLocationButtonColor = UIColor(red: 96/255, green: 157/255, blue: 44/255, alpha: 1)
     
     let statusBarView = UIView(forAutoLayout: ())
     let myContainer = UIView(forAutoLayout: ())
     let calendarContainer = UIView(forAutoLayout: ())
     let calendarView = UITableView(forAutoLayout: ())
+    let dateTable = UITableView(forAutoLayout: ())
+    
+    let yearAndDateContainer = UIView(forAutoLayout: ())
+    var yearDesc = UILabel(forAutoLayout: ())
+    var monthDesc = UILabel(forAutoLayout: ())
+    
+    
     let sideBar  = UIView(forAutoLayout: ())
     let mapContainer = UIView(forAutoLayout: ())
     let myMap = MKMapView(forAutoLayout: ())
-    let dateTable = UITableView(forAutoLayout: ())
     
     var addEventButton = NavButton()
-    var addEventButtonBottomConstraint : NSLayoutConstraint?
-    var addEventButtonRightConstraint : NSLayoutConstraint?
+//    var addEventButtonBottomConstraint : NSLayoutConstraint?
+//    var addEventButtonRightConstraint : NSLayoutConstraint?
+    
+    var addLocationButton = NavButton()
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = sidebColor
-        
-        //set up date table
-        dateTable.dataSource = self;
-        dateTable.delegate = self;
-        dateTable.registerClass(CalendarDateCell.self, forCellReuseIdentifier: "CalendarDateCell")
-        
-        //set up calendar view table
-        calendarView.dataSource = self
-        calendarView.delegate = self
-        calendarView.registerClass(CalendarEventCell.self, forCellReuseIdentifier: "CalendarEventCell")
         
         //Status Bar View
         let statusBarViewHeight : CGFloat = 20
@@ -81,18 +82,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         //myContainer.autoPinEdge(.Left, toEdge: .Left, ofView: self.view, withOffset: 0, relation: .LessThanOrEqual).priority.advancedBy(5000)
         
         
-        
-        
         myContainer.userInteractionEnabled = true
         calendarContainer.userInteractionEnabled = true
         calendarView.userInteractionEnabled = true
-        //dateTable.userInteractionEnabled = true
         sideBar.userInteractionEnabled = true
         
         myContainer.translatesAutoresizingMaskIntoConstraints = false
         calendarContainer.translatesAutoresizingMaskIntoConstraints = false
         calendarView.translatesAutoresizingMaskIntoConstraints = false
-        //dateTable.translatesAutoresizingMaskIntoConstraints = false
+        dateTable.translatesAutoresizingMaskIntoConstraints = false
         sideBar.translatesAutoresizingMaskIntoConstraints = false
         
         //Calendar View
@@ -104,29 +102,85 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         calendarContainer.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: myContainer)
         calendarContainer.autoPinEdge(.Right, toEdge: .Right, ofView: myContainer)
         
+        
+        
+        //MONTH DESCRIPTION
+        calendarContainer.addSubview(yearAndDateContainer)
+        yearAndDateContainer.autoPinEdge(.Top, toEdge: .Bottom, ofView: statusBarView)
+        yearAndDateContainer.autoPinEdge(.Right, toEdge: .Right, ofView: calendarContainer)
+        yearAndDateContainer.autoPinEdge(.Left, toEdge: .Left, ofView: calendarContainer)
+        yearAndDateContainer.autoSetDimension(.Height, toSize: 50)
+        yearAndDateContainer.backgroundColor = sidebColor
+        
+        yearAndDateContainer.addSubview(yearDesc)
+        yearAndDateContainer.addSubview(monthDesc)
+
+        monthDesc.textColor = UIColor.whiteColor()
+        monthDesc.text = "March"
+        monthDesc.autoPinEdge(.Right, toEdge: .Left, ofView: yearDesc, withOffset: -20)
+        monthDesc.autoPinEdge(.Left, toEdge: .Left, ofView: calendarContainer, withOffset: sideBarWidth + 10)
+        monthDesc.autoPinEdge(.Top, toEdge: .Top, ofView: calendarContainer)
+        
+        yearDesc.textColor = UIColor.whiteColor()
+        yearDesc.text = "2016"
+        yearDesc.autoPinEdge(.Top, toEdge: .Top, ofView: monthDesc)
+        yearDesc.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: monthDesc)
+        //END MONTH DESCRIPTION
+        
+        
+        //CALENDAR TABLES ----------------------------------------------------------------
         //calendar view --> where events are displayed
         calendarContainer.addSubview(calendarView)
         calendarView.backgroundColor = backgColor
         calendarView.autoPinEdge(.Right, toEdge: .Right, ofView: calendarContainer)
         calendarView.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarContainer)
-        calendarView.autoPinEdge(.Top, toEdge: .Top, ofView: calendarContainer)
+        calendarView.autoPinEdge(.Top, toEdge: .Bottom, ofView: yearAndDateContainer)
         calendarView.autoMatchDimension(.Width, toDimension: .Width, ofView: calendarContainer, withOffset: -sideBarWidth)
+        calendarView.separatorColor = UIColor.darkGrayColor()
+        calendarView.showsVerticalScrollIndicator = false
+        calendarView.showsHorizontalScrollIndicator = false
+        //set up calendar view table
+        calendarView.dataSource = self
+        calendarView.delegate = self
+        calendarView.registerClass(CalendarEventCell.self, forCellReuseIdentifier: "CalendarEventCell")
         
+        //date table --> displays the days and dates of the week
+        calendarContainer.addSubview(dateTable)
+        dateTable.backgroundColor = sidebColor
+        dateTable.autoPinEdge(.Top, toEdge: .Bottom, ofView: yearAndDateContainer)
+        dateTable.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarContainer)
+        dateTable.autoPinEdge(.Right, toEdge: .Left, ofView: calendarView, withOffset: 1)
+        dateTable.autoSetDimension(.Width, toSize: sideBarWidth + 1)
+        dateTable.separatorColor = UIColor.darkGrayColor()
+        dateTable.showsVerticalScrollIndicator = false
+        dateTable.showsHorizontalScrollIndicator = false
+        //set up date table
+        dateTable.dataSource = self;
+        dateTable.delegate = self;
+        dateTable.registerClass(CalendarDateCell.self, forCellReuseIdentifier: "CalendarDateCell")
+        //END CALENDAR TABLES ----------------------------------------------------------------
+        
+
+        
+        //BUTTONS ----------------------------------------------------------------
         //add event button --> brings up add event screen
         addEventButton = NavButton(buttonColor: addEventButtonColor, imageFileName: "AddEventButtonPlus.png")
         addEventButton.translatesAutoresizingMaskIntoConstraints = false
         calendarContainer.addSubview(addEventButton)
-        addEventButtonBottomConstraint = addEventButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarView, withOffset: -10)
-        addEventButtonRightConstraint = addEventButton.autoPinEdge(.Right, toEdge: .Right, ofView: calendarView, withOffset: -10)
+        addEventButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarContainer, withOffset: -self.buttonOffset)
+        addEventButton.autoPinEdge(.Right, toEdge: .Right, ofView: calendarContainer, withOffset: -self.buttonOffset)
         addEventButton.addTarget(self, action: "onEventButtonTap:", forControlEvents: UIControlEvents.TouchUpInside)
-
-        //date table --> displays the days and dates of the week
-        calendarContainer.addSubview(dateTable)
-        dateTable.backgroundColor = sidebColor
-        dateTable.autoPinEdge(.Top, toEdge: .Top, ofView: calendarContainer)
-        dateTable.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarContainer)
-        dateTable.autoPinEdge(.Right, toEdge: .Left, ofView: calendarView, withOffset: 1)
-        dateTable.autoSetDimension(.Width, toSize: sideBarWidth + 1)
+        
+        //add location button --> brings up add location screen
+        addLocationButton = NavButton(buttonColor: addLocationButtonColor, imageFileName: "AddLocation.png")
+        addLocationButton.translatesAutoresizingMaskIntoConstraints = false
+        calendarContainer.addSubview(addLocationButton)
+        addLocationButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarContainer, withOffset: -self.buttonOffset)
+        addLocationButton.autoPinEdge(.Right, toEdge: .Left, ofView: addEventButton, withOffset: -self.buttonOffset)
+        addLocationButton.addTarget(self, action: "onLocationButtonTap:", forControlEvents: UIControlEvents.TouchUpInside)
+        //END BUTTONS ----------------------------------------------------------------
+        
+        
         
         //Side Bar --> contains the map as well as a list of the days events
         myContainer.addSubview(sideBar)
@@ -157,16 +211,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         myContainer.addGestureRecognizer(panGesture)
     }
     
+    //BUTTON FUNCTIONS ----------------------------------------------------------------------------------------------------------
     func onEventButtonTap(sender:UIButton!){
-//        addEventButton.animateButton(self.view.frame.width, height: self.view.frame.height, bottomConstraint: addEventButtonBottomConstraint!, rightConstraint: addEventButtonRightConstraint!)
         let addEventViewController = AddEventViewController(backgroundColor: addEventButtonColor)
-        //addEventViewController.view.alpha = 0
         self.presentViewController(addEventViewController, animated: true, completion: nil)
-//        UIView.animateWithDuration(0.3, delay: 0.4, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
-//                addEventViewController.view.alpha = 1
-//            }, completion: nil)
     }
     
+    func onLocationButtonTap(sender:UIButton!){
+        let addLocationViewController = AddLocationViewController(backgroundColor: addLocationButtonColor)
+        self.presentViewController(addLocationViewController, animated: true, completion: nil)
+    }
+    
+    
+    //PANNING FUNCTIONS ----------------------------------------------------------------------------------------------------------
     func showSideBar(){
         panningConstraint?.constant = self.view.frame.size.width
         UIView.animateWithDuration(self.animationTime, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
@@ -229,8 +286,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     showSideBar()
                 }
             }
-            
-            
         }
         g.setTranslation(CGPointZero, inView: self.view)
     }
@@ -254,6 +309,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Dispose of any resources that can be recreated.
     }
     
+    
+    //TABLE VIEW FUNCTIONS ----------------------------------------------------------------------------------------------------------
     func tableView(tableView:UITableView, numberOfRowsInSection section:Int) -> Int
     {
         return 20
@@ -261,13 +318,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if(tableView == self.calendarView){
-            return 60
+            return 75
         }else{
-            if(indexPath.row == 0){
-                return 120
-            }else{
-                return 40
-            }
+//            if(indexPath.row == 0){
+//                return 120
+//            }else{
+//                return 75
+//            }
+            return 75
         }
     }
     
@@ -276,6 +334,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         var cell : UITableViewCell? = nil
         if(tableView == self.calendarView){
             cell = UITableViewCell(style: .Default, reuseIdentifier: "cell") //stop it from crashing
+            cell?.backgroundColor = backgColor
         }else{
             let dateCell = tableView.dequeueReusableCellWithIdentifier("CalendarDateCell", forIndexPath: indexPath) as! CalendarDateCell
             dateCell.backgroundColor = sidebColor
@@ -291,7 +350,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if (scrollView == self.calendarView){
             self.dateTable.contentOffset = CGPointMake(0.0, scrollView.contentOffset.y)
         }else if (scrollView == self.dateTable){
-            
+            self.calendarView.contentOffset = CGPointMake(0.0, scrollView.contentOffset.y)
         }
     }
 

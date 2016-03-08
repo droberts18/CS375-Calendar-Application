@@ -21,6 +21,7 @@ class NavButton: UIButton {
     var navButtonBorderColor = UIColor.whiteColor()
     var buttonWidth = NSLayoutConstraint()
     var buttonHeight = NSLayoutConstraint()
+    var sizeRatio : CGFloat = CGFloat()
     
     override init (frame : CGRect) {
         super.init(frame : frame)
@@ -70,18 +71,23 @@ class NavButton: UIButton {
         
         //addEventButton.addTarget(self, action: "onButtonTap:", forControlEvents: UIControlEvents.TouchUpInside)
         
-        buttonWidth = self.autoSetDimension(.Width, toSize: navButtonSize)
         buttonHeight = self.autoSetDimension(.Height, toSize: navButtonSize)
+        buttonWidth = self.autoSetDimension(.Width, toSize: navButtonSize)
+        
         self.backgroundColor = buttonColor
         self.layer.cornerRadius = navButtonSize/2
         self.layer.borderWidth = 2
         self.layer.borderColor = navButtonBorderColor.CGColor
         self.userInteractionEnabled = true
+        
         let buttonImage = UIImage(named: imageFileName)
         let buttonImageView = UIImageView(image: buttonImage)
+        self.sizeRatio = (buttonImage?.size.width)!/(buttonImage?.size.height)!
+        
         self.addSubview(buttonImageView)
         buttonImageView.autoSetDimension(.Height, toSize: navButtonImageSize)
-        buttonImageView.autoSetDimension(.Width, toSize: navButtonImageSize)
+        buttonImageView.autoMatchDimension(.Width, toDimension: .Height, ofView: buttonImageView, withMultiplier: self.sizeRatio)
+        //buttonImageView.autoSetDimension(.Width, toSize: navButtonImageSize)
         buttonImageView.autoCenterInSuperview()
         
         //self.addTarget(self, action: "onSelect:", forControlEvents: UIControlEvents.TouchUpInside)

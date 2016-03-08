@@ -9,14 +9,16 @@
 import Foundation
 
 class CalendarDateCell: UITableViewCell {
+    let container: UIView = UIView()
     var dayName: UILabel = UILabel()
     var dayDate: UILabel = UILabel()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.contentView.addSubview(dayName)
-        self.contentView.addSubview(dayDate)
+        self.contentView.addSubview(container)
+        container.addSubview(dayName)
+        container.addSubview(dayDate)
         
         dayName.textColor = UIColor.whiteColor()
         dayDate.textColor = UIColor.whiteColor()
@@ -24,14 +26,20 @@ class CalendarDateCell: UITableViewCell {
         dayName.translatesAutoresizingMaskIntoConstraints = false
         dayDate.translatesAutoresizingMaskIntoConstraints = false
         
-        dayName.autoPinEdge(.Top, toEdge: .Top, ofView: self)
-        dayName.autoPinEdge(.Left, toEdge: .Left, ofView: self)
-        dayName.autoPinEdge(.Right, toEdge: .Right, ofView: self)
-        dayName.autoPinEdge(.Bottom, toEdge: .Top, ofView: dayDate)
+        dayName.autoPinEdge(.Top, toEdge: .Top, ofView: container)
+        dayName.autoPinEdge(.Left, toEdge: .Left, ofView: container)
+        dayName.autoPinEdge(.Right, toEdge: .Right, ofView: container)
+        dayName.autoPinEdge(.Bottom, toEdge: .Top, ofView: dayDate, withOffset: 5)
+        dayName.font = UIFont(name: dayName.font.fontName, size: 15)
+        dayName.textAlignment = .Center
         
-        dayDate.autoPinEdge(.Left, toEdge: .Left, ofView: self)
-        dayDate.autoPinEdge(.Right, toEdge: .Right, ofView: self)
-        dayDate.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self)
+        dayDate.autoPinEdge(.Left, toEdge: .Left, ofView: container)
+        dayDate.autoPinEdge(.Right, toEdge: .Right, ofView: container)
+        dayDate.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: container)
+        dayDate.font = UIFont(name: dayDate.font.fontName, size: 30)
+        dayDate.textAlignment = .Center
+        
+        container.autoCenterInSuperview()
         
     }
 
