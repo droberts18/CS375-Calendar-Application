@@ -9,30 +9,86 @@
 import Foundation
 
 class EventView: UIView {
-    var timeLabel : UILabel = UILabel()
-    var titleLabel : UILabel = UILabel()
-    var locationLabel : UILabel = UILabel()
-    var locationSymbol : UIImageView = UIImageView()
+    let timeContainer = UIView(forAutoLayout: ())
+    var timeLabel : UILabel = UILabel(forAutoLayout: ())
+    let infoContainer = UIView(forAutoLayout: ())
+    var titleLabel : UILabel = UILabel(forAutoLayout: ())
+    var locationLabel : UILabel = UILabel(forAutoLayout: ())
+    var locationSymbol : UIImageView = UIImageView(forAutoLayout: ())
     
     var pastEvent : Bool = false
     var currentEvent : Bool = false
     
+    var topSpace : CGFloat = 5
+    let whiteColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+    let timeColor = UIColor(red: 215/255, green: 131/255, blue: 25/255, alpha: 1)
+
+    
     convenience init(time: String, title: String, location: String){
         self.init(frame:CGRect.zero)
-        self.autoSetDimension(.Height, toSize: 40)
+        self.translatesAutoresizingMaskIntoConstraints = false
         
-        
-        self.addSubview(timeLabel)
         timeLabel.text = time
-        
-        self.addSubview(titleLabel)
         titleLabel.text = title
-        
-        self.addSubview(locationLabel)
         locationLabel.text = location
         
+        self.titleLabel.textColor = whiteColor
+        self.locationLabel.textColor = whiteColor
+        self.timeLabel.textColor = whiteColor
+        self.autoSetDimension(.Height, toSize: 45)
+        
+        //TIME CONTAINER
+        self.addSubview(timeContainer)
+        self.timeContainer.translatesAutoresizingMaskIntoConstraints = false
+        self.timeContainer.addSubview(self.timeLabel)
+        self.timeContainer.autoPinEdge(.Left, toEdge: .Left, ofView: self)
+        self.timeContainer.autoPinEdge(.Top, toEdge: .Top, ofView: self)
+        self.timeContainer.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self)
+        self.timeContainer.autoSetDimension(.Width, toSize: 60)
+        self.timeLabel.autoPinEdge(.Left, toEdge: .Left, ofView: timeContainer, withOffset: 5)
+        self.timeLabel.autoPinEdge(.Right, toEdge: .Right, ofView: timeContainer)
+        self.timeLabel.autoPinEdge(.Top, toEdge: .Top, ofView: timeContainer, withOffset: self.topSpace)
+        self.timeLabel.font = self.timeLabel.font.fontWithSize(13)
+        self.timeLabel.textColor = self.timeColor
+        //self.timeContainer.backgroundColor = UIColor.blueColor() //DEBUGGING
+        //END TIME CONTAINER
+        
+        //INFO CONTAINER
+        self.addSubview(infoContainer)
+        self.infoContainer.translatesAutoresizingMaskIntoConstraints = false
+        self.infoContainer.autoPinEdge(.Left, toEdge: .Right, ofView: timeContainer)
+        self.infoContainer.autoPinEdge(.Right, toEdge: .Right, ofView: self)
+        self.infoContainer.autoPinEdge(.Top, toEdge: .Top, ofView: self)
+        self.infoContainer.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self)
+        self.infoContainer.addSubview(titleLabel)
+        self.titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.titleLabel.autoPinEdge(.Left, toEdge: .Left, ofView: infoContainer, withOffset: 20)
+        self.titleLabel.autoPinEdge(.Top, toEdge: .Top, ofView: infoContainer, withOffset: self.topSpace)
+        self.titleLabel.autoPinEdge(.Right, toEdge: .Right, ofView: infoContainer)
+        self.titleLabel.font = self.titleLabel.font.fontWithSize(14)
+        //self.infoContainer.backgroundColor = UIColor.greenColor() //DEBUGGING
+        
         let locationImage = UIImage(named: "locationPin.png")
-        locationSymbol = UIImageView(image: locationImage)
+        self.locationSymbol = UIImageView(image: locationImage)
+        self.infoContainer.addSubview(locationSymbol)
+        self.locationSymbol.translatesAutoresizingMaskIntoConstraints = false
+        let imageRatio = (locationImage?.size.width)!/(locationImage?.size.height)!
+        self.locationSymbol.autoSetDimension(.Height, toSize: 12)
+        self.locationSymbol.autoMatchDimension(.Width, toDimension: .Height, ofView: self.locationSymbol, withMultiplier: imageRatio)
+        self.locationSymbol.autoPinEdge(.Left, toEdge: .Left, ofView: self.titleLabel)
+        self.locationSymbol.autoPinEdge(.Top, toEdge: .Bottom, ofView: self.titleLabel)
+        
+        self.infoContainer.addSubview(locationLabel)
+        self.locationLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.locationLabel.autoPinEdge(.Top, toEdge: .Bottom, ofView: self.titleLabel)
+        self.locationLabel.autoPinEdge(.Left, toEdge: .Right, ofView: self.locationSymbol, withOffset: 5)
+        self.locationLabel.font = self.locationLabel.font.fontWithSize(12)
+        //END INFO CONTAINER
+        
+        
+        
+        
+        
     }
     
 }

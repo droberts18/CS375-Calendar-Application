@@ -14,7 +14,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     var panningConstraint : NSLayoutConstraint?
     var sideBarWidthConstraint : NSLayoutConstraint?
-    var sideBarWidth : CGFloat = 70
+    var sideBarWidth : CGFloat = 60
     
     //Button stuff
     var navButtonSize : CGFloat = 60
@@ -27,8 +27,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var translationOffset : CGFloat = 0
     var calendarViewAnimationRatio : CGFloat = 5
     
-    let backgColor = UIColor(red: 42/255, green: 45/255, blue: 53/255, alpha: 1)
     let sidebColor = UIColor(red: 24/255, green: 26/255, blue: 33/255, alpha: 1)
+    let whiteColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+    let backgColor = UIColor(red: 42/255, green: 44/255, blue: 54/255, alpha: 1)
     let addEventButtonColor = UIColor(red: 44/255, green: 105/255, blue: 157/255, alpha: 1)
     let addLocationButtonColor = UIColor(red: 96/255, green: 157/255, blue: 44/255, alpha: 1)
     
@@ -115,13 +116,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         yearAndDateContainer.addSubview(yearDesc)
         yearAndDateContainer.addSubview(monthDesc)
 
-        monthDesc.textColor = UIColor.whiteColor()
+        monthDesc.textColor = whiteColor
         monthDesc.text = "March"
         monthDesc.autoPinEdge(.Right, toEdge: .Left, ofView: yearDesc, withOffset: -20)
         monthDesc.autoPinEdge(.Left, toEdge: .Left, ofView: calendarContainer, withOffset: sideBarWidth + 10)
         monthDesc.autoPinEdge(.Top, toEdge: .Top, ofView: calendarContainer)
         
-        yearDesc.textColor = UIColor.whiteColor()
+        yearDesc.textColor = whiteColor
         yearDesc.text = "2016"
         yearDesc.autoPinEdge(.Top, toEdge: .Top, ofView: monthDesc)
         yearDesc.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: monthDesc)
@@ -136,7 +137,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         calendarView.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarContainer)
         calendarView.autoPinEdge(.Top, toEdge: .Bottom, ofView: yearAndDateContainer)
         calendarView.autoMatchDimension(.Width, toDimension: .Width, ofView: calendarContainer, withOffset: -sideBarWidth)
-        calendarView.separatorColor = UIColor.darkGrayColor()
+        calendarView.separatorColor = UIColor(red: 24/255, green: 26/255, blue: 33/255, alpha: 0.5)
+        calendarView.separatorStyle = .SingleLine
         calendarView.showsVerticalScrollIndicator = false
         calendarView.showsHorizontalScrollIndicator = false
         //set up calendar view table
@@ -152,6 +154,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         dateTable.autoPinEdge(.Right, toEdge: .Left, ofView: calendarView, withOffset: 1)
         dateTable.autoSetDimension(.Width, toSize: sideBarWidth + 1)
         dateTable.separatorColor = UIColor.darkGrayColor()
+        dateTable.separatorStyle = .None
         dateTable.showsVerticalScrollIndicator = false
         dateTable.showsHorizontalScrollIndicator = false
         //set up date table
@@ -333,8 +336,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     {
         var cell : UITableViewCell? = nil
         if(tableView == self.calendarView){
-            cell = UITableViewCell(style: .Default, reuseIdentifier: "cell") //stop it from crashing
-            cell?.backgroundColor = backgColor
+            let eventCell = tableView.dequeueReusableCellWithIdentifier("CalendarEventCell", forIndexPath: indexPath) as! CalendarEventCell
+            eventCell.backgroundColor = backgColor
+            
+            let event = EventView(time: "2:55pm", title: "Mobile App Development", location: "Whitworth University")
+            eventCell.contentView.addSubview(event)
+            event.autoPinEdge(.Left, toEdge: .Left, ofView: eventCell.contentView)
+            event.autoMatchDimension(.Width, toDimension: .Width, ofView: eventCell.contentView)
+            
+            
+            cell = eventCell
         }else{
             let dateCell = tableView.dequeueReusableCellWithIdentifier("CalendarDateCell", forIndexPath: indexPath) as! CalendarDateCell
             dateCell.backgroundColor = sidebColor

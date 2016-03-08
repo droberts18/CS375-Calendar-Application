@@ -106,7 +106,7 @@
                   moduleName = "LoCal"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/tylerreardon/Google%20Drive/College/Dropbox/Spring/MobileAppDev/AppProject/CS375-Calendar-Application/LoCal/LoCal/LocationManager.swift"
-                  timestampString = "479095598.229939"
+                  timestampString = "479115261.60754"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "42"
@@ -121,7 +121,7 @@
                   moduleName = "LoCal"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/tylerreardon/Google%20Drive/College/Dropbox/Spring/MobileAppDev/AppProject/CS375-Calendar-Application/LoCal/LoCal/LocationManager.swift"
-                  timestampString = "479095598.230138"
+                  timestampString = "479115261.60792"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "44"
@@ -138,13 +138,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LoCal/ViewController.swift"
-            timestampString = "479095305.1326"
+            timestampString = "479114505.701027"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "255"
-            endingLineNumber = "255"
-            landmarkName = "ViewController"
-            landmarkType = "3">
+            startingLineNumber = "258"
+            endingLineNumber = "258"
+            landmarkName = "onPanGesture(_:)"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -218,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LoCal/ViewController.swift"
-            timestampString = "479095305.1326"
+            timestampString = "479114006.422803"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "136"
-            endingLineNumber = "136"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
             landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
@@ -234,13 +234,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LoCal/ViewController.swift"
-            timestampString = "479095305.1326"
+            timestampString = "479114505.701027"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "216"
-            endingLineNumber = "216"
-            landmarkName = "ViewController"
-            landmarkType = "3">
+            startingLineNumber = "219"
+            endingLineNumber = "219"
+            landmarkName = "onEventButtonTap(_:)"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -250,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LoCal/ViewController.swift"
-            timestampString = "479095305.1326"
+            timestampString = "479114505.701027"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "274"
-            endingLineNumber = "274"
+            startingLineNumber = "277"
+            endingLineNumber = "277"
             landmarkName = "onPanGesture(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -266,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LoCal/ViewController.swift"
-            timestampString = "479095305.1326"
+            timestampString = "479114505.701027"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "268"
-            endingLineNumber = "268"
+            startingLineNumber = "271"
+            endingLineNumber = "271"
             landmarkName = "onPanGesture(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -282,11 +282,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LoCal/ViewController.swift"
-            timestampString = "479095305.1326"
+            timestampString = "479114505.701027"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "278"
-            endingLineNumber = "278"
+            startingLineNumber = "281"
+            endingLineNumber = "281"
             landmarkName = "onPanGesture(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -298,11 +298,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LoCal/ViewController.swift"
-            timestampString = "479095305.1326"
+            timestampString = "479114505.701027"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "272"
-            endingLineNumber = "272"
+            startingLineNumber = "275"
+            endingLineNumber = "275"
             landmarkName = "onPanGesture(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -314,11 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LoCal/ViewController.swift"
-            timestampString = "479095305.1326"
+            timestampString = "479114006.422803"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "351"
-            endingLineNumber = "351"
+            startingLineNumber = "362"
+            endingLineNumber = "362"
             landmarkName = "scrollViewDidScroll(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -330,12 +330,60 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LoCal/ViewController.swift"
-            timestampString = "479094997.781896"
+            timestampString = "479114006.422803"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
             landmarkName = "viewDidLoad()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LoCal/ViewController.swift"
+            timestampString = "479114006.422803"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "342"
+            endingLineNumber = "342"
+            landmarkName = "tableView(_:cellForRowAtIndexPath:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LoCal/EventView.swift"
+            timestampString = "479115260.582302"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "init(time:title:location:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LoCal/EventView.swift"
+            timestampString = "479115260.582302"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "init(time:title:location:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

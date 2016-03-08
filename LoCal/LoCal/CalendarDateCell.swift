@@ -13,6 +13,10 @@ class CalendarDateCell: UITableViewCell {
     var dayName: UILabel = UILabel()
     var dayDate: UILabel = UILabel()
     
+    let dayColor = UIColor(red: 95/255, green: 95/255, blue: 95/255, alpha: 1)
+    let dateColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
+
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -20,8 +24,8 @@ class CalendarDateCell: UITableViewCell {
         container.addSubview(dayName)
         container.addSubview(dayDate)
         
-        dayName.textColor = UIColor.whiteColor()
-        dayDate.textColor = UIColor.whiteColor()
+        dayName.textColor = dayColor
+        dayDate.textColor = dateColor
         
         dayName.translatesAutoresizingMaskIntoConstraints = false
         dayDate.translatesAutoresizingMaskIntoConstraints = false
