@@ -124,8 +124,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         monthDesc.textColor = whiteColor
         monthDesc.text = "FEBRUARY"
-        monthDesc.autoPinEdge(.Right, toEdge: .Left, ofView: yearDesc, withOffset: -20)
-        monthDesc.autoPinEdge(.Left, toEdge: .Left, ofView: calendarContainer, withOffset: sideBarWidth + 10)
+        monthDesc.autoPinEdge(.Left, toEdge: .Right, ofView: yearDesc, withOffset: 0)
         //monthDesc.autoPinEdge(.Right, toEdge: .Left, ofView: yearDesc, withOffset: -10)
         monthDesc.autoPinEdge(.Top, toEdge: .Top, ofView: calendarContainer)
         monthDesc.font = monthDesc.font.fontWithSize(40)
@@ -135,6 +134,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         yearDesc.text = "2016"
         yearDesc.autoPinEdge(.Top, toEdge: .Top, ofView: monthDesc)
         yearDesc.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: monthDesc)
+        yearDesc.autoPinEdge(.Left, toEdge: .Left, ofView: calendarContainer, withOffset: sideBarWidth)
+        //yearDesc.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI_2)) //rotate year
+        //yearDesc.transform = CGAffineTransformMakeRotation(CGFloat(-M_2_PI)) //rotate year
         //yearDesc.autoPinEdge(.Right, toEdge: .Right, ofView: yearAndDateContainer, withOffset: -10)
         yearDesc.font = yearDesc.font.fontWithSize(20)
         //END MONTH DESCRIPTION
