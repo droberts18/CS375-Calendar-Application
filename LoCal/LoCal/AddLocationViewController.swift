@@ -27,10 +27,10 @@ class AddLocationViewController: UIViewController, UITextViewDelegate{
     let sidebColor = UIColor(red: 24/255, green: 26/255, blue: 33/255, alpha: 1)
     var exitButtonConstraint : NSLayoutConstraint = NSLayoutConstraint()
     let searchForLocation = UITextField()
+    let nameLocation = UITextField()
     
     let mapContainer = UIView(forAutoLayout: ())
     let myMap = MKMapView(forAutoLayout: ())
-
     
     convenience init(backgroundColor: UIColor){
         self.init()
@@ -58,6 +58,8 @@ class AddLocationViewController: UIViewController, UITextViewDelegate{
         exitButton.backgroundColor = sidebColor
         exitButton.setTitle("Cancel", forState: UIControlState.Normal)
         exitButtonConstraint = exitButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: addLocationContainer, withOffset: 0)
+        exitButton.addTarget(self, action: "onExit:", forControlEvents: UIControlEvents.TouchUpInside)
+
         
 //        let exitButtonImage = UIImage(named: "XButton.png")
 //        exitButton.setImage(exitButtonImage, forState: .Normal)
@@ -65,7 +67,6 @@ class AddLocationViewController: UIViewController, UITextViewDelegate{
 //        exitButton.autoSetDimension(.Width, toSize: 50)
 //        exitButton.autoPinEdge(.Left, toEdge: .Left, ofView: addLocationContainer, withOffset: 10)
 //        exitButton.autoPinEdge(.Top, toEdge: .Top, ofView: addLocationContainer, withOffset: 10)
-        exitButton.addTarget(self, action: "onExit:", forControlEvents: UIControlEvents.TouchUpInside)
         
         
         statusBar.backgroundColor = sidebColor
@@ -73,7 +74,6 @@ class AddLocationViewController: UIViewController, UITextViewDelegate{
         statusBar.autoPinEdge(.Left, toEdge: .Left, ofView: self.view)
         statusBar.autoPinEdge(.Right, toEdge: .Right, ofView: self.view)
         statusBar.autoSetDimension(.Height, toSize: 20)
-        
         
         addLocationContainer.backgroundColor = backgroundColor
         addLocationContainer.autoPinEdge(.Top, toEdge: .Bottom, ofView: statusBar)
@@ -86,6 +86,21 @@ class AddLocationViewController: UIViewController, UITextViewDelegate{
         searchForLocation.autoPinEdge(.Right, toEdge: .Right, ofView: addLocationContainer)
         searchForLocation.autoPinEdge(.Top, toEdge: .Top, ofView: addLocationContainer)
         searchForLocation.autoSetDimension(.Height, toSize: 50)
+        
+        addLocationContainer.addSubview(nameLocation)
+        nameLocation.autoPinEdge(.Top, toEdge: .Bottom, ofView: searchForLocation)
+        nameLocation.autoPinEdge(.Left, toEdge: .Left, ofView: searchForLocation)
+        nameLocation.autoPinEdge(.Right, toEdge: .Right, ofView: searchForLocation)
+        nameLocation.autoMatchDimension(.Height, toDimension: .Height, ofView: searchForLocation)
+        
+        addLocationContainer.addSubview(mapContainer)
+        mapContainer.autoPinEdge(.Top, toEdge: .Bottom, ofView: nameLocation)
+        mapContainer.autoPinEdge(.Left, toEdge: .Left, ofView: self.view)
+        mapContainer.autoPinEdge(.Right, toEdge: .Right, ofView: self.view)
+        mapContainer.autoPinEdge(.Bottom, toEdge: .Top, ofView: exitButton)
+        
+        mapContainer.addSubview(myMap)
+        myMap.autoPinEdgesToSuperviewEdges()
         
 //        titleLabel.text = "Add Location"
 //        titleLabel.font = UIFont.systemFontOfSize(40)
@@ -113,8 +128,12 @@ class AddLocationViewController: UIViewController, UITextViewDelegate{
     func keyboardWasShown(notification: NSNotification) {
         var info = notification.userInfo!
         let keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.exitButtonConstraint.constant = -keyboardFrame.size.height
+        self.exitButtonConstraint.constant = -keyboardFrame.size.height
+
+        UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
+                self.view.setNeedsLayout()
+                self.view.layoutIfNeeded()
+            }, completion: { finished in
         })
     }
     
