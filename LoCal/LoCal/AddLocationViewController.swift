@@ -18,6 +18,7 @@ import Foundation
 
 import Foundation
 import UIKit
+import MapKit
 
 
 
@@ -26,6 +27,9 @@ class AddLocationViewController: UIViewController, UITextViewDelegate{
     let sidebColor = UIColor(red: 24/255, green: 26/255, blue: 33/255, alpha: 1)
     var exitButtonConstraint : NSLayoutConstraint = NSLayoutConstraint()
     let searchForLocation = UITextField()
+    
+    let mapContainer = UIView(forAutoLayout: ())
+    let myMap = MKMapView(forAutoLayout: ())
 
     
     convenience init(backgroundColor: UIColor){
@@ -45,8 +49,6 @@ class AddLocationViewController: UIViewController, UITextViewDelegate{
         self.view.addSubview(statusBar)
         self.view.addSubview(addLocationContainer)
         self.view.addSubview(titleLabel)
-        
-        
         
         
         addLocationContainer.addSubview(exitButton)
@@ -111,8 +113,8 @@ class AddLocationViewController: UIViewController, UITextViewDelegate{
     func keyboardWasShown(notification: NSNotification) {
         var info = notification.userInfo!
         let keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-        UIView.animateWithDuration(0.1, animations: { () -> Void in
-            self.exitButtonConstraint.constant = keyboardFrame.size.height
+        UIView.animateWithDuration(0.3, animations: { () -> Void in
+            self.exitButtonConstraint.constant = -keyboardFrame.size.height
         })
     }
     

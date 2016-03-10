@@ -237,7 +237,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func onLocationButtonTap(sender:UIButton!){
-        let addLocationViewController = AddLocationViewController(backgroundColor: addLocationButtonColor)
+        //let addLocationViewController = AddLocationViewController(backgroundColor: addLocationButtonColor)
+        let addLocationViewController = AddLocationViewController(backgroundColor: backgColor)
         self.presentViewController(addLocationViewController, animated: true, completion: nil)
     }
     
