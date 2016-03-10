@@ -15,14 +15,15 @@ class AddEventViewController: UIViewController, UITextViewDelegate{
     var backgroundColor = UIColor.whiteColor()
     var placeholderName : String!
     
+    let eventNameView = UIView()
     let locationMenu = UIView()
     let datePickerMenu = UIView()
     let date = UIDatePicker()
-    let startDateLabel = UILabel()
-    let startTimeLabel = UILabel()
-    let endDateLabel = UILabel()
-    let endTimeLabel = UILabel()
-
+//    let startDateLabel = UILabel()
+    let startTime = UITextView()
+//    let endDateLabel = UILabel()
+    let endTime = UITextView()
+    let userEnterNameOfEvent = UITextField()
 
     convenience init(backgroundColor: UIColor){
         self.init()
@@ -49,9 +50,10 @@ class AddEventViewController: UIViewController, UITextViewDelegate{
         let iconImageView = UIImageView()
         let headerLabel = UILabel()
         
-        let addLocationButton = NavButton(buttonColor: addLocationButtonColor, imageFileName: "AddLocation.png")
+        let addLocationButton = UIButton()
         addLocationButton.translatesAutoresizingMaskIntoConstraints = false
         
+        self.view.addSubview(eventNameView)
         self.view.addSubview(statusBar)
         self.view.addSubview(addEventContainer)
         self.view.addSubview(titleLabel)
@@ -60,14 +62,23 @@ class AddEventViewController: UIViewController, UITextViewDelegate{
         self.view.addSubview(locationMenu)
         self.view.addSubview(userLocation)
         self.view.addSubview(datePickerMenu)
-        self.view.addSubview(startDateButton)
-        self.view.addSubview(startDateLabel)
-        self.view.addSubview(startTimeLabel)
-        self.view.addSubview(endDateButton)
-        self.view.addSubview(endDateLabel)
-        self.view.addSubview(endTimeLabel)
+//        self.view.addSubview(startDateButton)
+//        self.view.addSubview(startDateLabel)
+        self.view.addSubview(startTime)
+//        self.view.addSubview(endDateButton)
+//        self.view.addSubview(endDateLabel)
+        self.view.addSubview(endTime)
         
+        eventNameView.autoPinEdge(.Right, toEdge: .Right, ofView: self.view)
+        eventNameView.autoPinEdge(.Left, toEdge: .Left, ofView: self.view)
+        eventNameView.autoPinEdge(.Top, toEdge: .Top, ofView: self.view)
+        eventNameView.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view)
+        eventNameView.backgroundColor = UIColor.blackColor()
+        self.view.bringSubviewToFront(eventNameView)
+    
         addEventContainer.addSubview(exitButton)
+        eventNameView.addSubview(exitButton)
+        self.view.bringSubviewToFront(exitButton)
         let exitButtonImage = UIImage(named: "XButton.png")
         exitButton.setImage(exitButtonImage, forState: .Normal)
         exitButton.autoSetDimension(.Height, toSize: 50)
@@ -75,6 +86,13 @@ class AddEventViewController: UIViewController, UITextViewDelegate{
         exitButton.autoPinEdge(.Left, toEdge: .Left, ofView: addEventContainer, withOffset: 10)
         exitButton.autoPinEdge(.Top, toEdge: .Top, ofView: addEventContainer, withOffset: 10)
         exitButton.addTarget(self, action: "onExit:", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        eventNameView.addSubview(userEnterNameOfEvent)
+        userEnterNameOfEvent.text = "Event Name"
+        userEnterNameOfEvent.textColor = UIColor.whiteColor()
+        userEnterNameOfEvent.font = UIFont.systemFontOfSize(30)
+        userEnterNameOfEvent.autoCenterInSuperview()
+        userEnterNameOfEvent.addTarget(self, action: Selector("clearText:"), forControlEvents: UIControlEvents.EditingDidBegin)
 
         
         statusBar.backgroundColor = UIColor.whiteColor()
@@ -113,23 +131,27 @@ class AddEventViewController: UIViewController, UITextViewDelegate{
         userNameOfEvent.autoSetDimension(.Height, toSize: 40)
         userNameOfEvent.layer.cornerRadius = 5
         userNameOfEvent.autoPinEdge(.Top, toEdge: .Bottom, ofView: titleLabel, withOffset: 25)
-        userNameOfEvent.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: -30)
-        userNameOfEvent.autoPinEdge(.Left, toEdge: .Left, ofView: self.view, withOffset: 30)
+        userNameOfEvent.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: -15)
+        userNameOfEvent.autoPinEdge(.Left, toEdge: .Left, ofView: self.view, withOffset: 15)
         
-        addLocationButton.autoPinEdge(.Left, toEdge: .Left, ofView: self.view, withOffset: 30)
+        addLocationButton.backgroundColor = addLocationButtonColor
+        addLocationButton.setTitle("Add Location", forState: .Normal)
+        addLocationButton.autoMatchDimension(.Height, toDimension: .Height, ofView: userNameOfEvent)
+        addLocationButton.autoPinEdge(.Left, toEdge: .Left, ofView: self.view, withOffset: 50)
+        addLocationButton.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: -50)
         addLocationButton.autoPinEdge(.Top, toEdge: .Bottom, ofView: userNameOfEvent, withOffset: 20)
         addLocationButton.addTarget(self, action: "onLocationButtonTap:", forControlEvents: UIControlEvents.TouchUpInside)
         
-        userLocation.delegate = self
-        userLocation.backgroundColor = UIColor.whiteColor()
-        userLocation.text = "Location"
-        userLocation.textColor = UIColor.lightGrayColor()
-        userLocation.font = UIFont.systemFontOfSize(20)
-        userLocation.autoSetDimension(.Height, toSize: 40)
-        userLocation.layer.cornerRadius = 5
-        userLocation.autoPinEdge(.Top, toEdge: .Bottom, ofView: userNameOfEvent, withOffset: 25)
-        userLocation.autoPinEdge(.Left, toEdge: .Right, ofView: addLocationButton, withOffset: 15)
-        userLocation.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: -30)
+//        userLocation.delegate = self
+//        userLocation.backgroundColor = UIColor.whiteColor()
+//        userLocation.text = "Location"
+//        userLocation.textColor = UIColor.lightGrayColor()
+//        userLocation.font = UIFont.systemFontOfSize(20)
+//        userLocation.autoSetDimension(.Height, toSize: 40)
+//        userLocation.layer.cornerRadius = 5
+//        userLocation.autoPinEdge(.Top, toEdge: .Bottom, ofView: userNameOfEvent, withOffset: 25)
+//        userLocation.autoPinEdge(.Left, toEdge: .Right, ofView: addLocationButton, withOffset: 15)
+//        userLocation.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: -30)
         
         locationMenu.hidden = true
         locationMenu.backgroundColor = UIColor.blackColor()
@@ -137,60 +159,70 @@ class AddEventViewController: UIViewController, UITextViewDelegate{
         locationMenu.layer.borderWidth = 5
         locationMenu.layer.cornerRadius = 5
         locationMenu.autoPinEdge(.Top, toEdge: .Bottom, ofView: addLocationButton, withOffset: 5)
-        locationMenu.autoPinEdge(.Left, toEdge: .Left, ofView: self.view, withOffset: 30)
-        locationMenu.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: -30)
-        locationMenu.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view, withOffset: -30)
+        locationMenu.autoPinEdge(.Left, toEdge: .Left, ofView: self.view, withOffset: 15)
+        locationMenu.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: -15)
+        locationMenu.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view, withOffset: -15)
         
-        startDateButton.backgroundColor = UIColor.redColor()
-        startDateButton.autoMatchDimension(.Height, toDimension: .Height, ofView: addLocationButton)
-        startDateButton.autoMatchDimension(.Width, toDimension: .Width, ofView: addLocationButton)
-        startDateButton.autoPinEdge(.Top, toEdge: .Bottom, ofView: addLocationButton, withOffset: 30)
-        startDateButton.autoPinEdge(.Left, toEdge: .Left, ofView: self.view, withOffset: 30)
-        startDateButton.addTarget(self, action: "onDateTap:", forControlEvents: UIControlEvents.TouchUpInside)
+//        startDateButton.backgroundColor = UIColor.redColor()
+//        startDateButton.autoMatchDimension(.Height, toDimension: .Height, ofView: addLocationButton)
+//        startDateButton.autoMatchDimension(.Width, toDimension: .Width, ofView: addLocationButton)
+//        startDateButton.autoPinEdge(.Top, toEdge: .Bottom, ofView: addLocationButton, withOffset: 30)
+//        startDateButton.autoPinEdge(.Left, toEdge: .Left, ofView: self.view, withOffset: 30)
+//        startDateButton.addTarget(self, action: "onDateTap:", forControlEvents: UIControlEvents.TouchUpInside)
+//        
+//        endDateButton.backgroundColor = UIColor.yellowColor()
+//        endDateButton.autoMatchDimension(.Height, toDimension: .Height, ofView: addLocationButton)
+//        endDateButton.autoMatchDimension(.Width, toDimension: .Width, ofView: addLocationButton)
+//        endDateButton.autoPinEdge(.Top, toEdge: .Bottom, ofView: startDateButton, withOffset: 30)
+//        endDateButton.autoPinEdge(.Left, toEdge: .Left, ofView: self.view, withOffset: 30)
+//        endDateButton.addTarget(self, action: "onDateTap:", forControlEvents: UIControlEvents.TouchUpInside)
         
-        endDateButton.backgroundColor = UIColor.yellowColor()
-        endDateButton.autoMatchDimension(.Height, toDimension: .Height, ofView: addLocationButton)
-        endDateButton.autoMatchDimension(.Width, toDimension: .Width, ofView: addLocationButton)
-        endDateButton.autoPinEdge(.Top, toEdge: .Bottom, ofView: startDateButton, withOffset: 30)
-        endDateButton.autoPinEdge(.Left, toEdge: .Left, ofView: self.view, withOffset: 30)
-        endDateButton.addTarget(self, action: "onDateTap:", forControlEvents: UIControlEvents.TouchUpInside)
-        
-        datePickerMenu.hidden = true
-        datePickerMenu.backgroundColor = UIColor.whiteColor()
-        datePickerMenu.layer.borderColor = UIColor.darkGrayColor().CGColor
-        datePickerMenu.layer.borderWidth = 5
-        datePickerMenu.layer.cornerRadius = 5
-        datePickerMenu.autoPinEdge(.Top, toEdge: .Bottom, ofView: startDateButton)
-        datePickerMenu.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view)
-        datePickerMenu.autoPinEdge(.Left, toEdge: .Left, ofView: self.view)
-        datePickerMenu.autoPinEdge(.Right, toEdge: .Right, ofView: self.view)
-        datePickerMenu.addSubview(date)
+//        datePickerMenu.hidden = true
+//        datePickerMenu.backgroundColor = UIColor.whiteColor()
+//        datePickerMenu.layer.borderColor = UIColor.darkGrayColor().CGColor
+//        datePickerMenu.layer.borderWidth = 5
+//        datePickerMenu.layer.cornerRadius = 5
+//        datePickerMenu.autoPinEdge(.Top, toEdge: .Bottom, ofView: startDateButton)
+//        datePickerMenu.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view)
+//        datePickerMenu.autoPinEdge(.Left, toEdge: .Left, ofView: self.view)
+//        datePickerMenu.autoPinEdge(.Right, toEdge: .Right, ofView: self.view)
+//        datePickerMenu.addSubview(date)
         
         date.minimumDate = NSDate()
         
-        startTimeLabel.text = "No Start Time Selected"
-        startTimeLabel.textColor = UIColor.whiteColor()
-        startTimeLabel.font = UIFont.systemFontOfSize(20)
-        startTimeLabel.autoPinEdge(.Left, toEdge: .Right, ofView: startDateButton, withOffset: 15)
-        startTimeLabel.autoPinEdge(.Top, toEdge: .Bottom, ofView: userLocation, withOffset: 30)
+        startTime.text = "No Start Time Selected"
+        startTime.textColor = UIColor.lightGrayColor()
+        startTime.backgroundColor = UIColor.whiteColor()
+        startTime.layer.borderColor = UIColor.blackColor().CGColor
+        startTime.layer.borderWidth = 1
+        startTime.font = UIFont.systemFontOfSize(20)
+        startTime.autoMatchDimension(.Height, toDimension: .Height, ofView: userNameOfEvent)
+        startTime.autoPinEdge(.Left, toEdge: .Left, ofView: self.view , withOffset: 15)
+        startTime.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: -15)
+        startTime.autoPinEdge(.Top, toEdge: .Bottom, ofView: addLocationButton, withOffset: 30)
+//        
+//        startDateLabel.text = "No Start Date Selected"
+//        startDateLabel.textColor = UIColor.whiteColor()
+//        startDateLabel.font = UIFont.systemFontOfSize(20)
+//        startDateLabel.autoPinEdge(.Left, toEdge: .Right, ofView: startDateButton, withOffset: 15)
+//        startDateLabel.autoPinEdge(.Top, toEdge: .Bottom, ofView: startTimeLabel, withOffset: 5)
         
-        startDateLabel.text = "No Start Date Selected"
-        startDateLabel.textColor = UIColor.whiteColor()
-        startDateLabel.font = UIFont.systemFontOfSize(20)
-        startDateLabel.autoPinEdge(.Left, toEdge: .Right, ofView: startDateButton, withOffset: 15)
-        startDateLabel.autoPinEdge(.Top, toEdge: .Bottom, ofView: startTimeLabel, withOffset: 5)
+        endTime.text = "No End Time Selected"
+        endTime.textColor = UIColor.lightGrayColor()
+        endTime.backgroundColor = UIColor.whiteColor()
+        endTime.layer.borderColor = UIColor.blackColor().CGColor
+        endTime.layer.borderWidth = 1
+        endTime.font = UIFont.systemFontOfSize(20)
+        endTime.autoMatchDimension(.Height, toDimension: .Height, ofView: userNameOfEvent)
+        endTime.autoPinEdge(.Left, toEdge: .Left, ofView: self.view, withOffset: 15)
+        endTime.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: -15)
+        endTime.autoPinEdge(.Top, toEdge: .Bottom, ofView: startTime)
         
-        endTimeLabel.text = "No End Time Selected"
-        endTimeLabel.textColor = UIColor.whiteColor()
-        endTimeLabel.font = UIFont.systemFontOfSize(20)
-        endTimeLabel.autoPinEdge(.Left, toEdge: .Right, ofView: endDateButton, withOffset: 15)
-        endTimeLabel.autoPinEdge(.Top, toEdge: .Bottom, ofView: startDateLabel, withOffset: 30)
-        
-        endDateLabel.text = "No End Date Selected"
-        endDateLabel.textColor = UIColor.whiteColor()
-        endDateLabel.font = UIFont.systemFontOfSize(20)
-        endDateLabel.autoPinEdge(.Left, toEdge: .Right, ofView: endDateButton, withOffset: 15)
-        endDateLabel.autoPinEdge(.Top, toEdge: .Bottom, ofView: endTimeLabel, withOffset: 5)
+//        endDateLabel.text = "No End Date Selected"
+//        endDateLabel.textColor = UIColor.whiteColor()
+//        endDateLabel.font = UIFont.systemFontOfSize(20)
+//        endDateLabel.autoPinEdge(.Left, toEdge: .Right, ofView: endDateButton, withOffset: 15)
+//        endDateLabel.autoPinEdge(.Top, toEdge: .Bottom, ofView: endTimeLabel, withOffset: 5)
         
 
         
@@ -201,9 +233,14 @@ class AddEventViewController: UIViewController, UITextViewDelegate{
 //        header.autoSetDimension(.Height, toSize: 75)
     }
     
-//    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-//        return UIStatusBarStyle.LightContent
-//    }
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
+    func clearText(sender: UITextField!){
+        userEnterNameOfEvent.text = ""
+        print("clicked")
+    }
     
     func onLocationButtonTap(sender: UIButton!){
         if(locationMenu.hidden == true){
@@ -228,8 +265,8 @@ class AddEventViewController: UIViewController, UITextViewDelegate{
             timeFormatter.timeStyle = NSDateFormatterStyle.LongStyle
             let selectedDate = dateFormatter.stringFromDate(date.date)
             let selectedTime = timeFormatter.stringFromDate(date.date)
-            startTimeLabel.text = selectedTime
-            startDateLabel.text = selectedDate
+            startTime.text = selectedTime
+//            startDateLabel.text = selectedDate
             datePickerMenu.hidden = true
         }
     }
