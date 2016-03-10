@@ -11,10 +11,14 @@ import Foundation
 class EventView: UIView {
     let timeContainer = UIView(forAutoLayout: ())
     var timeLabel : UILabel = UILabel(forAutoLayout: ())
+    
     let infoContainer = UIView(forAutoLayout: ())
     var titleLabel : UILabel = UILabel(forAutoLayout: ())
     var locationLabel : UILabel = UILabel(forAutoLayout: ())
     var locationSymbol : UIImageView = UIImageView(forAutoLayout: ())
+    
+    let statusContainer = UIView(forAutoLayout: ())
+    var statusIndicator : UIImageView = UIImageView(forAutoLayout: ())
     
     var pastEvent : Bool = false
     var currentEvent : Bool = false
@@ -86,6 +90,9 @@ class EventView: UIView {
 //        self.infoContainer.backgroundColor = UIColor.greenColor() //DEBUGGING
 //        self.infoContainer.backgroundColor = UIColor.greenColor() //DEBUGGING
 
+        
+        
+        
         
         self.addSubview(infoContainer)
         self.infoContainer.translatesAutoresizingMaskIntoConstraints = false

@@ -34,6 +34,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var translationOffset : CGFloat = 0
     var calendarViewAnimationRatio : CGFloat = 5
     
+    let cellSelectColor = UIColor(red: 30/255, green: 33/255, blue: 40/255, alpha: 1)
     let sidebColor = UIColor(red: 24/255, green: 26/255, blue: 33/255, alpha: 1)
     let whiteColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
     let backgColor = UIColor(red: 42/255, green: 44/255, blue: 54/255, alpha: 1)
@@ -154,6 +155,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         calendarView.separatorStyle = .SingleLine
         calendarView.showsVerticalScrollIndicator = false
         calendarView.showsHorizontalScrollIndicator = false
+
         //set up calendar view table
         calendarView.dataSource = self
         calendarView.delegate = self
@@ -349,6 +351,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if(tableView == self.calendarView){
             let eventCell = tableView.dequeueReusableCellWithIdentifier("CalendarEventCell", forIndexPath: indexPath) as! CalendarEventCell
             eventCell.backgroundColor = backgColor
+            eventCell.selectionStyle = .None
             
             var lastEvent : EventView = EventView()
             var first : Bool = true
@@ -372,6 +375,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             dateCell.backgroundColor = sidebColor
             dateCell.dayName.text = "TUE"
             dateCell.dayDate.text = String(indexPath.row + 1)
+            dateCell.selectionStyle = .None
             
             cell = dateCell
         }
@@ -391,8 +395,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if(tableView == self.calendarView){
             self.dateTable.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+            let selectedCell = self.calendarView.cellForRowAtIndexPath(indexPath) as! CalendarEventCell
+            selectedCell.changeBackgroundColorIfSelected()
         }else if (tableView == self.dateTable){
             self.calendarView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+            let selectedCell = self.calendarView.cellForRowAtIndexPath(indexPath) as! CalendarEventCell
+            selectedCell.changeBackgroundColorIfSelected()
+        }
+        showSideBar()
+    }
+    
+    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        if(tableView == self.calendarView){
+            let selectedCell = self.calendarView.cellForRowAtIndexPath(indexPath) as! CalendarEventCell
+            selectedCell.changeBackgroundColorIfSelected()
         }
     }
 

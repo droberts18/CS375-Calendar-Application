@@ -12,6 +12,7 @@
 		C3306FB71C7F03E8000207AB /* NSArray+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C3306FB01C7F03E8000207AB /* NSArray+PureLayout.m */; };
 		C3306FB81C7F03E8000207AB /* NSLayoutConstraint+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C3306FB21C7F03E8000207AB /* NSLayoutConstraint+PureLayout.m */; };
 		C36F5B2C1C8F6A8D00791E9F /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36F5B2B1C8F6A8D00791E9F /* CalendarManager.swift */; };
+		C36F5B2E1C90C16C00791E9F /* CircleIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36F5B2D1C90C16C00791E9F /* CircleIndicator.swift */; };
 		C3856F5F1C8E5AC00089B502 /* AddLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3856F5E1C8E5AC00089B502 /* AddLocationViewController.swift */; };
 		C3856F611C8E5FC60089B502 /* EventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3856F601C8E5FC60089B502 /* EventView.swift */; };
 		C393CD6F1C8D41A100285F39 /* CalendarEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C393CD6E1C8D41A100285F39 /* CalendarEventCell.swift */; };
@@ -38,6 +39,7 @@
 		C3306FB41C7F03E8000207AB /* PureLayout+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PureLayout+Internal.h"; sourceTree = "<group>"; };
 		C3306FB51C7F03E8000207AB /* PureLayoutDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PureLayoutDefines.h; sourceTree = "<group>"; };
 		C36F5B2B1C8F6A8D00791E9F /* CalendarManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
+		C36F5B2D1C90C16C00791E9F /* CircleIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleIndicator.swift; sourceTree = "<group>"; };
 		C3856F5E1C8E5AC00089B502 /* AddLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddLocationViewController.swift; sourceTree = "<group>"; };
 		C3856F601C8E5FC60089B502 /* EventView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventView.swift; sourceTree = "<group>"; };
 		C393CD6E1C8D41A100285F39 /* CalendarEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarEventCell.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				C3CFFA751C7CF8230061E7B6 /* ViewController.swift */,
 				C36F5B2B1C8F6A8D00791E9F /* CalendarManager.swift */,
 				C3856F601C8E5FC60089B502 /* EventView.swift */,
+				C36F5B2D1C90C16C00791E9F /* CircleIndicator.swift */,
 				C393CD6E1C8D41A100285F39 /* CalendarEventCell.swift */,
 				C393CD721C8D435200285F39 /* CalendarDateCell.swift */,
 				C3E8B5F91C86E0B500C0D535 /* NavButton.swift */,
@@ -151,7 +154,7 @@
 				TargetAttributes = {
 					C3CFFA6F1C7CF8220061E7B6 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = P537ZEA4SP;
+						DevelopmentTeam = F63F9F65P7;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -208,6 +211,7 @@
 				C3856F5F1C8E5AC00089B502 /* AddLocationViewController.swift in Sources */,
 				C3CFFA861C7CF8460061E7B6 /* LocationManager.swift in Sources */,
 				C3306FB61C7F03E8000207AB /* ALView+PureLayout.m in Sources */,
+				C36F5B2E1C90C16C00791E9F /* CircleIndicator.swift in Sources */,
 				C3306FB71C7F03E8000207AB /* NSArray+PureLayout.m in Sources */,
 				C3306FB81C7F03E8000207AB /* NSLayoutConstraint+PureLayout.m in Sources */,
 				C3E8B5FA1C86E0B500C0D535 /* NavButton.swift in Sources */,
@@ -326,7 +330,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = LoCal/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Drew-Roberts";
+				PRODUCT_BUNDLE_IDENTIFIER = "Tyler-Reardon";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LoCal-Bridging-Header.h";
@@ -341,7 +345,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = LoCal/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Drew-Roberts";
+				PRODUCT_BUNDLE_IDENTIFIER = "Tyler-Reardon";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LoCal-Bridging-Header.h";
