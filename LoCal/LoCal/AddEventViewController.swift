@@ -9,11 +9,12 @@
 import Foundation
 import UIKit
 
-
-
-class AddEventViewController: UIViewController, UITextViewDelegate{
+class AddEventViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate{
     var backgroundColor = UIColor.whiteColor()
     var placeholderName : String!
+    var nameOfEvent : String!
+
+    let exitButtonConstraint = 
     
     let eventNameView = UIView()
     let locationMenu = UIView()
@@ -24,6 +25,7 @@ class AddEventViewController: UIViewController, UITextViewDelegate{
 //    let endDateLabel = UILabel()
     let endTime = UITextView()
     let userEnterNameOfEvent = UITextField()
+    let titleLabel = UILabel()
 
     convenience init(backgroundColor: UIColor){
         self.init()
@@ -31,21 +33,22 @@ class AddEventViewController: UIViewController, UITextViewDelegate{
     }
     
     override func viewDidLoad() {
-        
+        let cellSelectColor = UIColor(red: 30/255, green: 33/255, blue: 40/255, alpha: 1)
+        let sidebColor = UIColor(red: 24/255, green: 26/255, blue: 33/255, alpha: 1)
+        let whiteColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+        let backgColor = UIColor(red: 42/255, green: 44/255, blue: 54/255, alpha: 1)
         let addEventButtonColor = UIColor(red: 44/255, green: 105/255, blue: 157/255, alpha: 1)
         let addLocationButtonColor = UIColor(red: 96/255, green: 157/255, blue: 44/255, alpha: 1)
-        
-        let statusBar = UIView()
         let addEventContainer = UIView()
+        let statusBar = UIView()
+
         //let header = ViewControllerHeader(title: "Add Event", imageFileName: "AddEventButtonPlus.png")
-        let titleLabel = UILabel()
-        let userNameOfEvent = UITextView()
+
         let userLocation = UITextView()
         let startDateButton = UIButton()
         let endDate = UIDatePicker()
         let endDateButton = UIButton()
         let eventType = UIImageView()
-        
         let exitButton = UIButton()
         let iconImageView = UIImageView()
         let headerLabel = UILabel()
@@ -53,11 +56,12 @@ class AddEventViewController: UIViewController, UITextViewDelegate{
         let addLocationButton = UIButton()
         addLocationButton.translatesAutoresizingMaskIntoConstraints = false
         
+        registerForKeyboardNotifications()
+        
         self.view.addSubview(eventNameView)
         self.view.addSubview(statusBar)
         self.view.addSubview(addEventContainer)
         self.view.addSubview(titleLabel)
-        self.view.addSubview(userNameOfEvent)
         self.view.addSubview(addLocationButton)
         self.view.addSubview(locationMenu)
         self.view.addSubview(userLocation)
@@ -71,9 +75,9 @@ class AddEventViewController: UIViewController, UITextViewDelegate{
         
         eventNameView.autoPinEdge(.Right, toEdge: .Right, ofView: self.view)
         eventNameView.autoPinEdge(.Left, toEdge: .Left, ofView: self.view)
-        eventNameView.autoPinEdge(.Top, toEdge: .Top, ofView: self.view)
+        eventNameView.autoPinEdge(.Top, toEdge: .Bottom, ofView: statusBar)
         eventNameView.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view)
-        eventNameView.backgroundColor = UIColor.blackColor()
+        eventNameView.backgroundColor = backgColor
         self.view.bringSubviewToFront(eventNameView)
     
         addEventContainer.addSubview(exitButton)
@@ -88,27 +92,30 @@ class AddEventViewController: UIViewController, UITextViewDelegate{
         exitButton.addTarget(self, action: "onExit:", forControlEvents: UIControlEvents.TouchUpInside)
         
         eventNameView.addSubview(userEnterNameOfEvent)
+        userEnterNameOfEvent.delegate = self
         userEnterNameOfEvent.text = "Event Name"
         userEnterNameOfEvent.textColor = UIColor.whiteColor()
+        userEnterNameOfEvent.textAlignment = .Center
         userEnterNameOfEvent.font = UIFont.systemFontOfSize(30)
         userEnterNameOfEvent.autoCenterInSuperview()
+        userEnterNameOfEvent.autoPinEdge(.Right, toEdge: .Right, ofView: self.view)
+        userEnterNameOfEvent.autoPinEdge(.Left, toEdge: .Left, ofView: self.view)
         userEnterNameOfEvent.addTarget(self, action: Selector("clearText:"), forControlEvents: UIControlEvents.EditingDidBegin)
 
-        
-        statusBar.backgroundColor = UIColor.whiteColor()
+        statusBar.backgroundColor = sidebColor
         statusBar.autoPinEdge(.Top, toEdge: .Top, ofView: self.view)
         statusBar.autoPinEdge(.Left, toEdge: .Left, ofView: self.view)
         statusBar.autoPinEdge(.Right, toEdge: .Right, ofView: self.view)
         statusBar.autoSetDimension(.Height, toSize: 20)
         
         
-        addEventContainer.backgroundColor = backgroundColor
+        addEventContainer.backgroundColor = backgColor
         addEventContainer.autoPinEdge(.Top, toEdge: .Bottom, ofView: statusBar)
         addEventContainer.autoPinEdge(.Left, toEdge: .Left, ofView: self.view)
         addEventContainer.autoPinEdge(.Right, toEdge: .Right, ofView: self.view)
         addEventContainer.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view)
         
-        titleLabel.text = "Add Your Event!"
+        titleLabel.text = nameOfEvent
         titleLabel.font = UIFont.systemFontOfSize(40)
         titleLabel.textColor = UIColor.whiteColor()
         titleLabel.textAlignment = .Center
@@ -123,23 +130,12 @@ class AddEventViewController: UIViewController, UITextViewDelegate{
 //        nameOfEventLabel.autoPinEdge(.Left, toEdge: .Left, ofView: self.view, withOffset: 30)
 //        nameOfEventLabel.autoPinEdge(.Top, toEdge: .Bottom, ofView: titleLabel, withOffset: 10)
         
-        userNameOfEvent.delegate = self
-        userNameOfEvent.backgroundColor = UIColor.whiteColor()
-        userNameOfEvent.text = "Event name"
-        userNameOfEvent.textColor = UIColor.lightGrayColor()
-        userNameOfEvent.font = UIFont.systemFontOfSize(20)
-        userNameOfEvent.autoSetDimension(.Height, toSize: 40)
-        userNameOfEvent.layer.cornerRadius = 5
-        userNameOfEvent.autoPinEdge(.Top, toEdge: .Bottom, ofView: titleLabel, withOffset: 25)
-        userNameOfEvent.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: -15)
-        userNameOfEvent.autoPinEdge(.Left, toEdge: .Left, ofView: self.view, withOffset: 15)
-        
         addLocationButton.backgroundColor = addLocationButtonColor
         addLocationButton.setTitle("Add Location", forState: .Normal)
-        addLocationButton.autoMatchDimension(.Height, toDimension: .Height, ofView: userNameOfEvent)
+        addLocationButton.autoMatchDimension(.Height, toDimension: .Height, ofView: titleLabel)
         addLocationButton.autoPinEdge(.Left, toEdge: .Left, ofView: self.view, withOffset: 50)
         addLocationButton.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: -50)
-        addLocationButton.autoPinEdge(.Top, toEdge: .Bottom, ofView: userNameOfEvent, withOffset: 20)
+        addLocationButton.autoPinEdge(.Top, toEdge: .Bottom, ofView: titleLabel, withOffset: 20)
         addLocationButton.addTarget(self, action: "onLocationButtonTap:", forControlEvents: UIControlEvents.TouchUpInside)
         
 //        userLocation.delegate = self
@@ -196,7 +192,7 @@ class AddEventViewController: UIViewController, UITextViewDelegate{
         startTime.layer.borderColor = UIColor.blackColor().CGColor
         startTime.layer.borderWidth = 1
         startTime.font = UIFont.systemFontOfSize(20)
-        startTime.autoMatchDimension(.Height, toDimension: .Height, ofView: userNameOfEvent)
+        startTime.autoMatchDimension(.Height, toDimension: .Height, ofView: titleLabel)
         startTime.autoPinEdge(.Left, toEdge: .Left, ofView: self.view , withOffset: 15)
         startTime.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: -15)
         startTime.autoPinEdge(.Top, toEdge: .Bottom, ofView: addLocationButton, withOffset: 30)
@@ -213,7 +209,7 @@ class AddEventViewController: UIViewController, UITextViewDelegate{
         endTime.layer.borderColor = UIColor.blackColor().CGColor
         endTime.layer.borderWidth = 1
         endTime.font = UIFont.systemFontOfSize(20)
-        endTime.autoMatchDimension(.Height, toDimension: .Height, ofView: userNameOfEvent)
+        endTime.autoMatchDimension(.Height, toDimension: .Height, ofView: titleLabel)
         endTime.autoPinEdge(.Left, toEdge: .Left, ofView: self.view, withOffset: 15)
         endTime.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: -15)
         endTime.autoPinEdge(.Top, toEdge: .Bottom, ofView: startTime)
@@ -237,9 +233,41 @@ class AddEventViewController: UIViewController, UITextViewDelegate{
         return UIStatusBarStyle.LightContent
     }
     
+    func registerForKeyboardNotifications(){
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWasShown:", name: "UIKeyboardDidShowNotification", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillBeHidden:", name: "UIKeyboardWillHideNotification", object: nil)
+    }
+    
+    func keyboardWasShown(notification: NSNotification) {
+        var info = notification.userInfo!
+        let keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        self.exitButtonConstraint.constant = -keyboardFrame.size.height
+        
+        UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
+            self.view.setNeedsLayout()
+            self.view.layoutIfNeeded()
+            }, completion: { finished in
+        })
+    }
+    
+    func keyboardWillBeHidden(notification: NSNotification){
+        UIView.animateWithDuration(0.1, animations: { () -> Void in
+            self.exitButtonConstraint.constant = 0
+        })
+    }
+    
     func clearText(sender: UITextField!){
         userEnterNameOfEvent.text = ""
         print("clicked")
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        eventNameView.hidden = true;
+        eventNameView.endEditing(true)
+        nameOfEvent = userEnterNameOfEvent.text
+        titleLabel.text = nameOfEvent
+        
+        return true
     }
     
     func onLocationButtonTap(sender: UIButton!){
@@ -283,6 +311,7 @@ class AddEventViewController: UIViewController, UITextViewDelegate{
         if textView.text.isEmpty {
             textView.text = placeholderName
             textView.textColor = UIColor.lightGrayColor()
+            
         }
     }
     
