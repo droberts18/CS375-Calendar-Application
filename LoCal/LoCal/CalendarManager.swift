@@ -136,7 +136,31 @@ class CalendarManager {
         case 12:
             return "DECEMBER"
         default:
-            return ""
+            return "err"
+        }
+    }
+    
+    func getDayString(dayNumber: Int) -> String{
+        
+        print(dayNumber)
+        
+        switch dayNumber{
+        case 1:
+            return "SUN"
+        case 2:
+            return "MON"
+        case 3:
+            return "TUE"
+        case 4:
+            return "WED"
+        case 5:
+            return "THU"
+        case 6:
+            return "FRI"
+        case 7:
+            return "SAT"
+        default:
+            return "err"
         }
     }
     

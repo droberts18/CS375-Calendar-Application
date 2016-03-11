@@ -24,7 +24,7 @@ class EventView: UIView {
     var currentEvent : Bool = false
     
     var topSpace : CGFloat = 5
-    let eventHeight : CGFloat = 35
+    let eventHeight : CGFloat = 40
     let whiteColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
     let timeColor = UIColor(red: 215/255, green: 131/255, blue: 25/255, alpha: 1)
 
@@ -90,9 +90,6 @@ class EventView: UIView {
 //        self.infoContainer.backgroundColor = UIColor.greenColor() //DEBUGGING
 //        self.infoContainer.backgroundColor = UIColor.greenColor() //DEBUGGING
 
-        
-        
-        
         
         self.addSubview(infoContainer)
         self.infoContainer.translatesAutoresizingMaskIntoConstraints = false

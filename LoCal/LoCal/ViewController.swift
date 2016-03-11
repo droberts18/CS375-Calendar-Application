@@ -13,7 +13,7 @@ import MapKit
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
     
     //These will eventually be replaced with day objects
-    let events : [EventView] = [EventView(time: "2:55pm", title: "Mobile App Development", location: "Whitworth University"), EventView(time: "4:50pm", title: "Artificial Intelligence", location: "Eric Johnston 301")]
+    let events : [EventView] = [EventView(time: "2:55pm", title: "Mobile App Development", location: "Whitworth University"), EventView(time: "4:50pm", title: "Artificial Intelligence", location: "Eric Johnston 301"), EventView(time: "6:00pm", title: "Dinner", location: "Home")]
     //end
     
     let calendarManager : CalendarManager = CalendarManager()
@@ -374,10 +374,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }else{
             let dateCell = tableView.dequeueReusableCellWithIdentifier("CalendarDateCell", forIndexPath: indexPath) as! CalendarDateCell
             dateCell.backgroundColor = sidebColor
-            dateCell.dayName.text = "TUE"
+            dateCell.dayName.text = calendarManager.getDayString((indexPath.row % 7) + 1) // should be fixed to get actual days of the week
             dateCell.dayDate.text = String(indexPath.row + 1)
             dateCell.selectionStyle = .None
-            
             cell = dateCell
         }
         
@@ -408,6 +407,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
         if(tableView == self.calendarView){
+            let selectedCell = self.calendarView.cellForRowAtIndexPath(indexPath) as! CalendarEventCell
+            selectedCell.changeBackgroundColorIfSelected()
+        }else if(tableView == self.dateTable){
             let selectedCell = self.calendarView.cellForRowAtIndexPath(indexPath) as! CalendarEventCell
             selectedCell.changeBackgroundColorIfSelected()
         }
