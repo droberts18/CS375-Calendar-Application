@@ -44,42 +44,43 @@ class AddLocationViewController: UIViewController, UITextViewDelegate{
         let addLocationContainer = UIView()
         let titleLabel = UILabel()
         
-        let exitButton = UIButton(forAutoLayout: ())
-        let saveButton = UIButton(forAutoLayout: ())
+//        let exitButton = UIButton(forAutoLayout: ())
+//        let saveButton = UIButton(forAutoLayout: ())
         
         self.view.addSubview(statusBar)
         self.view.addSubview(addLocationContainer)
         self.view.addSubview(titleLabel)
         
         
-        addLocationContainer.addSubview(exitButton)
-        exitButton.translatesAutoresizingMaskIntoConstraints = false
-        exitButton.autoPinEdge(.Left, toEdge: .Left, ofView: self.view)
-        exitButton.autoMatchDimension(.Width, toDimension: .Width, ofView: self.view, withMultiplier: 0.5)
-        //exitButton.autoPinEdge(.Right, toEdge: .Right, ofView: self.view)
-        exitButton.backgroundColor = backgColor
-        exitButton.setTitle("Cancel", forState: UIControlState.Normal)
-        exitButtonConstraint = exitButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: addLocationContainer, withOffset: 0)
-        exitButton.addTarget(self, action: "onExit:", forControlEvents: UIControlEvents.TouchUpInside)
-        
-        addLocationContainer.addSubview(saveButton)
-        saveButton.translatesAutoresizingMaskIntoConstraints = false
-        saveButton.autoPinEdge(.Left, toEdge: .Right, ofView: exitButton)
-        saveButton.autoPinEdge(.Right, toEdge: .Right, ofView: self.view)
-        saveButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: exitButton)
-        saveButton.autoPinEdge(.Top, toEdge: .Top, ofView: exitButton)
-        saveButton.backgroundColor = sidebColor
-        saveButton.setTitle("Save", forState: UIControlState.Normal)
-        saveButton.addTarget(self, action: "onSave:", forControlEvents: UIControlEvents.TouchUpInside)
+//        addLocationContainer.addSubview(exitButton)
+//        exitButton.translatesAutoresizingMaskIntoConstraints = false
+//        exitButton.autoPinEdge(.Left, toEdge: .Left, ofView: self.view)
+//        exitButton.autoMatchDimension(.Width, toDimension: .Width, ofView: self.view, withMultiplier: 0.5)
+//        //exitButton.autoPinEdge(.Right, toEdge: .Right, ofView: self.view)
+//        exitButton.backgroundColor = backgColor
+//        exitButton.setTitle("Cancel", forState: UIControlState.Normal)
+//        exitButtonConstraint = exitButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: addLocationContainer, withOffset: 0)
+//        exitButton.addTarget(self, action: "onExit:", forControlEvents: UIControlEvents.TouchUpInside)
+//        
+//        addLocationContainer.addSubview(saveButton)
+//        saveButton.translatesAutoresizingMaskIntoConstraints = false
+//        saveButton.autoPinEdge(.Left, toEdge: .Right, ofView: exitButton)
+//        saveButton.autoPinEdge(.Right, toEdge: .Right, ofView: self.view)
+//        saveButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: exitButton)
+//        saveButton.autoPinEdge(.Top, toEdge: .Top, ofView: exitButton)
+//        saveButton.backgroundColor = sidebColor
+//        saveButton.setTitle("Save", forState: UIControlState.Normal)
+//        saveButton.addTarget(self, action: "onSave:", forControlEvents: UIControlEvents.TouchUpInside)
 
         
-//        let exitButtonImage = UIImage(named: "XButton.png")
-//        exitButton.setImage(exitButtonImage, forState: .Normal)
-//        exitButton.autoSetDimension(.Height, toSize: 50)
-//        exitButton.autoSetDimension(.Width, toSize: 50)
-//        exitButton.autoPinEdge(.Left, toEdge: .Left, ofView: addLocationContainer, withOffset: 10)
-//        exitButton.autoPinEdge(.Top, toEdge: .Top, ofView: addLocationContainer, withOffset: 10)
-        
+        let bottomButtons = TwoButtonsOnBottom(parentView: addLocationContainer, leftButtonText: "Cancel", rightButtonText: "Save")
+        addLocationContainer.addSubview(bottomButtons)
+        bottomButtons.autoPinEdge(.Left, toEdge: .Left, ofView: self.view)
+        bottomButtons.autoPinEdge(.Right, toEdge: .Right, ofView: self.view)
+        bottomButtons.buttonConstraint = bottomButtons.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: addLocationContainer)
+        bottomButtons.autoSetDimension(.Height, toSize: bottomButtons.buttonHeight)
+        bottomButtons.leftButton.addTarget(self, action: "onExit:", forControlEvents: UIControlEvents.TouchUpInside)
+        bottomButtons.rightButton.addTarget(self, action: "onSave:", forControlEvents: UIControlEvents.TouchUpInside)
         
         statusBar.backgroundColor = sidebColor
         statusBar.autoPinEdge(.Top, toEdge: .Top, ofView: self.view)
@@ -110,7 +111,9 @@ class AddLocationViewController: UIViewController, UITextViewDelegate{
         mapContainer.autoPinEdge(.Top, toEdge: .Bottom, ofView: nameLocation)
         mapContainer.autoPinEdge(.Left, toEdge: .Left, ofView: self.view)
         mapContainer.autoPinEdge(.Right, toEdge: .Right, ofView: self.view)
-        mapContainer.autoPinEdge(.Bottom, toEdge: .Top, ofView: exitButton)
+//        mapContainer.autoPinEdge(.Bottom, toEdge: .Top, ofView: exitButton)
+        mapContainer.autoPinEdge(.Bottom, toEdge: .Top, ofView: bottomButtons)
+        
         
         mapContainer.addSubview(myMap)
         myMap.autoPinEdgesToSuperviewEdges()

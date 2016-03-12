@@ -27,7 +27,11 @@ class EventView: UIView {
     let eventHeight : CGFloat = 40
     let whiteColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
     let timeColor = UIColor(red: 215/255, green: 131/255, blue: 25/255, alpha: 1)
-
+    
+    
+    ///testing
+    let progressIndicatorView = CircleIndicator(frame: CGRectZero)
+    //end
     
     convenience init(time: String, title: String, location: String){
         self.init(frame:CGRect.zero)
@@ -121,10 +125,6 @@ class EventView: UIView {
         self.locationLabel.autoPinEdge(.Left, toEdge: .Right, ofView: self.locationSymbol, withOffset: 5)
         self.locationLabel.font = self.locationLabel.font.fontWithSize(12)
         //END INFO CONTAINER
-        
-        
-        
-        
         
     }
     
