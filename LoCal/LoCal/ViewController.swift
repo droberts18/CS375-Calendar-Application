@@ -339,7 +339,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         if(self.events.count > 0){
-            return 25 + CGFloat(self.events.count)*(self.events.first?.eventHeight)!
+            return 25 + CGFloat(calendarManager.eventDictionary["3-11-2016"]!.count)*(EventView.getEventHeight())
         }else{
             return 75
         }
@@ -357,7 +357,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             var lastEvent : EventView = EventView()
             var first : Bool = true
             
-            for event in self.events{
+            var dayEvents = [EventView]()
+
+            
+            if(calendarManager.eventsLoaded && calendarManager.eventDictionary["3-11-2016"] != nil){
+                for event in calendarManager.eventDictionary["3-11-2016"]!{
+                    //print(calendarManager.getEventStartTime(event))
+                    dayEvents.append(EventView(time: calendarManager.getEventStartTime(event), title: event.title, location: "Whitworth University"))
+                }
+            }
+            
+            for event in dayEvents{
                 eventCell.contentView.addSubview(event)
                 event.autoPinEdge(.Left, toEdge: .Left, ofView: eventCell.contentView)
                 event.autoMatchDimension(.Width, toDimension: .Width, ofView: eventCell.contentView)

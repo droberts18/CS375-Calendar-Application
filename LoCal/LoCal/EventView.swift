@@ -25,6 +25,7 @@ class EventView: UIView {
     
     var topSpace : CGFloat = 5
     let eventHeight : CGFloat = 40
+    static let staticEventHeight : CGFloat = 40
     let whiteColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
     let timeColor = UIColor(red: 215/255, green: 131/255, blue: 25/255, alpha: 1)
     
@@ -126,6 +127,10 @@ class EventView: UIView {
         self.locationLabel.font = self.locationLabel.font.fontWithSize(12)
         //END INFO CONTAINER
         
+    }
+    
+    static func getEventHeight() -> CGFloat {
+        return self.staticEventHeight
     }
     
 }

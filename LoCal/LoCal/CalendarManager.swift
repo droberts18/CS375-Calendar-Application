@@ -13,11 +13,12 @@ class CalendarManager {
     
     let eventStore = EKEventStore()
     let calendar = NSCalendar.currentCalendar()
-
+    var eventDictionary = [String:[EKEvent]]()
+    var eventsLoaded : Bool = false
     
     init(){
         checkCalendarAuthorizationStatus()
-        getNumDaysInMonth(6, year: 2016)
+        //getNumDaysInMonth(6, year: 2016)
         loadEventsInCalendar()
     }
     
@@ -72,7 +73,6 @@ class CalendarManager {
         oneYearAgoComponents.month = month
         oneYearAgoComponents.day = day
         oneYearAgo = self.calendar.dateFromComponents(oneYearAgoComponents)!
-
         
         var oneYearFromNow = NSDate()
         let oneYearFromNowComponents = NSDateComponents()
@@ -81,8 +81,6 @@ class CalendarManager {
         oneYearFromNowComponents.day = day
         oneYearFromNow = self.calendar.dateFromComponents(oneYearFromNowComponents)!
         
-        print("\(month),\(day),\(year)")
-            
             let store = EKEventStore()
             
             let fetchEvents = { () -> Void in
@@ -92,8 +90,19 @@ class CalendarManager {
                 // if can return nil for no events between these dates
                 let events = store.eventsMatchingPredicate(predicate)
                 for event in events{
-                    //print(event)
+                    let dateComponents = self.calendar.components([.Day , .Month , .Year], fromDate: event.startDate)
+                    let eventYear =  dateComponents.year
+                    let eventMonth = dateComponents.month
+                    let eventDay = dateComponents.day
+                    let dateString = "\(eventMonth)-\(eventDay)-\(eventYear)"
+                    
+                    if self.eventDictionary[dateString] == nil {
+                        self.eventDictionary[dateString] = [EKEvent]()
+                    }
+                    self.eventDictionary[dateString]!.append(event)
+                    
                 }
+                self.eventsLoaded = true
             }
             
             if EKEventStore.authorizationStatusForEntityType(EKEntityType.Event) != EKAuthorizationStatus.Authorized {
@@ -107,6 +116,29 @@ class CalendarManager {
             } else {
                 fetchEvents()
             }
+    }
+    
+    func getDateString(date: NSDate) -> String{
+        let components = calendar.components([.Day , .Month , .Year], fromDate: date)
+        let year =  components.year
+        let month = components.month
+        let day = components.day
+        
+        return "\(month)-\(day)-\(year)"
+    }
+    
+    func getEventStartTime(event: EKEvent) -> String{
+        let timestamp = NSDateFormatter.localizedStringFromDate(event.startDate, dateStyle: .NoStyle, timeStyle: .ShortStyle)
+        let timePieces = timestamp.componentsSeparatedByString(" ")
+        
+        if(timePieces.count == 2){
+            if(timePieces[1] == "AM"){
+                return "\(timePieces[0])am"
+            }else{
+                return "\(timePieces[0])pm"
+            }
+        }
+        return timestamp
     }
     
     func getMonthString(monthNumber: Int) -> String{
@@ -141,8 +173,6 @@ class CalendarManager {
     }
     
     func getDayString(dayNumber: Int) -> String{
-        
-        print(dayNumber)
         
         switch dayNumber{
         case 1:
