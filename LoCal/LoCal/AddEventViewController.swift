@@ -14,7 +14,7 @@ class AddEventViewController: UIViewController, UITextFieldDelegate, UITextViewD
     var placeholderName : String!
     var nameOfEvent : String!
 
-    let exitButtonConstraint = 
+    //let exitButtonConstraint =
     
     let eventNameView = UIView()
     let locationMenu = UIView()
@@ -56,8 +56,6 @@ class AddEventViewController: UIViewController, UITextFieldDelegate, UITextViewD
         let addLocationButton = UIButton()
         addLocationButton.translatesAutoresizingMaskIntoConstraints = false
         
-        registerForKeyboardNotifications()
-        
         self.view.addSubview(eventNameView)
         self.view.addSubview(statusBar)
         self.view.addSubview(addEventContainer)
@@ -80,16 +78,14 @@ class AddEventViewController: UIViewController, UITextFieldDelegate, UITextViewD
         eventNameView.backgroundColor = backgColor
         self.view.bringSubviewToFront(eventNameView)
     
-        addEventContainer.addSubview(exitButton)
-        eventNameView.addSubview(exitButton)
-        self.view.bringSubviewToFront(exitButton)
-        let exitButtonImage = UIImage(named: "XButton.png")
-        exitButton.setImage(exitButtonImage, forState: .Normal)
-        exitButton.autoSetDimension(.Height, toSize: 50)
-        exitButton.autoSetDimension(.Width, toSize: 50)
-        exitButton.autoPinEdge(.Left, toEdge: .Left, ofView: addEventContainer, withOffset: 10)
-        exitButton.autoPinEdge(.Top, toEdge: .Top, ofView: addEventContainer, withOffset: 10)
-        exitButton.addTarget(self, action: "onExit:", forControlEvents: UIControlEvents.TouchUpInside)
+        let bottomButtons = TwoButtonsOnBottom(parentView: self.view, leftButtonText: "Cancel", rightButtonText: "Save")
+        self.view.addSubview(bottomButtons)
+        bottomButtons.autoPinEdge(.Left, toEdge: .Left, ofView: self.view)
+        bottomButtons.autoPinEdge(.Right, toEdge: .Right, ofView: self.view)
+        bottomButtons.buttonConstraint = bottomButtons.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view)
+        bottomButtons.autoSetDimension(.Height, toSize: bottomButtons.buttonHeight)
+        bottomButtons.leftButton.addTarget(self, action: "onExit:", forControlEvents: UIControlEvents.TouchUpInside)
+        bottomButtons.rightButton.addTarget(self, action: "onSave:", forControlEvents: UIControlEvents.TouchUpInside)
         
         eventNameView.addSubview(userEnterNameOfEvent)
         userEnterNameOfEvent.delegate = self
@@ -231,29 +227,6 @@ class AddEventViewController: UIViewController, UITextFieldDelegate, UITextViewD
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
-    }
-    
-    func registerForKeyboardNotifications(){
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWasShown:", name: "UIKeyboardDidShowNotification", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillBeHidden:", name: "UIKeyboardWillHideNotification", object: nil)
-    }
-    
-    func keyboardWasShown(notification: NSNotification) {
-        var info = notification.userInfo!
-        let keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-        self.exitButtonConstraint.constant = -keyboardFrame.size.height
-        
-        UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
-            self.view.setNeedsLayout()
-            self.view.layoutIfNeeded()
-            }, completion: { finished in
-        })
-    }
-    
-    func keyboardWillBeHidden(notification: NSNotification){
-        UIView.animateWithDuration(0.1, animations: { () -> Void in
-            self.exitButtonConstraint.constant = 0
-        })
     }
     
     func clearText(sender: UITextField!){

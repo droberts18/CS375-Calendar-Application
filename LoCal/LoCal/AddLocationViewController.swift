@@ -79,9 +79,9 @@ class AddLocationViewController: UIViewController, UITextViewDelegate{
         bottomButtons.autoPinEdge(.Right, toEdge: .Right, ofView: self.view)
         bottomButtons.buttonConstraint = bottomButtons.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: addLocationContainer)
         bottomButtons.autoSetDimension(.Height, toSize: bottomButtons.buttonHeight)
-        bottomButtons.leftButton.addTarget(self, action: "onExit:", forControlEvents: UIControlEvents.TouchUpInside)
-        bottomButtons.rightButton.addTarget(self, action: "onSave:", forControlEvents: UIControlEvents.TouchUpInside)
-        
+//        bottomButtons.leftButton.addTarget(self, action: "onExit:", forControlEvents: UIControlEvents.TouchUpInside)
+//        bottomButtons.rightButton.addTarget(self, action: "onSave:", forControlEvents: UIControlEvents.TouchUpInside)
+//        
         statusBar.backgroundColor = sidebColor
         statusBar.autoPinEdge(.Top, toEdge: .Top, ofView: self.view)
         statusBar.autoPinEdge(.Left, toEdge: .Left, ofView: self.view)
