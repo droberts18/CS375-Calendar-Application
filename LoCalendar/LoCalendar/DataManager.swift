@@ -12,6 +12,8 @@ class DataManager{
     
     var user : User? //stores the user
     let baseURL = "https://localendar.firebaseio.com"
+    var connectionCount:Int = 0
+    let showDebug = false
     
     init(){}
     
@@ -19,12 +21,34 @@ class DataManager{
         
     }
     
+    func pushOnline(){
+        Firebase.goOnline()
+        self.connectionCount += 1
+        
+        if(showDebug){
+            print("online called: \(connectionCount)")
+        }
+    }
+    
+    func pushOffline(){
+        if(self.connectionCount > 0){
+            self.connectionCount -= 1
+        }
+        
+        if(connectionCount == 0){
+            Firebase.goOffline()
+        }
+        
+        if(showDebug){
+            print("offline called: \(connectionCount)")
+        }
+    }
+    
     
     func createUser(email:String,password:String) {
-        Firebase.goOnline()
+        self.pushOnline()
         let ref = Firebase(url: baseURL)
-        ref.createUser(email, password: password,
-           withValueCompletionBlock: { error, result in
+        ref.createUser(email, password: password, withValueCompletionBlock: { error, result in
             if error != nil {
                 // There was an error creating the account
                 print("error in creating account")
@@ -38,16 +62,15 @@ class DataManager{
                 //save the user data to a table
                 ref.childByAppendingPath("users").childByAppendingPath(uid).setValue(self.user!.toDictionary())
             }
-            Firebase.goOffline() //this is to avoid exceeding the free tier
+            self.pushOffline()
         })
     }
     
     
     func loginUser(email:String,password:String){
-        Firebase.goOnline()
+        self.pushOnline()
         let ref = Firebase(url: baseURL)
-        ref.authUser(email, password: password,
-             withCompletionBlock: { error, authData in
+        ref.authUser(email, password: password, withCompletionBlock: { error, authData in
                 
                 if error != nil {
                     // There was an error logging in to this account
@@ -57,31 +80,31 @@ class DataManager{
                     // We are now logged in
                     print("Successful login")
                     print(authData.providerData["email"])
-                    print(ref.authData.uid)
                     self.user = User(username: email, password: password, userID: ref.authData.uid)
-
+                    
+                    self.readData()
+                    
 //                    print("UID: \(self.user.authData.uid)")
 //                    print("auth: \(self.user.authData.auth)")
 //                    print("expires: \(self.user.authData.expires)")
 //                    print("provider data: \(self.user.authData.providerData)")
 //                    print("token: \(self.user.authData.token)")
                 }
-                //Firebase.goOffline() //this is to avoid exceeding the free tier
+                self.pushOffline()
         })
     }
     
     func logoutUser(){
-        Firebase.goOnline()
+        self.pushOnline()
         let ref = Firebase(url: baseURL)
         ref.unauth()
-        Firebase.goOffline()
+        self.pushOffline()
     }
     
     func changeUserPassword(oldEmail:String, password:String, newEmail:String){
-        Firebase.goOnline()
+        self.pushOnline()
         let ref = Firebase(url: "https://localendar.firebaseio.com")
-        ref.changeEmailForUser(oldEmail, password: password,
-           toNewEmail: newEmail, withCompletionBlock: { error in
+        ref.changeEmailForUser(oldEmail, password: password, toNewEmail: newEmail, withCompletionBlock: { error in
             if error != nil {
                 // There was an error processing the request
                 print("Error changing password")
@@ -89,12 +112,12 @@ class DataManager{
                 // Email changed successfully
                 print("Successfully changed password")
             }
-            Firebase.goOffline() //this is to avoid exceeding the free tier
+            self.pushOffline()
         })
     }
     
     func sendPasswordResetEmail(email:String){
-        Firebase.goOnline()
+        self.pushOnline()
         let ref = Firebase(url: baseURL)
         ref.resetPasswordForUser(email, withCompletionBlock: { error in
             if error != nil {
@@ -104,15 +127,14 @@ class DataManager{
                 // Password reset sent successfully
                 print("Successfully sent email")
             }
-            Firebase.goOffline()
+            self.pushOffline()
         })
     }
     
     func deleteUser(email:String, password:String){
-        Firebase.goOnline()
+        self.pushOnline()
         let ref = Firebase(url: baseURL)
-        ref.removeUser(email, password: password,
-           withCompletionBlock: { error in
+        ref.removeUser(email, password: password, withCompletionBlock: { error in
             if error != nil {
                 // There was an error processing the request
                 print("Error deleting account")
@@ -120,15 +142,15 @@ class DataManager{
                 // Password changed successfully
                 print("Successfully deleted account")
             }
-            Firebase.goOffline()
+            self.pushOffline()
         })
     }
     
     func checkError(error: Int){
         switch(error){
-//        case "INVALID_EMAIL":
-//            print("invalid email")
-//            break
+            //        case "INVALID_EMAIL":
+            //            print("invalid email")
+        //            break
         case -6:
             print("invalid password")
             break
@@ -143,7 +165,7 @@ class DataManager{
 //            break
 //        case "NETWORK_ERROR":
 //            print("network error")
-//            break
+        //            break
         default:
             print("unknown error occurred")
             break
@@ -151,17 +173,20 @@ class DataManager{
     }
     
     func readData(){
-        Firebase.goOnline()
+        self.pushOnline()
         let ref = Firebase(url: self.baseURL)
-        if let myUser = self.user{
+        if (self.user) != nil{
+            print(self.user?.userID)
             ref.childByAppendingPath("users").childByAppendingPath(self.user?.userID).observeEventType(.Value, withBlock: { snapshot in
                 if let email = snapshot.value.objectForKey("username"){
-                    print(email)
+                    print("email is: \(email)")
                 }
+                self.pushOffline()
                 }, withCancelBlock: { error in
                     print(error.description)
+                    self.pushOffline()
             })
-            Firebase.goOffline()
+            
         }
     }
 }

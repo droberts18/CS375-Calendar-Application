@@ -118,9 +118,9 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         return true
     }
     
-    override func shouldAutorotate() -> Bool {
-        return false
-    }
+//    override func shouldAutorotate() -> Bool {
+//        return false
+//    }
     
     
     //TABLE VIEW FUNCTIONS

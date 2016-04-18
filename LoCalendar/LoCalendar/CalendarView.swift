@@ -75,7 +75,8 @@ class CalendarView: UIView{
             self.addSubview(day)
             day.autoPinEdge(.Top, toEdge: .Bottom, ofView: monthLabel)
             day.autoMatchDimension(.Width, toDimension: .Width, ofView: self, withMultiplier: 1/7)
-            day.autoSetDimension(.Height, toSize: dayHeight - 10)
+            //day.autoSetDimension(.Height, toSize: dayHeight - 10)
+            day.autoMatchDimension(.Height, toDimension: .Height, ofView: self, withMultiplier: 1/9)
             if first{
                 day.autoPinEdge(.Left, toEdge: .Left, ofView: self)
                 first = false
