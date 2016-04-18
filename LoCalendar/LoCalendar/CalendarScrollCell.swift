@@ -11,6 +11,8 @@ import Foundation
 class CalendarScrollCell: UITableViewCell {
     
     let backgColor = UIColor(red: 42/255, green: 44/255, blue: 54/255, alpha: 1)
+    var dayNameLabel = UILabel()
+    var dateLabel = UILabel()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

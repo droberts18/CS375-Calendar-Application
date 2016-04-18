@@ -42,24 +42,18 @@ class CalendarView: UIView{
         self.addSubview(monthLabel)
         monthLabel.autoPinEdge(.Top, toEdge: .Top, ofView: self)
         monthLabel.autoPinEdge(.Left, toEdge: .Left, ofView: self)
-        monthLabel.autoSetDimension(.Height, toSize: dayHeight)
-        //monthLabel.autoMatchDimension(.Width, toDimension: .Width, ofView: self, withMultiplier: 0.45)
+        //monthLabel.autoSetDimension(.Height, toSize: dayHeight)
+        monthLabel.autoMatchDimension(.Height, toDimension: .Height, ofView: self, withMultiplier: 1/8)
         monthLabel.textColor = UIColor.whiteColor()
         monthLabel.textAlignment = .Right
         monthLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 16.0)
         monthLabel.textColor = greenColor
         
-//        let spacer = UIView()
-//        self.addSubview(spacer)
-//        spacer.autoPinEdge(.Left, toEdge: .Right, ofView: monthLabel)
-//        spacer.autoSetDimension(.Width, toSize: 30)
-        
         self.addSubview(yearLabel)
         yearLabel.autoPinEdge(.Top, toEdge: .Top, ofView: monthLabel)
-        //yearLabel.autoPinEdge(.Left, toEdge: .Right, ofView: spacer)
-        yearLabel.autoSetDimension(.Height, toSize: dayHeight)
+        //yearLabel.autoSetDimension(.Height, toSize: dayHeight)
+        yearLabel.autoMatchDimension(.Height, toDimension: .Height, ofView: self, withMultiplier: 1/8)
         yearLabel.autoPinEdge(.Right, toEdge: .Right, ofView: self)
-        //yearLabel.autoMatchDimension(.Width, toDimension: .Width, ofView: self, withMultiplier: 0.45)
         yearLabel.textColor = UIColor.whiteColor()
         yearLabel.textAlignment = .Left
         
@@ -176,7 +170,8 @@ class CalendarView: UIView{
             let dateContainer = CalendarViewDateButton(month: self.modifiedMonth, day: i+1, year: self.modifiedYear)
             dateContainers.append(dateContainer)
             self.addSubview(dateContainer)
-            dateContainer.autoSetDimension(.Height, toSize: dayHeight)
+            //dateContainer.autoSetDimension(.Height, toSize: dayHeight)
+            dateContainer.autoMatchDimension(.Height, toDimension: .Height, ofView: self, withMultiplier: 1/8)
             dateContainer.autoMatchDimension(.Width, toDimension: .Width, ofView: self, withMultiplier: 1/7)
             
             if(dateContainer.getDate() == self.getDate()){

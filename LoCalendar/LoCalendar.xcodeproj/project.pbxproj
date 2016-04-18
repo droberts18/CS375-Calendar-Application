@@ -27,6 +27,7 @@
 		C39457901CC17A1600946626 /* CalendarScrollCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C394578F1CC17A1600946626 /* CalendarScrollCell.swift */; };
 		C39457971CC499D800946626 /* BackButton.png in Resources */ = {isa = PBXBuildFile; fileRef = C39457951CC499D800946626 /* BackButton.png */; };
 		C39457981CC499D800946626 /* ForwardButton.png in Resources */ = {isa = PBXBuildFile; fileRef = C39457961CC499D800946626 /* ForwardButton.png */; };
+		C394579B1CC55EA200946626 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C394579A1CC55EA200946626 /* CalendarManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,7 @@
 		C394578F1CC17A1600946626 /* CalendarScrollCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarScrollCell.swift; sourceTree = "<group>"; };
 		C39457951CC499D800946626 /* BackButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BackButton.png; sourceTree = "<group>"; };
 		C39457961CC499D800946626 /* ForwardButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ForwardButton.png; sourceTree = "<group>"; };
+		C394579A1CC55EA200946626 /* CalendarManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +148,7 @@
 			children = (
 				C39457851CC0989100946626 /* CalendarScrollViewController.swift */,
 				C394578B1CC0AFE100946626 /* CalendarView.swift */,
+				C394579A1CC55EA200946626 /* CalendarManager.swift */,
 				C394578D1CC0C4B700946626 /* CalendarViewDateButton.swift */,
 				C323E2E71CBCD7E500927F3B /* AppDelegate.swift */,
 				C394578F1CC17A1600946626 /* CalendarScrollCell.swift */,
@@ -416,6 +419,7 @@
 				C323E3231CBCD8F000927F3B /* DataManager.swift in Sources */,
 				C323E2E81CBCD7E500927F3B /* AppDelegate.swift in Sources */,
 				C394578E1CC0C4B700946626 /* CalendarViewDateButton.swift in Sources */,
+				C394579B1CC55EA200946626 /* CalendarManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

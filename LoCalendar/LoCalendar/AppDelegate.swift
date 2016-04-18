@@ -18,8 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         var dataManager = DataManager()
-        dataManager.createUser("tdr.reardon@gmail.com", password: "test")
-        
+        dataManager.loginUser("something1@something.com", password: "test")
         
         return true
     }

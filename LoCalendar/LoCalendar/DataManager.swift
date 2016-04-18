@@ -57,18 +57,16 @@ class DataManager{
                     // We are now logged in
                     print("Successful login")
                     print(authData.providerData["email"])
+                    print(ref.authData.uid)
                     self.user = User(username: email, password: password, userID: ref.authData.uid)
-                    
-//                    
-//                    
-//                    
+
 //                    print("UID: \(self.user.authData.uid)")
 //                    print("auth: \(self.user.authData.auth)")
 //                    print("expires: \(self.user.authData.expires)")
 //                    print("provider data: \(self.user.authData.providerData)")
 //                    print("token: \(self.user.authData.token)")
                 }
-                Firebase.goOffline() //this is to avoid exceeding the free tier
+                //Firebase.goOffline() //this is to avoid exceeding the free tier
         })
     }
     
@@ -149,6 +147,21 @@ class DataManager{
         default:
             print("unknown error occurred")
             break
+        }
+    }
+    
+    func readData(){
+        Firebase.goOnline()
+        let ref = Firebase(url: self.baseURL)
+        if let myUser = self.user{
+            ref.childByAppendingPath("users").childByAppendingPath(self.user?.userID).observeEventType(.Value, withBlock: { snapshot in
+                if let email = snapshot.value.objectForKey("username"){
+                    print(email)
+                }
+                }, withCancelBlock: { error in
+                    print(error.description)
+            })
+            Firebase.goOffline()
         }
     }
 }
