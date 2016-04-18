@@ -43,22 +43,23 @@ class CalendarView: UIView{
         monthLabel.autoPinEdge(.Top, toEdge: .Top, ofView: self)
         monthLabel.autoPinEdge(.Left, toEdge: .Left, ofView: self)
         monthLabel.autoSetDimension(.Height, toSize: dayHeight)
-        monthLabel.autoMatchDimension(.Width, toDimension: .Width, ofView: self, withMultiplier: 0.45)
+        //monthLabel.autoMatchDimension(.Width, toDimension: .Width, ofView: self, withMultiplier: 0.45)
         monthLabel.textColor = UIColor.whiteColor()
         monthLabel.textAlignment = .Right
         monthLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 16.0)
+        monthLabel.textColor = greenColor
         
-        let spacer = UIView()
-        self.addSubview(spacer)
-        spacer.autoPinEdge(.Left, toEdge: .Right, ofView: monthLabel)
-        spacer.autoSetDimension(.Width, toSize: 30)
+//        let spacer = UIView()
+//        self.addSubview(spacer)
+//        spacer.autoPinEdge(.Left, toEdge: .Right, ofView: monthLabel)
+//        spacer.autoSetDimension(.Width, toSize: 30)
         
         self.addSubview(yearLabel)
         yearLabel.autoPinEdge(.Top, toEdge: .Top, ofView: monthLabel)
-        yearLabel.autoPinEdge(.Left, toEdge: .Right, ofView: spacer)
+        //yearLabel.autoPinEdge(.Left, toEdge: .Right, ofView: spacer)
         yearLabel.autoSetDimension(.Height, toSize: dayHeight)
         yearLabel.autoPinEdge(.Right, toEdge: .Right, ofView: self)
-        yearLabel.autoMatchDimension(.Width, toDimension: .Width, ofView: self, withMultiplier: 0.45)
+        //yearLabel.autoMatchDimension(.Width, toDimension: .Width, ofView: self, withMultiplier: 0.45)
         yearLabel.textColor = UIColor.whiteColor()
         yearLabel.textAlignment = .Left
         

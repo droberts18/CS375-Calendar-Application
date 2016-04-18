@@ -40,38 +40,26 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         calendarView.autoCenterInSuperview()
         calendarView.autoMatchDimension(.Width, toDimension: .Width, ofView: calendarContainer, withMultiplier: 0.75)
         calendarView.autoMatchDimension(.Height, toDimension: .Height, ofView: calendarContainer)
-//        calendarView.layer.borderWidth = 2
-//        calendarView.layer.borderColor = UIColor.redColor().CGColor
         self.updateCalendar()
         
-//        calendarContainer.addSubview(forwardMonth)
-//        forwardMonth.autoAlignAxisToSuperviewAxis(.Vertical)
-//        forwardMonth.autoPinEdge(.Left, toEdge: .Right, ofView: calendarView)
-//        forwardMonth.autoMatchDimension(.Height, toDimension: .Height, ofView: calendarView, withMultiplier: 0.5)
-//        forwardMonth.autoSetDimension(.Width, toSize: 75)
-//        forwardMonth.layer.borderColor = UIColor.blueColor().CGColor
         
+        //SIDE BUTTONS
         let rightSide = UIView()
         calendarContainer.addSubview(rightSide)
         rightSide.autoPinEdge(.Left, toEdge: .Right, ofView: calendarView)
         rightSide.autoPinEdge(.Right, toEdge: .Right, ofView: calendarContainer)
         rightSide.autoPinEdge(.Top, toEdge: .Top, ofView: calendarContainer)
         rightSide.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarContainer)
-//        rightSide.layer.borderWidth = 2
-//        rightSide.layer.borderColor = UIColor.redColor().CGColor
         rightSide.addSubview(forwardMonth)
         forwardMonth.autoMatchDimension(.Width, toDimension: .Width, ofView: rightSide, withMultiplier: 0.5)
         forwardMonth.autoMatchDimension(.Height, toDimension: .Height, ofView: rightSide, withMultiplier: 0.5)
         forwardMonth.autoCenterInSuperview()
-//        forwardMonth.layer.borderWidth = 2
-//        forwardMonth.layer.borderColor = UIColor.blueColor().CGColor
         let forwardImage = UIImage(named: "ForwardButton.png")
         let forwardButtonImageView = UIImageView(image: forwardImage)
         self.forwardMonth.addSubview(forwardButtonImageView)
         forwardButtonImageView.autoCenterInSuperview()
         forwardButtonImageView.alpha = 0.25
         self.forwardMonth.addTarget(self, action: #selector(CalendarScrollViewController.goForwardOneMonth(_:)), forControlEvents: .TouchUpInside)
-        
         let leftSide = UIView()
         calendarContainer.addSubview(leftSide)
         leftSide.autoPinEdge(.Right, toEdge: .Left, ofView: calendarView)
@@ -88,7 +76,18 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         backButtonImageView.autoCenterInSuperview()
         backButtonImageView.alpha = 0.25
         self.backwardMonth.addTarget(self, action: #selector(CalendarScrollViewController.goBackwardOneMonth(_:)), forControlEvents: .TouchUpInside)
-    
+        
+        if let width = forwardImage?.size.width{
+            if let height = forwardImage?.size.height{
+                let ratio = width/height
+                forwardButtonImageView.autoSetDimension(.Height, toSize: 30)
+                forwardButtonImageView.autoMatchDimension(.Width, toDimension: .Height, ofView: forwardButtonImageView, withMultiplier: ratio)
+                backButtonImageView.autoSetDimension(.Height, toSize: 30)
+                backButtonImageView.autoMatchDimension(.Width, toDimension: .Height, ofView: backButtonImageView, withMultiplier: ratio)
+            }
+        }
+        //END SIDE BUTTONS
+        
         self.view.addSubview(dayTable)
         dayTable.backgroundColor = lightDarkColor
         dayTable.dataSource = self
@@ -98,6 +97,8 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         dayTable.autoPinEdge(.Left, toEdge: .Left, ofView: self.view)
         dayTable.autoPinEdge(.Right, toEdge: .Right, ofView: self.view)
         dayTable.registerClass(CalendarScrollCell.self, forCellReuseIdentifier: "CalendarScrollCell")
+        dayTable.showsVerticalScrollIndicator = false
+        dayTable.showsHorizontalScrollIndicator = false
         //dayTable.pagingEnabled = true
 
     }
@@ -115,6 +116,10 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
     
     override func prefersStatusBarHidden() -> Bool {
         return true
+    }
+    
+    override func shouldAutorotate() -> Bool {
+        return false
     }
     
     
