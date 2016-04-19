@@ -25,6 +25,7 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
     var forwardMonth = UIButton()
     var backwardMonth = UIButton()
     var dayTable = UITableView(forAutoLayout: ())
+    var dayCellHeight = CGFloat()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,8 +52,8 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         rightSide.autoPinEdge(.Top, toEdge: .Top, ofView: calendarContainer)
         rightSide.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarContainer)
         rightSide.addSubview(forwardMonth)
-        forwardMonth.autoMatchDimension(.Width, toDimension: .Width, ofView: rightSide, withMultiplier: 0.5)
-        forwardMonth.autoMatchDimension(.Height, toDimension: .Height, ofView: rightSide, withMultiplier: 0.5)
+        forwardMonth.autoMatchDimension(.Width, toDimension: .Width, ofView: rightSide, withMultiplier: 1)
+        forwardMonth.autoMatchDimension(.Height, toDimension: .Height, ofView: rightSide, withMultiplier: 1)
         forwardMonth.autoCenterInSuperview()
         let forwardImage = UIImage(named: "ForwardButton.png")
         let forwardButtonImageView = UIImageView(image: forwardImage)
@@ -67,8 +68,8 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         leftSide.autoPinEdge(.Top, toEdge: .Top, ofView: calendarContainer)
         leftSide.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarContainer)
         leftSide.addSubview(backwardMonth)
-        backwardMonth.autoMatchDimension(.Width, toDimension: .Width, ofView: leftSide, withMultiplier: 0.5)
-        backwardMonth.autoMatchDimension(.Height, toDimension: .Height, ofView: leftSide, withMultiplier: 0.5)
+        backwardMonth.autoMatchDimension(.Width, toDimension: .Width, ofView: leftSide, withMultiplier: 1)
+        backwardMonth.autoMatchDimension(.Height, toDimension: .Height, ofView: leftSide, withMultiplier: 1)
         backwardMonth.autoCenterInSuperview()
         let backImage = UIImage(named: "BackButton.png")
         let backButtonImageView = UIImageView(image: backImage)
@@ -90,12 +91,12 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         
         self.view.addSubview(dayTable)
         dayTable.backgroundColor = lightDarkColor
-        dayTable.dataSource = self
-        dayTable.delegate = self
         dayTable.autoPinEdge(.Top, toEdge: .Bottom, ofView: calendarContainer)
         dayTable.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view)
         dayTable.autoPinEdge(.Left, toEdge: .Left, ofView: self.view)
         dayTable.autoPinEdge(.Right, toEdge: .Right, ofView: self.view)
+        dayTable.dataSource = self;
+        dayTable.delegate = self;
         dayTable.registerClass(CalendarScrollCell.self, forCellReuseIdentifier: "CalendarScrollCell")
         dayTable.showsVerticalScrollIndicator = false
         dayTable.showsHorizontalScrollIndicator = false
@@ -109,8 +110,9 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     override func viewDidLayoutSubviews() {
-        self.dayTable.rowHeight = self.dayTable.frame.height/7
-        self.dayTable.reloadData()
+        //self.dayTable.rowHeight = self.dayTable.frame.height/7
+        dayCellHeight = self.dayTable.frame.height/7
+        //self.dayTable.reloadData()
     }
     
     
@@ -118,9 +120,13 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         return true
     }
     
-//    override func shouldAutorotate() -> Bool {
-//        return false
-//    }
+    override func shouldAutorotate() -> Bool {
+        return false
+    }
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Portrait
+    }
     
     
     //TABLE VIEW FUNCTIONS
@@ -129,9 +135,9 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         return 49
     }
     
-//    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-//      return 75
-//    }
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+      return dayCellHeight
+    }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {

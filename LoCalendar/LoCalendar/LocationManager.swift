@@ -42,7 +42,11 @@ class LocationManager: NSObject, CLLocationManagerDelegate  {
                 print("No access to location services")
                 break
             case .AuthorizedAlways, .AuthorizedWhenInUse:
-                getAddressFromLocation(locations.first!, completion: locationLookupHandler!)
+                if let location = locations.first{
+                    if let locationHandler = locationLookupHandler{
+                        getAddressFromLocation(location, completion: locationHandler)
+                    }
+                }
                 break
             }
         } else {
