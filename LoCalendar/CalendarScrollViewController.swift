@@ -19,13 +19,17 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
     let blueColor = UIColor(red: 44/255, green: 105/255, blue: 157/255, alpha: 1)
     let greenColor = UIColor(red: 96/255, green: 157/255, blue: 44/255, alpha: 1)
     
+    let calendarManager = CalendarManager()
     let calendarContainerHeightMultiplyer = 0.35
     var calendarContainer = UIView()
     var calendarView = CalendarView()
     var forwardMonth = UIButton()
     var backwardMonth = UIButton()
-    var dayTable = UITableView(forAutoLayout: ())
+    var dayTable = DayTable(forAutoLayout: ())
     var dayCellHeight = CGFloat()
+    
+    var currentDaysInView = [NSIndexPath()]
+    var dayCellMap = [String:[Int]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +45,7 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         calendarView.autoCenterInSuperview()
         calendarView.autoMatchDimension(.Width, toDimension: .Width, ofView: calendarContainer, withMultiplier: 0.75)
         calendarView.autoMatchDimension(.Height, toDimension: .Height, ofView: calendarContainer)
-        self.updateCalendar()
+        self.updateCalendarView()
         
         
         //SIDE BUTTONS
@@ -100,8 +104,6 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         dayTable.registerClass(CalendarScrollCell.self, forCellReuseIdentifier: "CalendarScrollCell")
         dayTable.showsVerticalScrollIndicator = false
         dayTable.showsHorizontalScrollIndicator = false
-        //dayTable.pagingEnabled = true
-
     }
     
     override func didReceiveMemoryWarning() {
@@ -110,9 +112,7 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     override func viewDidLayoutSubviews() {
-        //self.dayTable.rowHeight = self.dayTable.frame.height/7
         dayCellHeight = self.dayTable.frame.height/7
-        //self.dayTable.reloadData()
     }
     
     
@@ -132,39 +132,84 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
     //TABLE VIEW FUNCTIONS
     func tableView(tableView:UITableView, numberOfRowsInSection section:Int) -> Int
     {
-        return 49
+        return self.calendarManager.numberOfDaysLoaded
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
       return dayCellHeight
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
-    {
-        var dayCell = tableView.dequeueReusableCellWithIdentifier("CalendarScrollCell", forIndexPath: indexPath) as! CalendarScrollCell
-        return dayCell
-    }
-    
-    func onDateButtonTap(sender:UIButton!){
-        if let dateSelected = sender.currentTitle{
-            print("\(self.calendarView.modifiedMonth)-\(dateSelected)-\(self.calendarView.modifiedYear)")
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if let dayTable = scrollView as? DayTable{
+            var scrollDirection = dayTable.panGestureRecognizer.velocityInView(dayTable).y
+            if scrollDirection != 0{
+                dayTable.getScrollDirection(scrollDirection)
+            }
+            if let indices = dayTable.indexPathsForVisibleRows {
+                self.currentDaysInView = indices
+            }
         }
     }
     
-    func updateCalendar(){
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
+        var dayCell = tableView.dequeueReusableCellWithIdentifier("CalendarScrollCell", forIndexPath: indexPath) as! CalendarScrollCell
+        //dayCell.dayDate.text = "\(indexPath.row)"
+        
+        
+        
+        return dayCell
+    }
+    
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView){
+        self.autoShowCompleteCell(scrollView)
+    }
+    
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool){
+        if(!decelerate){
+            self.autoShowCompleteCell(scrollView)
+        }
+    }
+    
+    func autoShowCompleteCell(scrollView: UIScrollView){
+        if let dayTable = scrollView as? DayTable{
+            if dayTable.dayTableScrollDirection == DayTable.ScrollDirections.Up{
+                if let first = self.currentDaysInView.first{
+                    dayTable.scrollToRowAtIndexPath(first, atScrollPosition: .Top, animated: true)
+                }
+            }else if dayTable.dayTableScrollDirection == DayTable.ScrollDirections.Down{
+                if let last = self.currentDaysInView.last{
+                    dayTable.scrollToRowAtIndexPath(last, atScrollPosition: .None, animated: true)
+                }
+            }
+        }
+    }
+    
+    //CALENDAR FUNCTIONS
+    func onDateButtonTap(sender:UIButton!){
+        let selectedDate = sender as? CalendarViewDateButton
+        if let date = selectedDate{
+            print(date.getDate())
+            var indexPath = NSIndexPath(forItem: 0, inSection: 0)
+            self.dayTable.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: true)
+        }
+    }
+    
+    func updateCalendarView(){
         for date in self.calendarView.dateContainers{
-            date.button.addTarget(self, action: #selector(CalendarScrollViewController.onDateButtonTap(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            date.addTarget(self, action: #selector(CalendarScrollViewController.onDateButtonTap(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         }
     }
 
     func goForwardOneMonth(sender:UIButton!){
         calendarView.goForwardOneMonth()
-        updateCalendar()
+        
+        updateCalendarView()
     }
     
     func goBackwardOneMonth(sender:UIButton!){
         calendarView.goBackwardOneMonth()
-        updateCalendar()
+        updateCalendarView()
     }
     
     

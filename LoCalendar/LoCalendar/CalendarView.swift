@@ -42,7 +42,6 @@ class CalendarView: UIView{
         self.addSubview(monthLabel)
         monthLabel.autoPinEdge(.Top, toEdge: .Top, ofView: self)
         monthLabel.autoPinEdge(.Left, toEdge: .Left, ofView: self)
-        //monthLabel.autoSetDimension(.Height, toSize: dayHeight)
         monthLabel.autoMatchDimension(.Height, toDimension: .Height, ofView: self, withMultiplier: 1/8)
         monthLabel.textColor = UIColor.whiteColor()
         monthLabel.textAlignment = .Right
@@ -51,7 +50,6 @@ class CalendarView: UIView{
         
         self.addSubview(yearLabel)
         yearLabel.autoPinEdge(.Top, toEdge: .Top, ofView: monthLabel)
-        //yearLabel.autoSetDimension(.Height, toSize: dayHeight)
         yearLabel.autoMatchDimension(.Height, toDimension: .Height, ofView: self, withMultiplier: 1/8)
         yearLabel.autoPinEdge(.Right, toEdge: .Right, ofView: self)
         yearLabel.textColor = UIColor.whiteColor()
@@ -75,7 +73,6 @@ class CalendarView: UIView{
             self.addSubview(day)
             day.autoPinEdge(.Top, toEdge: .Bottom, ofView: monthLabel)
             day.autoMatchDimension(.Width, toDimension: .Width, ofView: self, withMultiplier: 1/7)
-            //day.autoSetDimension(.Height, toSize: dayHeight - 10)
             day.autoMatchDimension(.Height, toDimension: .Height, ofView: self, withMultiplier: 1/9)
             if first{
                 day.autoPinEdge(.Left, toEdge: .Left, ofView: self)
@@ -171,7 +168,6 @@ class CalendarView: UIView{
             let dateContainer = CalendarViewDateButton(month: self.modifiedMonth, day: i+1, year: self.modifiedYear)
             dateContainers.append(dateContainer)
             self.addSubview(dateContainer)
-            //dateContainer.autoSetDimension(.Height, toSize: dayHeight)
             dateContainer.autoMatchDimension(.Height, toDimension: .Height, ofView: self, withMultiplier: 1/8)
             dateContainer.autoMatchDimension(.Width, toDimension: .Width, ofView: self, withMultiplier: 1/7)
             

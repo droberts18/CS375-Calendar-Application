@@ -19,9 +19,7 @@ class CalendarScrollCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = backgColor
-        //self.contentView.userInteractionEnabled = true
         
-        //self.contentView.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(container)
         container.translatesAutoresizingMaskIntoConstraints = false
         container.autoPinEdgesToSuperviewEdges()
@@ -45,27 +43,25 @@ class CalendarScrollCell: UITableViewCell {
         dayDate.translatesAutoresizingMaskIntoConstraints = false
         
         dayName.text = "Hello"
-        dayName.autoPinEdgeToSuperviewEdge(.Left)
-        dayName.autoPinEdgeToSuperviewEdge(.Top)
-        dayName.autoPinEdgeToSuperviewEdge(.Bottom)
+        dayDate.text = "17"
+//        dayName.autoPinEdgeToSuperviewEdge(.Left)
+//        dayName.autoPinEdgeToSuperviewEdge(.Top)
+//        dayName.autoPinEdgeToSuperviewEdge(.Bottom)
         
         
-//        
-//        dayName.autoPinEdge(.Top, toEdge: .Top, ofView: container)
-//        dayName.autoPinEdge(.Left, toEdge: .Left, ofView: container)
-//        dayName.autoPinEdge(.Right, toEdge: .Right, ofView: container)
-//        dayName.autoPinEdge(.Bottom, toEdge: .Top, ofView: dayDate, withOffset: 5)
-//        dayName.font = UIFont(name: dayName.font.fontName, size: 14)
-//        dayName.textAlignment = .Center
-//        
-//        dayDate.autoPinEdge(.Left, toEdge: .Left, ofView: container)
-//        dayDate.autoPinEdge(.Right, toEdge: .Right, ofView: container)
-//        dayDate.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: container)
-//        dayDate.font = UIFont(name: dayDate.font.fontName, size: 27)
-//        dayDate.textAlignment = .Center
-//        
-//        container.autoPinEdgesToSuperviewMarginsExcludingEdge(.Bottom)
-
+        
+        dayName.autoPinEdge(.Top, toEdge: .Top, ofView: dateContainer)
+        dayName.autoPinEdge(.Left, toEdge: .Left, ofView: dateContainer)
+        dayName.autoPinEdge(.Right, toEdge: .Right, ofView:dateContainer)
+        dayName.autoPinEdge(.Bottom, toEdge: .Top, ofView: dayDate, withOffset: 5)
+        dayName.font = UIFont(name: dayName.font.fontName, size: 14)
+        dayName.textAlignment = .Left
+        
+        dayDate.autoPinEdge(.Left, toEdge: .Left, ofView: dateContainer)
+        dayDate.autoPinEdge(.Right, toEdge: .Right, ofView: dateContainer)
+        dayDate.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: dateContainer)
+        dayDate.font = UIFont(name: dayDate.font.fontName, size: 10)
+        dayDate.textAlignment = .Left
     }
     
     required init?(coder aDecoder: NSCoder) {

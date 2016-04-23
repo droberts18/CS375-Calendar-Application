@@ -8,7 +8,7 @@
 
 import Foundation
 
-class CalendarViewDateButton: UIView {
+class CalendarViewDateButton: UIButton {
     
     let normalColor = UIColor(red: 58/255, green: 61/255, blue: 76/255, alpha: 1)
     let darkColor = UIColor(red: 24/255, green: 26/255, blue: 33/255, alpha: 1)
@@ -23,27 +23,38 @@ class CalendarViewDateButton: UIView {
     
 //    var container = UIView()
 //    var dateLabel = UILabel()
-    var button = UIButton()
+    //var button = UIButton()
+    var labelView = UIView()
+    var dayLabel = UILabel()
+    
     
     convenience init (month:Int, day: Int, year:Int) {
         self.init(frame:CGRect.zero)
         
 
-        self.addSubview(button)
-        self.button.autoMatchDimension(.Height, toDimension: .Height, ofView: self, withMultiplier: 0.85)
-        self.button.autoMatchDimension(.Width, toDimension: .Width, ofView: self, withMultiplier: 0.85)
-        self.button.autoCenterInSuperview()
-        self.button.layer.cornerRadius = 10
+        self.addSubview(labelView)
+        self.labelView.autoMatchDimension(.Height, toDimension: .Height, ofView: self, withMultiplier: 0.85)
+        self.labelView.autoMatchDimension(.Width, toDimension: .Width, ofView: self, withMultiplier: 0.85)
+        self.labelView.autoCenterInSuperview()
+        self.labelView.layer.cornerRadius = 10
         
-        self.button.setTitle("\(day)", forState: .Normal)
-        self.button.titleLabel?.textAlignment = .Center
+        self.labelView.addSubview(dayLabel)
+        dayLabel.text = "\(day)"
+        dayLabel.textAlignment = .Center
+        dayLabel.autoCenterInSuperview()
+        
+        self.userInteractionEnabled = true
+        self.labelView.userInteractionEnabled = false
+        
+//        self.label.setTitle("\(day)", forState: .Normal)
+//        self.label.titleLabel?.textAlignment = .Center
         
         
         
 //        self.container.addSubview(dateLabel)
 //        dateLabel.textAlignment = .Center
 //        dateLabel.autoCenterInSuperview()
-//        dateLabel.textColor = whiteColor
+        dayLabel.textColor = whiteColor
         self.setViewStatus(0)
         
         //self.dateLabel.text = "\(day)"
@@ -65,13 +76,13 @@ class CalendarViewDateButton: UIView {
     func setViewStatus(status: Int){
         switch status {
         case 0:
-            self.button.backgroundColor = normalColor
+            self.labelView.backgroundColor = normalColor
             break
         case 1:
-            self.button.backgroundColor = lightDarkColor
+            self.labelView.backgroundColor = lightDarkColor
             break
         case 2:
-            self.button.backgroundColor = greenColor
+            self.labelView.backgroundColor = greenColor
             break
         default:
             print("Error setting status. Parameter must be 0, 1, or 2")

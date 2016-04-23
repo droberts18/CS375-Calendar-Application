@@ -148,6 +148,20 @@ class CalendarManager {
         return timestamp
     }
     
+    func getEventEndTime(event: EKEvent) -> String{
+        let timestamp = NSDateFormatter.localizedStringFromDate(event.endDate, dateStyle: .NoStyle, timeStyle: .ShortStyle)
+        let timePieces = timestamp.componentsSeparatedByString(" ")
+        
+        if(timePieces.count == 2){
+            if(timePieces[1] == "AM"){
+                return "\(timePieces[0])am"
+            }else{
+                return "\(timePieces[0])pm"
+            }
+        }
+        return timestamp
+    }
+    
     func getMonthString(monthNumber: Int) -> String{
         switch monthNumber{
         case 1:
