@@ -62,6 +62,10 @@ class CalendarScrollCell: UITableViewCell {
         dayDate.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: dateContainer)
         dayDate.font = UIFont(name: dayDate.font.fontName, size: 10)
         dayDate.textAlignment = .Left
+        
+        // ADDING TAP GESTURE TO BRING UP EVENTS FOR THE DAY
+        let cellTapGesture = UITapGestureRecognizer(target: self, action: #selector(CalendarScrollCell.seeDayEvents(_:)))
+        self.addGestureRecognizer(cellTapGesture)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -70,5 +74,10 @@ class CalendarScrollCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+    }
+    
+    func seeDayEvents(sender: UITapGestureRecognizer? = nil){
+        let dayEventsViewController = DayEventsViewController()
+        self.window?.rootViewController?.presentViewController(dayEventsViewController, animated: true, completion: nil)
     }
 }

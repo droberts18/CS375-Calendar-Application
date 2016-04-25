@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		754EE467FDC85664A0400E6E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00E435F9B8CB24D7B980DEF6 /* libPods.a */; };
+		AF61F2EE1CCDAF4500B452A4 /* DayEventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF61F2ED1CCDAF4500B452A4 /* DayEventsViewController.swift */; };
 		C323E2E81CBCD7E500927F3B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C323E2E71CBCD7E500927F3B /* AppDelegate.swift */; };
 		C323E2EA1CBCD7E500927F3B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C323E2E91CBCD7E500927F3B /* ViewController.swift */; };
 		C323E2ED1CBCD7E500927F3B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C323E2EB1CBCD7E500927F3B /* Main.storyboard */; };
@@ -52,6 +53,7 @@
 		00E435F9B8CB24D7B980DEF6 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		111DC8EFF4A2489500E95A30 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		5F1B2319EE8E790271916AFE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		AF61F2ED1CCDAF4500B452A4 /* DayEventsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayEventsViewController.swift; sourceTree = "<group>"; };
 		C311923C1CBCDB070035478E /* LoCal-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LoCal-Bridging-Header.h"; sourceTree = "<group>"; };
 		C323E2E41CBCD7E500927F3B /* LoCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C323E2E71CBCD7E500927F3B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				C39457851CC0989100946626 /* CalendarScrollViewController.swift */,
+				AF61F2ED1CCDAF4500B452A4 /* DayEventsViewController.swift */,
 				C394579C1CCAAB7E00946626 /* DayTable.swift */,
 				C394578B1CC0AFE100946626 /* CalendarView.swift */,
 				C394578D1CC0C4B700946626 /* CalendarViewDateButton.swift */,
@@ -296,7 +299,7 @@
 				TargetAttributes = {
 					C323E2E31CBCD7E500927F3B = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = F63F9F65P7;
+						DevelopmentTeam = P537ZEA4SP;
 					};
 					C323E2F71CBCD7E500927F3B = {
 						CreatedOnToolsVersion = 7.3;
@@ -423,6 +426,7 @@
 				C323E3231CBCD8F000927F3B /* DataManager.swift in Sources */,
 				C323E2E81CBCD7E500927F3B /* AppDelegate.swift in Sources */,
 				C394578E1CC0C4B700946626 /* CalendarViewDateButton.swift in Sources */,
+				AF61F2EE1CCDAF4500B452A4 /* DayEventsViewController.swift in Sources */,
 				C394579B1CC55EA200946626 /* CalendarManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -574,7 +578,7 @@
 				);
 				INFOPLIST_FILE = LoCalendar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = pacificnorthdev.LoCalendar;
+				PRODUCT_BUNDLE_IDENTIFIER = "Drew-Roberts";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LoCal-Bridging-Header.h";
@@ -594,7 +598,7 @@
 				);
 				INFOPLIST_FILE = LoCalendar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = pacificnorthdev.LoCalendar;
+				PRODUCT_BUNDLE_IDENTIFIER = "Drew-Roberts";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LoCal-Bridging-Header.h";

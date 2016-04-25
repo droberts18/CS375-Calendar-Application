@@ -32,6 +32,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate  {
         } else {
             print("Location services are not enabled")
         }
+        manager.startUpdatingLocation()
+        manager.stopUpdatingLocation()
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){

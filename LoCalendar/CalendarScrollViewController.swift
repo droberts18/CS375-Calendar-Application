@@ -211,7 +211,4 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         calendarView.goBackwardOneMonth()
         updateCalendarView()
     }
-    
-    
-    
 }
