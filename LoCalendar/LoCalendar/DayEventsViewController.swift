@@ -48,7 +48,7 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
         
         // TESTING PIN
 //        let localSearchRequest = MKLocalSearchRequest()
-//        localSearchRequest.naturalLanguageQuery = "Fred Meyer"
+//        localSearchRequest.naturalLanguageQuery = "Spokane"
 //        let localSearch = MKLocalSearch(request: localSearchRequest)
 //        localSearch.startWithCompletionHandler{(LocalSearchResponse, error) -> Void
 //        in

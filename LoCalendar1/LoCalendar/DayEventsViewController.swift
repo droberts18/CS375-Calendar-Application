@@ -14,6 +14,7 @@ import CoreLocation
 class DayEventsViewController: UIViewController, MKMapViewDelegate {
     let mapContainer = UIView(forAutoLayout: ())
     let myMap = MKMapView(forAutoLayout: ())
+    let eventView = UIView()
     
     let initialLocation = CLLocation(latitude: LocationManager().getGeoLocation().coordinate.latitude, longitude: LocationManager().getGeoLocation().coordinate.longitude)
     let regionRadius = 1000.0
@@ -22,15 +23,25 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
     let pinLocation : CLLocationCoordinate2D = CLLocationCoordinate2DMake(LocationManager().getGeoLocation().coordinate.latitude, LocationManager().getGeoLocation().coordinate.longitude)
     let objectAnnotation = MKPointAnnotation()
 
+    var mapContainerConstraint = NSLayoutConstraint()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         self.view.addSubview(mapContainer)
+        self.view.addSubview(eventView)
+        eventView.autoPinEdgeToSuperviewEdge(.Bottom)
+        eventView.autoPinEdgeToSuperviewEdge(.Right)
+        eventView.autoPinEdgeToSuperviewEdge(.Left)
+        eventView.autoMatchDimension(.Height, toDimension: .Height, ofView: self.view, withMultiplier: 0.4)
+        
         mapContainer.autoPinEdge(.Top, toEdge: .Top, ofView: self.view, withOffset: 0)
         mapContainer.autoPinEdge(.Left, toEdge: .Left, ofView: self.view, withOffset: 0)
         mapContainer.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: 0)
-        mapContainer.autoMatchDimension(.Height, toDimension: .Height, ofView: self.view, withMultiplier: 0.6)
+        
+//        mapContainerConstraint = mapContainer.autoMatchDimension(.Height, toDimension: .Height, ofView: self.view, withMultiplier: 0.6)
+        mapContainerConstraint = mapContainer.autoPinEdge(.Bottom, toEdge: .Top, ofView: eventView)
         
         //map
         mapContainer.addSubview(myMap)
@@ -64,8 +75,24 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
 //            }
 //        }
         
-
         
+        // ADDING SLIDE ARROW FOR USER TO CHANGE MAP AND EVENTS VIEW SIZES
+//        let slideArrow = UIImage(named: "DownArrow.png")
+//        let slideArrowView = UIImageView(image: slideArrow)
+//        self.view.addSubview(slideArrowView)
+//        slideArrowView.autoPinEdge(.Top, toEdge: .Bottom, ofView: myMap, withOffset: 5)
+//        slideArrowView.autoAlignAxis(.Vertical, toSameAxisOfView: self.view)
+//        slideArrowView.autoSetDimension(.Height, toSize: 50)
+//        slideArrowView.autoSetDimension(.Width, toSize: 100)
+        let slideArrow = UIView()
+        slideArrow.backgroundColor = UIColor.redColor()
+        slideArrow.autoSetDimension(.Height, toSize: 100)
+        slideArrow.autoSetDimension(.Width, toSize: 100)
+        self.view.addSubview(slideArrow)
+        slideArrow.autoPinEdge(.Top, toEdge: .Bottom, ofView: myMap, withOffset: 5)
+        
+        let slide = UIPanGestureRecognizer(target: self, action: "changeDimensions:")
+        slideArrow.addGestureRecognizer(slide)
     }
     
     override func didReceiveMemoryWarning() {
@@ -80,5 +107,10 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
     func centerMapOnLocation(location: CLLocation){
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius * 2.0, regionRadius * 2.0)
         myMap.setRegion(coordinateRegion, animated: true)
+    }
+    
+    func changeDimensions(s: UIPanGestureRecognizer){
+        mapContainerConstraint.constant = s.translationInView(self.view).y
+//            s.locationInView(self.view).y
     }
 }
