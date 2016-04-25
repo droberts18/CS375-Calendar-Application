@@ -46,13 +46,12 @@ class CalendarManager {
         numberOfDaysLoaded = getNumDaysInYear(self.currentYear) + getNumDaysInYear(self.currentYear - 1)
         checkStatus()
         
-//        var today = NSDate()
-//        self.getEventsForDate(today)
+        var today = NSDate()
+        self.getEventsForDate(today)
 
         //self.getDateFromCurrentDateWithOffset(40)
         
         fillDateMap()
-        print("finished")
     }
     
     func fillDateMap() -> [String:Int]{
@@ -121,6 +120,7 @@ class CalendarManager {
             var events = eventStore.eventsMatchingPredicate(myPredicate)
                 
                 for event in events {
+                    print(event.title)
                     titles.append(event.title)
                     startDates.append(event.startDate)
                     endDates.append(event.endDate)
@@ -226,21 +226,31 @@ class CalendarManager {
         return numDays
     }
     
+    func getDayOfWeek(today:String)->Int {
+        let formatter  = NSDateFormatter()
+        formatter.dateFormat = "MM-dd-yyyy"
+        let todayDate = formatter.dateFromString(today)!
+        let myCalendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
+        let myComponents = myCalendar.components(.Weekday, fromDate: todayDate)
+        let weekDay = myComponents.weekday
+        return weekDay
+    }
+    
     func getDayString(dayNumber: Int) -> String{
         switch dayNumber{
-        case 0:
-            return "SUN"
         case 1:
-            return "MON"
+            return "SUN"
         case 2:
-            return "TUE"
+            return "MON"
         case 3:
-            return "WED"
+            return "TUE"
         case 4:
-            return "THU"
+            return "WED"
         case 5:
-            return "FRI"
+            return "THU"
         case 6:
+            return "FRI"
+        case 7:
             return "SAT"
         default:
             return "err"

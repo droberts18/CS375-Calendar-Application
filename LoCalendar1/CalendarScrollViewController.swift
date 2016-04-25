@@ -143,10 +143,6 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         for dateInContainer in self.calendarView.dateContainers{
             dateInContainer.setViewStatus(CalendarViewDateButton.SelectionStatus.Normal)
         }
-                
-        if(self.currentDaysInView.count > 7){
-            self.currentDaysInView.removeFirst()
-        }
         
         currentHighlightedButtons.removeAll()
         for dayInView in self.currentDaysInView{
@@ -159,6 +155,10 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
                     }
                 }
             }
+        }
+        
+        if(self.currentHighlightedButtons.count > 7){
+            self.currentHighlightedButtons[0].setViewStatus(CalendarViewDateButton.SelectionStatus.Normal)
         }
     }
     
@@ -181,27 +181,41 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
             if let indices = dayTable.indexPathsForVisibleRows {
                 self.currentDaysInView = indices
             }
-            self.highlightCurrentDaysInView()
             if(currentHighlightedButtons.count == 0){
-                if let cell = dayTable.cellForRowAtIndexPath(self.currentDaysInView.first!) as? CalendarScrollCell{
-                    if(cell.day < 15
-                        && (cell.month == calendarView.modifiedMonth + 1
-                        || cell.year == calendarView.modifiedYear + 1
-                            && cell.month == 1)
-                        && dayTable.dayTableScrollDirection == DayTable.ScrollDirections.Down){
-                        calendarView.goForwardOneMonth()
-                        updateCalendarView()
-                    }else if(cell.day >= 15
-                        && (cell.month == calendarView.modifiedMonth - 1
-                            || cell.year == calendarView.modifiedYear - 1
-                            && cell.month == 12)
-                        && dayTable.dayTableScrollDirection == DayTable.ScrollDirections.Up){
-                        calendarView.goBackwardOneMonth()
-                        updateCalendarView()
+                if(self.currentDaysInView.count > 7){
+                    if let cell = dayTable.cellForRowAtIndexPath(self.currentDaysInView[0]) as? CalendarScrollCell{
+                        self.changeMonthBasedOnScrollDirectionAndTopCell(cell)
+                    }
+                }else if (self.currentDaysInView.count <= 7 && self.currentDaysInView.count > 0){
+                    if let cell = dayTable.cellForRowAtIndexPath(self.currentDaysInView.first!) as? CalendarScrollCell{
+                        self.changeMonthBasedOnScrollDirectionAndTopCell(cell)
                     }
                 }
             }
         }
+        self.highlightCurrentDaysInView()
+    }
+    
+    func changeMonthBasedOnScrollDirectionAndTopCell(cell: CalendarScrollCell){
+            if(cell.day < 15
+                && (cell.month == calendarView.modifiedMonth + 1
+                    || cell.year == calendarView.modifiedYear + 1
+                    && cell.month == 1)
+                && dayTable.dayTableScrollDirection == DayTable.ScrollDirections.Down
+                && dayTable.scrolling){
+                //calendarView.goForwardOneMonth()
+                calendarView.goToDate(cell.month, day: cell.day, year: cell.year)
+                updateCalendarView()
+            }else if(cell.day >= 15
+                && (cell.month == calendarView.modifiedMonth - 1
+                    || cell.year == calendarView.modifiedYear - 1
+                    && cell.month == 12)
+                && dayTable.dayTableScrollDirection == DayTable.ScrollDirections.Up
+                && dayTable.scrolling){
+                //calendarView.goBackwardOneMonth()
+                calendarView.goToDate(cell.month, day: cell.day, year: cell.year)
+                updateCalendarView()
+            }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
@@ -213,20 +227,38 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
             dayCell.month = dateTuple.0
             dayCell.day = dateTuple.1
             dayCell.year = dateTuple.2
+            dayCell.dayName.text = calendarManager.getDayString(calendarManager.getDayOfWeek(dayCell.getDate()))
         }
+        
         return dayCell
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView){
+        if self.currentDaysInView.count > 0{
+            if(self.currentDaysInView.count > 7){
+                if let topCellInView = dayTable.cellForRowAtIndexPath(self.currentDaysInView[1]) as? CalendarScrollCell{
+                    self.calendarView.goToDate(topCellInView.month, day: topCellInView.day, year: topCellInView.year)
+                }
+            }else{
+                if let topCellInView = dayTable.cellForRowAtIndexPath(self.currentDaysInView[0]) as? CalendarScrollCell{
+                    self.calendarView.goToDate(topCellInView.month, day: topCellInView.day, year: topCellInView.year)
+                }
+            }
+            
+        }
         self.autoShowCompleteCell(scrollView)
         self.highlightCurrentDaysInView()
-        self.dayTable.dayTableScrollDirection = DayTable.ScrollDirections.None
+        self.dayTable.scrolling = false
     }
     
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool){
         if(!decelerate){
             self.autoShowCompleteCell(scrollView)
         }
+    }
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        self.dayTable.scrolling = true
     }
     
     func autoShowCompleteCell(scrollView: UIScrollView){
@@ -241,6 +273,7 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
                 }
             }
         }
+        self.highlightCurrentDaysInView()
     }
     
     //CALENDAR FUNCTIONS
@@ -266,6 +299,7 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         updateCalendarView()
         let indexPath = NSIndexPath(forItem: dayCellMap[calendarView.getModifiedDateStartOfMonth()]!, inSection: 0)
         self.dayTable.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: true)
+        dayTable.dayTableScrollDirection = DayTable.ScrollDirections.Down
     }
     
     func goBackwardOneMonth(sender:UIButton!){
@@ -273,6 +307,7 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         updateCalendarView()
         let indexPath = NSIndexPath(forItem: dayCellMap[calendarView.getModifiedDateStartOfMonth()]!, inSection: 0)
         self.dayTable.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: true)
+        dayTable.dayTableScrollDirection = DayTable.ScrollDirections.Up
     }
     
     

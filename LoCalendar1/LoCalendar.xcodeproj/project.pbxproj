@@ -151,13 +151,13 @@
 			isa = PBXGroup;
 			children = (
 				C39457851CC0989100946626 /* CalendarScrollViewController.swift */,
-				C394579E1CCE03E900946626 /* DayEventsViewController.swift */,
 				C394579C1CCAAB7E00946626 /* DayTable.swift */,
 				C394578B1CC0AFE100946626 /* CalendarView.swift */,
 				C394578D1CC0C4B700946626 /* CalendarViewDateButton.swift */,
 				C394579A1CC55EA200946626 /* CalendarManager.swift */,
 				C323E2E71CBCD7E500927F3B /* AppDelegate.swift */,
 				C394578F1CC17A1600946626 /* CalendarScrollCell.swift */,
+				C394579E1CCE03E900946626 /* DayEventsViewController.swift */,
 				C39457991CC499DD00946626 /* images */,
 				C323E2E91CBCD7E500927F3B /* ViewController.swift */,
 				C323E2EB1CBCD7E500927F3B /* Main.storyboard */,

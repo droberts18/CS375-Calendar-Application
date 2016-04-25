@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LoCalendar/CalendarView.swift"
-            timestampString = "483260693.586659"
+            timestampString = "483303499.441346"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "267"
-            endingLineNumber = "267"
+            startingLineNumber = "280"
+            endingLineNumber = "280"
             landmarkName = "goForwardOneMonth()"
             landmarkType = "5">
          </BreakpointContent>
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CalendarScrollViewController.swift"
-            timestampString = "483261286.141103"
+            timestampString = "483306203.95852"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "236"
-            endingLineNumber = "236"
+            startingLineNumber = "273"
+            endingLineNumber = "273"
             landmarkName = "autoShowCompleteCell(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -122,27 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CalendarScrollViewController.swift"
-            timestampString = "483261286.141103"
+            timestampString = "483296192.785835"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "240"
-            endingLineNumber = "240"
-            landmarkName = "autoShowCompleteCell(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CalendarScrollViewController.swift"
-            timestampString = "483254865.059879"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "176"
-            endingLineNumber = "176"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
             landmarkName = "scrollViewDidScroll(_:)"
             landmarkType = "5">
             <Locations>
@@ -202,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CalendarScrollViewController.swift"
-            timestampString = "483254865.059879"
+            timestampString = "483296565.433164"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "153"
-            endingLineNumber = "153"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
             landmarkName = "highlightCurrentDaysInView()"
             landmarkType = "5">
             <Locations>
@@ -282,75 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CalendarScrollViewController.swift"
-            timestampString = "483255419.829831"
+            timestampString = "483306203.95852"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
-            landmarkName = "scrollViewDidScroll(_:)"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "LoCalendar.CalendarScrollViewController.scrollViewDidScroll (__ObjC.UIScrollView) -&gt; ()"
-                  moduleName = "LoCalendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tylerreardon/Google%20Drive/College/0-Junior/Spring/MobileAppDev/AppProject/CS375-Calendar-Application/LoCalendar/CalendarScrollViewController.swift"
-                  timestampString = "483259358.665177"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "186"
-                  endingLineNumber = "186"
-                  offsetFromSymbolStart = "764">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "LoCalendar.CalendarScrollViewController.scrollViewDidScroll (__ObjC.UIScrollView) -&gt; ()"
-                  moduleName = "LoCalendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tylerreardon/Google%20Drive/College/0-Junior/Spring/MobileAppDev/AppProject/CS375-Calendar-Application/LoCalendar/CalendarScrollViewController.swift"
-                  timestampString = "483259358.665284"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "186"
-                  endingLineNumber = "186"
-                  offsetFromSymbolStart = "1408">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CalendarScrollViewController.swift"
-            timestampString = "483261286.141103"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
-            landmarkName = "scrollViewDidScroll(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CalendarScrollViewController.swift"
-            timestampString = "483261286.141103"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "267"
-            endingLineNumber = "267"
+            startingLineNumber = "300"
+            endingLineNumber = "300"
             landmarkName = "goForwardOneMonth(_:)"
             landmarkType = "5">
             <Locations>
@@ -394,11 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CalendarScrollViewController.swift"
-            timestampString = "483261286.141103"
+            timestampString = "483306203.95852"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "274"
-            endingLineNumber = "274"
+            startingLineNumber = "308"
+            endingLineNumber = "308"
             landmarkName = "goBackwardOneMonth(_:)"
             landmarkType = "5">
             <Locations>
@@ -438,16 +358,80 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CalendarScrollViewController.swift"
-            timestampString = "483261286.141103"
+            timestampString = "483306203.95852"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "199"
-            endingLineNumber = "199"
-            landmarkName = "scrollViewDidScroll(_:)"
+            startingLineNumber = "266"
+            endingLineNumber = "266"
+            landmarkName = "autoShowCompleteCell(_:)"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LoCalendar.CalendarScrollViewController.autoShowCompleteCell (__ObjC.UIScrollView) -&gt; ()"
+                  moduleName = "LoCalendar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tylerreardon/Google%20Drive/College/0-Junior/Spring/MobileAppDev/AppProject/CS375-Calendar-Application/LoCalendar1/CalendarScrollViewController.swift"
+                  timestampString = "483296412.272077"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "240"
+                  endingLineNumber = "240"
+                  offsetFromSymbolStart = "24">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LoCalendar.CalendarScrollViewController.autoShowCompleteCell (__ObjC.UIScrollView) -&gt; ()"
+                  moduleName = "LoCalendar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tylerreardon/Google%20Drive/College/0-Junior/Spring/MobileAppDev/AppProject/CS375-Calendar-Application/LoCalendar1/CalendarScrollViewController.swift"
+                  timestampString = "483296412.272208"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "240"
+                  endingLineNumber = "240"
+                  offsetFromSymbolStart = "136">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LoCalendar/CalendarManager.swift"
+            timestampString = "483303499.441346"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
+            landmarkName = "getEventsForDate(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CalendarScrollViewController.swift"
+            timestampString = "483306376.78074"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
+            landmarkName = "highlightCurrentDaysInView()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

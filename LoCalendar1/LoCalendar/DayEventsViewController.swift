@@ -22,9 +22,6 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
     let pinLocation : CLLocationCoordinate2D = CLLocationCoordinate2DMake(LocationManager().getGeoLocation().coordinate.latitude, LocationManager().getGeoLocation().coordinate.longitude)
     let objectAnnotation = MKPointAnnotation()
 
-
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.

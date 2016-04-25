@@ -262,6 +262,19 @@ class CalendarView: UIView{
         return "\(self.modifiedMonth)-1-\(self.modifiedYear)"
     }
     
+    func goToDate(month: Int, day: Int, year: Int){
+        self.modifiedMonth = month
+        self.modifiedDay = day
+        self.modifiedYear = year
+        
+        let numDays = self.getNumDaysInMonth(self.modifiedMonth, year: self.modifiedYear)
+        let startDay = self.getStartDayInMonth(self.modifiedMonth, year: self.modifiedYear)
+        self.setDaysInMonth(numDays, startDay: startDay)
+        self.setMonth(self.modifiedMonth)
+        self.setYear(self.modifiedYear)
+        self.setNeedsLayout()
+    }
+    
     func goForwardOneMonth(){
         if(self.modifiedMonth < 12){
             self.modifiedMonth += 1
