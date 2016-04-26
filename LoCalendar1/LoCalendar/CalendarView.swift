@@ -26,7 +26,8 @@ class CalendarView: UIView{
     var yearLabel = UILabel()
     var dayLabels:[UILabel] = []
     var dateContainers: [CalendarViewDateButton] = []
-    var currentDayInFocus:CalendarViewDateButton?
+//    var currentDayInFocus:CalendarViewDateButton?
+    var daysInView: [CalendarViewDateButton] = []
     
     var currentDay = Int()
     var currentMonth = Int()

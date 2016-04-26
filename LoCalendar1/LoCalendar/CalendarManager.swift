@@ -114,13 +114,10 @@ class CalendarManager {
             //if calendar.title == "Work" {
             
             let myPredicate = eventStore.predicateForEventsWithStartDate(beginningOfDay, endDate: endOfDay!, calendars: [calendar])
-            
-            
-                //var events = eventStore.eventsMatchingPredicate(predicate)
             var events = eventStore.eventsMatchingPredicate(myPredicate)
-                
                 for event in events {
                     print(event.title)
+                    print(getEventStartTime(event))
                     titles.append(event.title)
                     startDates.append(event.startDate)
                     endDates.append(event.endDate)
@@ -235,6 +232,7 @@ class CalendarManager {
         let weekDay = myComponents.weekday
         return weekDay
     }
+    
     
     func getDayString(dayNumber: Int) -> String{
         switch dayNumber{

@@ -21,6 +21,8 @@ class CalendarScrollCell: UITableViewCell {
     var month = Int()
     var year = Int()
     
+    let proportionOfDateContainer:CGFloat = 0.2
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = backgColor
@@ -35,7 +37,7 @@ class CalendarScrollCell: UITableViewCell {
         dateContainer.autoPinEdgeToSuperviewEdge(.Left)
         dateContainer.autoPinEdgeToSuperviewEdge(.Top)
         dateContainer.autoPinEdgeToSuperviewEdge(.Bottom)
-        dateContainer.autoMatchDimension(.Width, toDimension: .Width, ofView: container, withMultiplier: 0.25)
+        dateContainer.autoMatchDimension(.Width, toDimension: .Width, ofView: container, withMultiplier: proportionOfDateContainer)
         dateContainer.layer.borderWidth = 2
         dateContainer.layer.borderColor = UIColor.blueColor().CGColor
 
@@ -73,6 +75,8 @@ class CalendarScrollCell: UITableViewCell {
         // ADDING TAP GESTURE TO BRING UP EVENTS FOR THE DAY
         let cellTapGesture = UITapGestureRecognizer(target: self, action: #selector(CalendarScrollCell.seeDayEvents(_:)))
         self.addGestureRecognizer(cellTapGesture)
+        
+        self.addEvent(12, endTime: 13.5)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -85,6 +89,41 @@ class CalendarScrollCell: UITableViewCell {
     
     func getDate() -> String{
         return "\(self.month)-\(self.day)-\(self.year)"
+    }
+    
+    func addEvent(startTime:Double,endTime:Double){
+        let daySummaryContainerWidth = (1 - proportionOfDateContainer) * self.frame.width
+        let dayProportion = daySummaryContainerWidth/24
+        var startPositionFraction:CGFloat = 0.0
+        var endPositionFraction:CGFloat = 0.0
+        var eventWidth:CGFloat = 0
+        
+        let lengthOfEvent = endTime - startTime
+        
+        //if the start time is greater than the end time, that means it starts on the previous day
+        if(lengthOfEvent > 24){
+            
+        } else if (endTime < startTime){
+            
+        } else if(lengthOfEvent >= 0 && lengthOfEvent <= 24){
+            //eventWidth = (CGFloat(lengthOfEvent)/dayProportion)*daySummaryContainerWidth
+            eventWidth = CGFloat(lengthOfEvent)/24
+        } else if (lengthOfEvent == 0){
+            eventWidth = 0.05
+        }
+                
+        let newEventView = UIView()
+        self.addSubview(newEventView)
+        newEventView.autoPinEdgeToSuperviewEdge(.Top)
+        newEventView.autoPinEdgeToSuperviewEdge(.Bottom)
+        newEventView.autoMatchDimension(.Width, toDimension: .Width, ofView: self.daySummaryContainer,withMultiplier: eventWidth)
+        newEventView.autoPinEdge(.Left, toEdge: .Left, ofView: self.daySummaryContainer, withOffset: CGFloat(startTime)*dayProportion)
+//        newEventView.autoPinEdge(.Right, toEdge: .Right, ofView: self.daySummaryContainer, withOffset: 0)
+        
+        newEventView.backgroundColor = UIColor.redColor()
+        
+        
+        
     }
     
     func seeDayEvents(sender: UITapGestureRecognizer? = nil){
