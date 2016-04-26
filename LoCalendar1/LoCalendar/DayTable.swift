@@ -18,6 +18,7 @@ class DayTable: UITableView {
     
     var dayTableScrollDirection = ScrollDirections.None
     var scrolling = false
+    var systemScrolling = false
     
     convenience init(){
         self.init(frame: CGRect.zero, style: .Plain)
