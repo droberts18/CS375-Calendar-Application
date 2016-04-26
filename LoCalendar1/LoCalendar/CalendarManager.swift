@@ -48,8 +48,6 @@ class CalendarManager {
         
         var today = NSDate()
         self.getEventsForDate(today)
-
-        //self.getDateFromCurrentDateWithOffset(40)
         
         fillDateMap()
     }
@@ -116,8 +114,8 @@ class CalendarManager {
             let myPredicate = eventStore.predicateForEventsWithStartDate(beginningOfDay, endDate: endOfDay!, calendars: [calendar])
             var events = eventStore.eventsMatchingPredicate(myPredicate)
                 for event in events {
-                    print(event.title)
-                    print(getEventStartTime(event))
+                    //print(event.title)
+                    //print(getFormattedEventStartTime(event))
                     titles.append(event.title)
                     startDates.append(event.startDate)
                     endDates.append(event.endDate)
@@ -126,7 +124,43 @@ class CalendarManager {
         }
     }
     
-    func getEventStartTime(event: EKEvent) -> String{
+    func getEventStartTimeForUI(event: EKEvent) -> Double{
+        let timestamp = NSDateFormatter.localizedStringFromDate(event.startDate, dateStyle: .NoStyle, timeStyle: .ShortStyle)
+        let timeComponents = timestamp.componentsSeparatedByString(" ")
+        let time = timeComponents[0].componentsSeparatedByString(":")
+        
+        var timeNumber:Double = 0
+        
+        //get the initial hour
+        timeNumber = Double(time[0])!
+        if(timeComponents[1] == "PM" && timeNumber < 12){
+            timeNumber += 12
+        }
+        //get the fraction of the hour
+        timeNumber += (Double(time[1])!/60)
+        
+        return timeNumber
+    }
+    
+    func getEventEndTimeForUI(event: EKEvent) -> Double{
+        let timestamp = NSDateFormatter.localizedStringFromDate(event.endDate, dateStyle: .NoStyle, timeStyle: .ShortStyle)
+        let timeComponents = timestamp.componentsSeparatedByString(" ")
+        let time = timeComponents[0].componentsSeparatedByString(":")
+        
+        var timeNumber:Double = 0
+        
+        //get the initial hour
+        timeNumber = Double(time[0])!
+        if(timeComponents[1] == "PM" && timeNumber < 12){
+            timeNumber += 12
+        }
+        //get the fraction of the hour
+        timeNumber += (Double(time[1])!/60)
+        
+        return timeNumber
+    }
+    
+    func getFormattedEventStartTime(event: EKEvent) -> String{
         let timestamp = NSDateFormatter.localizedStringFromDate(event.startDate, dateStyle: .NoStyle, timeStyle: .ShortStyle)
         let timePieces = timestamp.componentsSeparatedByString(" ")
         
@@ -140,7 +174,7 @@ class CalendarManager {
         return timestamp
     }
     
-    func getEventEndTime(event: EKEvent) -> String{
+    func getFormattedEventEndTime(event: EKEvent) -> String{
         let timestamp = NSDateFormatter.localizedStringFromDate(event.endDate, dateStyle: .NoStyle, timeStyle: .ShortStyle)
         let timePieces = timestamp.componentsSeparatedByString(" ")
         

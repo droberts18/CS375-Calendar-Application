@@ -73,33 +73,31 @@ class CalendarViewDateButton: UIButton {
     
     func setViewStatus(status: SelectionStatus){
         
-        let animationTime = 0.05
+        //let animationTime = 0.05
         
         switch status {
         case .Normal:
-            UIView.animateWithDuration(animationTime, animations: {
-                self.labelView.layer.borderColor = UIColor.clearColor().CGColor
-                self.labelView.layer.borderWidth = 0
-                if self.status != SelectionStatus.CurrentDay{
-                    self.status = .Normal
-                    self.labelView.backgroundColor = self.normalColor
-                }
-            })
+            self.labelView.layer.borderColor = UIColor.clearColor().CGColor
+            self.labelView.layer.borderWidth = 0
+            self.labelView.alpha = 0.7
+            if self.status != SelectionStatus.CurrentDay{
+                self.status = .Normal
+                self.labelView.backgroundColor = self.normalColor
+            }
             break
         case .CurrentlyDisplayedItem:
-                self.labelView.layer.borderColor = self.blueColor.CGColor
-                self.labelView.layer.borderWidth = 2
-                if self.status != SelectionStatus.CurrentDay{
-                    self.status = .CurrentlyDisplayedItem
-                }
+            self.labelView.layer.borderColor = self.blueColor.CGColor
+            self.labelView.layer.borderWidth = 2
+            self.labelView.alpha = 1
+            if self.status != SelectionStatus.CurrentDay{
+                self.status = .CurrentlyDisplayedItem
+            }
             break
         case .CurrentDay:
-            UIView.animateWithDuration(animationTime, animations: {
-                self.labelView.backgroundColor = self.blueColor
-                if self.status != SelectionStatus.CurrentDay{
-                    self.status = .CurrentDay
-                }
-            })
+            self.labelView.backgroundColor = self.blueColor
+            if self.status != SelectionStatus.CurrentDay{
+                self.status = .CurrentDay
+            }
             break
         case .SelectedItem:
                 self.labelView.layer.borderColor = self.greenColor.CGColor
@@ -116,10 +114,8 @@ class CalendarViewDateButton: UIButton {
                 }
             break
         case .DeselectCurrentDay:
-            UIView.animateWithDuration(animationTime, animations: {
-                self.status = .Normal
-                self.labelView.backgroundColor = self.normalColor
-            })
+            self.status = .Normal
+            self.labelView.backgroundColor = self.normalColor
         default:
             if self.status != SelectionStatus.CurrentDay{
                 self.status = .None

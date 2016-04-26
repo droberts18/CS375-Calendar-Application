@@ -10,7 +10,15 @@ import Foundation
 
 class CalendarScrollCell: UITableViewCell {
     
+    let normalColor = UIColor(red: 58/255, green: 61/255, blue: 76/255, alpha: 1)
+    let darkColor = UIColor(red: 24/255, green: 26/255, blue: 33/255, alpha: 1)
+    let whiteColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+    let lightDarkColor = UIColor(red: 42/255, green: 44/255, blue: 54/255, alpha: 1)
+    let blueColor = UIColor(red: 44/255, green: 105/255, blue: 157/255, alpha: 1)
+    let greenColor = UIColor(red: 96/255, green: 157/255, blue: 44/255, alpha: 1)
     let backgColor = UIColor(red: 42/255, green: 44/255, blue: 54/255, alpha: 1)
+
+    
     var container = UIView(forAutoLayout: ())
     var dateContainer = UIView(forAutoLayout: ())
     var dayName = UILabel(forAutoLayout: ())
@@ -49,8 +57,6 @@ class CalendarScrollCell: UITableViewCell {
         dayName.translatesAutoresizingMaskIntoConstraints = false
         dayDate.translatesAutoresizingMaskIntoConstraints = false
         
-        dayName.text = "Hello"
-        dayDate.text = "17"
         dayName.autoPinEdge(.Top, toEdge: .Top, ofView: dateContainer)
         dayName.autoPinEdge(.Left, toEdge: .Left, ofView: dateContainer)
         dayName.autoPinEdge(.Right, toEdge: .Right, ofView:dateContainer)
@@ -76,7 +82,7 @@ class CalendarScrollCell: UITableViewCell {
         let cellTapGesture = UITapGestureRecognizer(target: self, action: #selector(CalendarScrollCell.seeDayEvents(_:)))
         self.addGestureRecognizer(cellTapGesture)
         
-        self.addEvent(12, endTime: 13.5)
+        //self.addEvent(12, endTime: 13.5)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -114,13 +120,16 @@ class CalendarScrollCell: UITableViewCell {
                 
         let newEventView = UIView()
         self.addSubview(newEventView)
+        newEventView.alpha = 0.7
+        newEventView.layer.cornerRadius = 10
+        newEventView.backgroundColor = blueColor
+
         newEventView.autoPinEdgeToSuperviewEdge(.Top)
         newEventView.autoPinEdgeToSuperviewEdge(.Bottom)
         newEventView.autoMatchDimension(.Width, toDimension: .Width, ofView: self.daySummaryContainer,withMultiplier: eventWidth)
         newEventView.autoPinEdge(.Left, toEdge: .Left, ofView: self.daySummaryContainer, withOffset: CGFloat(startTime)*dayProportion)
 //        newEventView.autoPinEdge(.Right, toEdge: .Right, ofView: self.daySummaryContainer, withOffset: 0)
         
-        newEventView.backgroundColor = UIColor.redColor()
         
         
         

@@ -236,6 +236,11 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
             dayCell.day = dateTuple.1
             dayCell.year = dateTuple.2
             dayCell.dayName.text = calendarManager.getDayString(calendarManager.getDayOfWeek(dayCell.getDate()))
+            
+            
+            
+            
+            
         }
         
         return dayCell
