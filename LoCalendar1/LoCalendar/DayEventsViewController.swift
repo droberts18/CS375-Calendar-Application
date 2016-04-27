@@ -15,6 +15,7 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
     let mapContainer = UIView(forAutoLayout: ())
     let myMap = MKMapView(forAutoLayout: ())
     let eventView = UIView()
+    let eventViewSliderArrow = UIImage(named: "UpArrow.png")
     
     let initialLocation = CLLocation(latitude: LocationManager().getGeoLocation().coordinate.latitude, longitude: LocationManager().getGeoLocation().coordinate.longitude)
     let regionRadius = 1000.0
@@ -84,15 +85,31 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
 //        slideArrowView.autoAlignAxis(.Vertical, toSameAxisOfView: self.view)
 //        slideArrowView.autoSetDimension(.Height, toSize: 50)
 //        slideArrowView.autoSetDimension(.Width, toSize: 100)
-        let slideArrow = UIView()
-        slideArrow.backgroundColor = UIColor.redColor()
-        slideArrow.autoSetDimension(.Height, toSize: 100)
-        slideArrow.autoSetDimension(.Width, toSize: 100)
-        self.view.addSubview(slideArrow)
-        slideArrow.autoPinEdge(.Top, toEdge: .Bottom, ofView: myMap, withOffset: 5)
+        let eventViewSlider = UIImageView(image: eventViewSliderArrow)
+        eventViewSlider.contentMode = UIViewContentMode.ScaleAspectFit
+        eventViewSlider.clipsToBounds = true
+        eventViewSlider.autoSetDimension(.Height, toSize: 40)
+        eventViewSlider.autoSetDimension(.Width, toSize: 60)
+        eventViewSlider.layer.cornerRadius = eventViewSlider.frame.size.width/2
+        eventViewSlider.backgroundColor = UIColor.blackColor()
+        self.view.addSubview(eventViewSlider)
+        eventViewSlider.userInteractionEnabled = true
+//        eventViewSlider.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: eventView, withOffset: eventViewSlider.frame.size.height/2, relation: .GreaterThanOrEqual)
+//        eventViewSlider.autoConstrainAttribute(.Bottom, toAttribute: .Bottom, ofView: eventView, withMultiplier: 1, relation: .GreaterThanOrEqual)
+        eventViewSlider.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: myMap, withOffset: eventViewSlider.frame.size.height/2, relation: .GreaterThanOrEqual)
+
+
+        eventViewSlider.autoAlignAxisToSuperviewAxis(.Vertical)
+        
+//        let slideArrow = UIView()
+//        slideArrow.backgroundColor = UIColor.redColor()
+//        slideArrow.autoSetDimension(.Height, toSize: 100)
+//        slideArrow.autoSetDimension(.Width, toSize: 100)
+//        self.view.addSubview(slideArrow)
+//        slideArrow.autoPinEdge(.Top, toEdge: .Bottom, ofView: myMap, withOffset: 5)
         
         let slide = UIPanGestureRecognizer(target: self, action: "changeDimensions:")
-        slideArrow.addGestureRecognizer(slide)
+        eventViewSlider.addGestureRecognizer(slide)
     }
     
     override func didReceiveMemoryWarning() {
@@ -110,7 +127,7 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
     }
     
     func changeDimensions(s: UIPanGestureRecognizer){
-        mapContainerConstraint.constant = s.translationInView(self.view).y
+        mapContainerConstraint.constant = s.locationInView(eventView).y
 //            s.locationInView(self.view).y
     }
 }
