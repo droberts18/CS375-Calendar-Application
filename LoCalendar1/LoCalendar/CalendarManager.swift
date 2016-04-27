@@ -46,8 +46,8 @@ class CalendarManager {
         numberOfDaysLoaded = getNumDaysInYear(self.currentYear) + getNumDaysInYear(self.currentYear - 1)
         checkStatus()
         
-        var today = NSDate()
-        self.getEventsForDate(today)
+//        var today = NSDate()
+//        self.getEventsForDate(today)
         
         fillDateMap()
     }
@@ -90,7 +90,16 @@ class CalendarManager {
         }
     }
     
-    func getEventsForDate(date: NSDate){
+    func makeNSDateFromComponents(month:Int, day:Int, year:Int) -> NSDate{
+        let newDateComponents = NSDateComponents()
+        newDateComponents.day = day
+        newDateComponents.month = month
+        newDateComponents.year = year
+        let newDate = NSCalendar.currentCalendar().dateFromComponents(newDateComponents)
+        return newDate!
+    }
+    
+    func getEventsForDate(date: NSDate) -> [EKEvent]{
         
         let beginningOfDay = calendar.startOfDayForDate(date)
         
@@ -101,27 +110,31 @@ class CalendarManager {
             return NSCalendar.currentCalendar().dateByAddingComponents(components, toDate: beginningOfDay, options: NSCalendarOptions())
         }
         
-        var titles : [String] = []
-        var startDates : [NSDate] = []
-        var endDates : [NSDate] = []
+//        var titles : [String] = []
+//        var startDates : [NSDate] = []
+//        var endDates : [NSDate] = []
         
-        let eventStore = EKEventStore()
+//        let eventStore = EKEventStore()
         let calendars = eventStore.calendarsForEntityType(.Event)
+        
+        var myEvents = [EKEvent]()
         
         for calendar in calendars {
             //if calendar.title == "Work" {
             
             let myPredicate = eventStore.predicateForEventsWithStartDate(beginningOfDay, endDate: endOfDay!, calendars: [calendar])
-            var events = eventStore.eventsMatchingPredicate(myPredicate)
+            let events = eventStore.eventsMatchingPredicate(myPredicate)
                 for event in events {
                     //print(event.title)
                     //print(getFormattedEventStartTime(event))
-                    titles.append(event.title)
-                    startDates.append(event.startDate)
-                    endDates.append(event.endDate)
+//                    titles.append(event.title)
+//                    startDates.append(event.startDate)
+//                    endDates.append(event.endDate)
+                    myEvents.append(event)
                 }
             //}
         }
+        return myEvents
     }
     
     func getEventStartTimeForUI(event: EKEvent) -> Double{

@@ -238,8 +238,20 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
             dayCell.year = dateTuple.2
             dayCell.dayName.text = calendarManager.getDayString(calendarManager.getDayOfWeek(dayCell.getDate()))
             
+            dayCell.clearEventViews()
             
-            
+                let date = calendarManager.makeNSDateFromComponents(dayCell.month, day: dayCell.day, year: dayCell.year)
+                let events = calendarManager.getEventsForDate(date)
+                //var times = [(Double,Double)]()
+                for event in events{
+                    if(!event.allDay){
+                        //times.append((calendarManager.getEventStartTimeForUI(event),calendarManager.getEventEndTimeForUI(event)))
+                        dayCell.addEvent(calendarManager.getEventStartTimeForUI(event), endTime: calendarManager.getEventEndTimeForUI(event))
+                    }
+                }
+//                for time in times{
+//                    dayCell.addEvent(time.0, endTime: time.1)
+//                }
             
             
         }

@@ -24,6 +24,11 @@ class CalendarScrollCell: UITableViewCell {
     var dayName = UILabel(forAutoLayout: ())
     var dayDate = UILabel(forAutoLayout: ())
     var daySummaryContainer = UIView(forAutoLayout: ())
+    
+    var eventSummaryViews = [UIView]()
+    var addedViews = false
+    
+    var hourHeatMapViews = [UIView]()
 
     var day = Int()
     var month = Int()
@@ -82,7 +87,11 @@ class CalendarScrollCell: UITableViewCell {
         let cellTapGesture = UITapGestureRecognizer(target: self, action: #selector(CalendarScrollCell.seeDayEvents(_:)))
         self.addGestureRecognizer(cellTapGesture)
         
-        //self.addEvent(12, endTime: 13.5)
+        for index in 0...23{
+            var hourCell = UIView()
+            self.daySummaryContainer.addSubview(hourCell)
+            hourCell.autoMatchDimension(.Width, toDimension: .Width, ofView: daySummaryContainer)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -97,11 +106,18 @@ class CalendarScrollCell: UITableViewCell {
         return "\(self.month)-\(self.day)-\(self.year)"
     }
     
+    func clearEventViews(){
+        for event in eventSummaryViews{
+            event.removeFromSuperview()
+        }
+        eventSummaryViews.removeAll()
+    }
+    
     func addEvent(startTime:Double,endTime:Double){
         let daySummaryContainerWidth = (1 - proportionOfDateContainer) * self.frame.width
         let dayProportion = daySummaryContainerWidth/24
-        var startPositionFraction:CGFloat = 0.0
-        var endPositionFraction:CGFloat = 0.0
+//        var startPositionFraction:CGFloat = 0.0
+//        var endPositionFraction:CGFloat = 0.0
         var eventWidth:CGFloat = 0
         
         let lengthOfEvent = endTime - startTime
@@ -121,18 +137,18 @@ class CalendarScrollCell: UITableViewCell {
         let newEventView = UIView()
         self.addSubview(newEventView)
         newEventView.alpha = 0.7
-        newEventView.layer.cornerRadius = 10
+        newEventView.layer.cornerRadius = 5
         newEventView.backgroundColor = blueColor
 
-        newEventView.autoPinEdgeToSuperviewEdge(.Top)
-        newEventView.autoPinEdgeToSuperviewEdge(.Bottom)
+        newEventView.autoMatchDimension(.Height, toDimension: .Height, ofView: self.daySummaryContainer, withMultiplier: 0.5)
+        newEventView.autoAlignAxis(.Horizontal, toSameAxisOfView: self.daySummaryContainer)
+//        newEventView.autoPinEdgeToSuperviewEdge(.Top)
+//        newEventView.autoPinEdgeToSuperviewEdge(.Bottom)
         newEventView.autoMatchDimension(.Width, toDimension: .Width, ofView: self.daySummaryContainer,withMultiplier: eventWidth)
         newEventView.autoPinEdge(.Left, toEdge: .Left, ofView: self.daySummaryContainer, withOffset: CGFloat(startTime)*dayProportion)
-//        newEventView.autoPinEdge(.Right, toEdge: .Right, ofView: self.daySummaryContainer, withOffset: 0)
         
-        
-        
-        
+        self.addedViews = true
+        self.eventSummaryViews.append(newEventView)
     }
     
     func seeDayEvents(sender: UITapGestureRecognizer? = nil){
