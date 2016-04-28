@@ -107,6 +107,9 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         dayTable.registerClass(CalendarScrollCell.self, forCellReuseIdentifier: "CalendarScrollCell")
         dayTable.showsVerticalScrollIndicator = false
         dayTable.showsHorizontalScrollIndicator = false
+        dayTable.separatorColor = UIColor.clearColor()
+        dayTable.separatorStyle = .None
+        dayTable.separatorEffect = .None
     }
     
     override func didReceiveMemoryWarning() {
@@ -119,7 +122,6 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     override func viewDidAppear(animated: Bool) {
-        //THIS STUFF ISN'T WORKING
         let indexPath = NSIndexPath(forItem: dayCellMap[calendarManager.getCurrentDateString()]!, inSection: 0)
         self.dayTable.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: false)
         self.highlightCurrentDaysInView()
@@ -230,28 +232,47 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let dayCell = tableView.dequeueReusableCellWithIdentifier("CalendarScrollCell", forIndexPath: indexPath) as! CalendarScrollCell
+    
         if let currentDayRowIndex = self.dayCellMap[calendarManager.getCurrentDateString()]{
             let dateTuple = calendarManager.getDateFromCurrentDateWithOffset(indexPath.row - currentDayRowIndex)
-            dayCell.dayDate.text = "\(dateTuple.0)/\(dateTuple.1)/\(dateTuple.2)"
+            dayCell.dayDate.text = "\(dateTuple.1)"
             dayCell.month = dateTuple.0
             dayCell.day = dateTuple.1
             dayCell.year = dateTuple.2
             dayCell.dayName.text = calendarManager.getDayString(calendarManager.getDayOfWeek(dayCell.getDate()))
-            
-            dayCell.clearEventViews()
-            
-                let date = calendarManager.makeNSDateFromComponents(dayCell.month, day: dayCell.day, year: dayCell.year)
-                let events = calendarManager.getEventsForDate(date)
-                //var times = [(Double,Double)]()
-                for event in events{
-                    if(!event.allDay){
-                        //times.append((calendarManager.getEventStartTimeForUI(event),calendarManager.getEventEndTimeForUI(event)))
-                        dayCell.addEvent(calendarManager.getEventStartTimeForUI(event), endTime: calendarManager.getEventEndTimeForUI(event))
-                    }
+
+            //do all of the cell stuff asynchronously
+            let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+            dispatch_async(dispatch_get_global_queue(priority, 0)) {
+
+                let date = self.calendarManager.makeNSDateFromComponents(dayCell.month, day: dayCell.day, year: dayCell.year)
+                let events = self.calendarManager.getEventsForDate(date)
+                let alphaValues = self.calendarManager.getAlphaValuesForHours(events)
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    UIView.animateWithDuration(0.5, animations: {
+                        for value in 0...23{
+                            dayCell.hourHeatMapViews[value].alpha = CGFloat(alphaValues[value])
+                        }
+                    })
                 }
-//                for time in times{
-//                    dayCell.addEvent(time.0, endTime: time.1)
+            }
+            
+            
+//            dayCell.clearEventViews()
+//            
+//                let date = calendarManager.makeNSDateFromComponents(dayCell.month, day: dayCell.day, year: dayCell.year)
+//                let events = calendarManager.getEventsForDate(date)
+//                //var times = [(Double,Double)]()
+//                for event in events{
+//                    if(!event.allDay){
+//                        //times.append((calendarManager.getEventStartTimeForUI(event),calendarManager.getEventEndTimeForUI(event)))
+//                        dayCell.addEvent(calendarManager.getEventStartTimeForUI(event), endTime: calendarManager.getEventEndTimeForUI(event))
+//                    }
 //                }
+////                for time in times{
+////                    dayCell.addEvent(time.0, endTime: time.1)
+////                }
             
             
         }
@@ -323,6 +344,30 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         }
         dayTable.systemScrolling = true
     }
+    
+//    func updateDayTableHeatMap(){
+//        for indexPath in self.currentDaysInView{
+//            if let dayCell = dayTable.cellForRowAtIndexPath(indexPath) as? CalendarScrollCell{
+//                //do all of the cell stuff asynchronously
+//                let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+//                dispatch_async(dispatch_get_global_queue(priority, 0)) {
+//                    
+//                    let date = self.calendarManager.makeNSDateFromComponents(dayCell.month, day: dayCell.day, year: dayCell.year)
+//                    let events = self.calendarManager.getEventsForDate(date)
+//                    let alphaValues = self.calendarManager.getAlphaValuesForHours(events)
+//                    
+//                    dispatch_async(dispatch_get_main_queue()) {
+//                        //dayCell.resetHeatMap()
+//                        UIView.animateWithDuration(1, animations: {
+//                            for value in 0...23{
+//                                dayCell.hourHeatMapViews[value].alpha = CGFloat(alphaValues[value])
+//                            }
+//                        })
+//                    }
+//                }
+//            }
+//        }
+//    }
     
     func updateCalendarView(){
         for date in self.calendarView.dateContainers{

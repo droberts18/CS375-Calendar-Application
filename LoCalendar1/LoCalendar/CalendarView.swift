@@ -91,6 +91,30 @@ class CalendarView: UIView{
         self.setDaysInMonth(self.getNumDaysInMonth(self.currentMonth, year: self.currentYear), startDay: self.getStartDayInMonth(self.currentMonth, year: self.currentYear))
     }
     
+    func calendarDayDidChange(notification : NSNotification)
+    {
+        if(self.modifiedMonth == self.currentMonth && self.modifiedYear == self.currentYear){
+            self.dateContainers[self.currentDay].setViewStatus(CalendarViewDateButton.SelectionStatus.DeselectCurrentDay)
+        }
+        let numDaysInMonth = self.getNumDaysInMonth(self.currentMonth, year: self.currentYear)
+        //if it's the last day in the month, update the current values
+        if(self.currentDay == numDaysInMonth){
+            self.currentDay = 1
+            if(self.currentMonth == 12){
+                self.currentMonth = 1
+                self.currentYear += 1
+            }else{
+                self.currentMonth += 1
+            }
+        }else{
+            self.currentDay += 1
+        }
+        
+        if(self.modifiedMonth == self.currentMonth && self.modifiedYear == self.currentYear){
+            self.dateContainers[self.currentDay].setViewStatus(CalendarViewDateButton.SelectionStatus.CurrentDay)
+        }
+    }
+    
     func setMonth(monthNumber:Int){
         switch monthNumber{
         case 1:

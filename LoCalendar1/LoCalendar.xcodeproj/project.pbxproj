@@ -18,6 +18,7 @@
 		C323E2FD1CBCD7E500927F3B /* LoCalendarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C323E2FC1CBCD7E500927F3B /* LoCalendarTests.swift */; };
 		C323E3081CBCD7E500927F3B /* LoCalendarUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C323E3071CBCD7E500927F3B /* LoCalendarUITests.swift */; };
 		C323E3231CBCD8F000927F3B /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C323E3221CBCD8F000927F3B /* DataManager.swift */; };
+		C383432A1CD1EA4D001A4FA0 /* CalendarScrollCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38343291CD1EA4D001A4FA0 /* CalendarScrollCell.swift */; };
 		C39318641CBEDD0500E7EA15 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39318631CBEDD0500E7EA15 /* User.swift */; };
 		C39318661CBF117400E7EA15 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39318651CBF117400E7EA15 /* LocationManager.swift */; };
 		C39457821CC097D600946626 /* ALView+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C39457791CC097D600946626 /* ALView+PureLayout.m */; };
@@ -26,7 +27,6 @@
 		C39457861CC0989100946626 /* CalendarScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39457851CC0989100946626 /* CalendarScrollViewController.swift */; };
 		C394578C1CC0AFE100946626 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C394578B1CC0AFE100946626 /* CalendarView.swift */; };
 		C394578E1CC0C4B700946626 /* CalendarViewDateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C394578D1CC0C4B700946626 /* CalendarViewDateButton.swift */; };
-		C39457901CC17A1600946626 /* CalendarScrollCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C394578F1CC17A1600946626 /* CalendarScrollCell.swift */; };
 		C39457971CC499D800946626 /* BackButton.png in Resources */ = {isa = PBXBuildFile; fileRef = C39457951CC499D800946626 /* BackButton.png */; };
 		C39457981CC499D800946626 /* ForwardButton.png in Resources */ = {isa = PBXBuildFile; fileRef = C39457961CC499D800946626 /* ForwardButton.png */; };
 		C394579B1CC55EA200946626 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C394579A1CC55EA200946626 /* CalendarManager.swift */; };
@@ -72,6 +72,7 @@
 		C323E3071CBCD7E500927F3B /* LoCalendarUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoCalendarUITests.swift; sourceTree = "<group>"; };
 		C323E3091CBCD7E500927F3B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C323E3221CBCD8F000927F3B /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		C38343291CD1EA4D001A4FA0 /* CalendarScrollCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarScrollCell.swift; sourceTree = "<group>"; };
 		C39318631CBEDD0500E7EA15 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C39318651CBF117400E7EA15 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		C39457781CC097D600946626 /* ALView+PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALView+PureLayout.h"; sourceTree = "<group>"; };
@@ -86,7 +87,6 @@
 		C39457851CC0989100946626 /* CalendarScrollViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CalendarScrollViewController.swift; path = ../CalendarScrollViewController.swift; sourceTree = "<group>"; };
 		C394578B1CC0AFE100946626 /* CalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		C394578D1CC0C4B700946626 /* CalendarViewDateButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewDateButton.swift; sourceTree = "<group>"; };
-		C394578F1CC17A1600946626 /* CalendarScrollCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarScrollCell.swift; sourceTree = "<group>"; };
 		C39457951CC499D800946626 /* BackButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BackButton.png; sourceTree = "<group>"; };
 		C39457961CC499D800946626 /* ForwardButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ForwardButton.png; sourceTree = "<group>"; };
 		C394579A1CC55EA200946626 /* CalendarManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
@@ -158,9 +158,9 @@
 				C394579C1CCAAB7E00946626 /* DayTable.swift */,
 				C394578B1CC0AFE100946626 /* CalendarView.swift */,
 				C394578D1CC0C4B700946626 /* CalendarViewDateButton.swift */,
+				C38343291CD1EA4D001A4FA0 /* CalendarScrollCell.swift */,
 				C394579A1CC55EA200946626 /* CalendarManager.swift */,
 				C323E2E71CBCD7E500927F3B /* AppDelegate.swift */,
-				C394578F1CC17A1600946626 /* CalendarScrollCell.swift */,
 				C394579E1CCE03E900946626 /* DayEventsViewController.swift */,
 				C39457991CC499DD00946626 /* images */,
 				C323E2E91CBCD7E500927F3B /* ViewController.swift */,
@@ -426,12 +426,12 @@
 				C39318641CBEDD0500E7EA15 /* User.swift in Sources */,
 				C39457861CC0989100946626 /* CalendarScrollViewController.swift in Sources */,
 				C39457821CC097D600946626 /* ALView+PureLayout.m in Sources */,
-				C39457901CC17A1600946626 /* CalendarScrollCell.swift in Sources */,
 				C323E2EA1CBCD7E500927F3B /* ViewController.swift in Sources */,
 				C39457841CC097D600946626 /* NSLayoutConstraint+PureLayout.m in Sources */,
 				C39457831CC097D600946626 /* NSArray+PureLayout.m in Sources */,
 				C39318661CBF117400E7EA15 /* LocationManager.swift in Sources */,
 				C323E3231CBCD8F000927F3B /* DataManager.swift in Sources */,
+				C383432A1CD1EA4D001A4FA0 /* CalendarScrollCell.swift in Sources */,
 				C323E2E81CBCD7E500927F3B /* AppDelegate.swift in Sources */,
 				C394578E1CC0C4B700946626 /* CalendarViewDateButton.swift in Sources */,
 				C394579F1CCE03E900946626 /* DayEventsViewController.swift in Sources */,

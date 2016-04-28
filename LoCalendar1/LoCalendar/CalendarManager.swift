@@ -280,6 +280,55 @@ class CalendarManager {
         return weekDay
     }
     
+    func getAlphaValuesForHours(events:[EKEvent]) -> [Double]{
+        //var hourValues:[Double] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        var hourValues = [Double](count: 24, repeatedValue: 0.1)
+        
+        for event in events{
+            if(!event.allDay){
+                
+                let startTime = self.getEventStartTimeForUI(event)
+                let endTime = self.getEventEndTimeForUI(event)
+                
+                let startHour:Int = Int(startTime)
+                let endHour:Int = Int(ceil(endTime))
+                
+                //update all the hours
+                if startHour <= endHour{
+                        var hour = startHour
+                        
+                        while(hour < endHour ){
+                            //if the event is less than one hour
+                            if(startHour == endHour){
+                                //if the event is 0 in length
+                                if(startTime == endTime){
+                                    hourValues[hour] += 0.1
+                                }else{
+                                    hourValues[hour] += Double(endTime) - Double(startTime)
+                                }
+                            }else if(hour == startHour){
+                                if(startTime == Double(startHour)){
+                                    hourValues[hour] += 1
+                                }else{
+                                    hourValues[hour] += (Double(startTime) - Double(startHour))
+                                }
+                            }else if(hour == endHour - 1){
+                                if(endTime == Double(endHour)){
+                                    hourValues[hour] += 1
+                                }else{
+                                    hourValues[hour] += (1 - (Double(endHour) - Double(endTime)))
+                                }
+                            }else{
+                                hourValues[hour] += 1
+                            }
+                            hour += 1
+                        }                    
+                }
+            }
+        }
+        return hourValues
+    }
+    
     
     func getDayString(dayNumber: Int) -> String{
         switch dayNumber{
