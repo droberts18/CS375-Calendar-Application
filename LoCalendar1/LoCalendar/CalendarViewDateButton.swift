@@ -31,6 +31,8 @@ class CalendarViewDateButton: UIButton {
         case Deselected
         case CurrentDay
         case DeselectCurrentDay
+        case NextMonth
+        case PrevMonth
         case None
     }
     
@@ -39,8 +41,21 @@ class CalendarViewDateButton: UIButton {
     
     convenience init (month:Int, day: Int, year:Int) {
         self.init(frame:CGRect.zero)
-        
+        self.initialize()
+    
+        dayLabel.text = "\(day)"
 
+        self.day = day
+        self.month = month
+        self.year = year
+    }
+    
+    convenience init (){
+        self.init(frame:CGRect.zero)
+        self.initialize()
+    }
+    
+    func initialize(){
         self.addSubview(labelView)
         self.labelView.autoMatchDimension(.Height, toDimension: .Height, ofView: self, withMultiplier: 0.85)
         self.labelView.autoMatchDimension(.Width, toDimension: .Width, ofView: self, withMultiplier: 0.85)
@@ -48,7 +63,6 @@ class CalendarViewDateButton: UIButton {
         self.labelView.layer.cornerRadius = 10
         
         self.labelView.addSubview(dayLabel)
-        dayLabel.text = "\(day)"
         dayLabel.textAlignment = .Center
         dayLabel.autoCenterInSuperview()
         
@@ -57,10 +71,6 @@ class CalendarViewDateButton: UIButton {
         
         dayLabel.textColor = whiteColor
         self.setViewStatus(.Normal)
-        
-        self.day = day
-        self.month = month
-        self.year = year
     }
     
     override init (frame : CGRect) {
@@ -71,15 +81,25 @@ class CalendarViewDateButton: UIButton {
         fatalError("This class does not support NSCoding")
     }
     
+    func setDate(month:Int,day:Int,year:Int){
+        self.month = month
+        self.day = day
+        self.year = year
+        self.dayLabel.text = "\(day)"
+    }
+    
     func setViewStatus(status: SelectionStatus){
         
-        //let animationTime = 0.05
+        let animationTime = 0.0
         
         switch status {
         case .Normal:
             self.labelView.layer.borderColor = UIColor.clearColor().CGColor
             self.labelView.layer.borderWidth = 0
-            self.labelView.alpha = 0.7
+            
+            UIView.animateWithDuration(animationTime, animations: {
+                self.labelView.alpha = 0.7
+            })
             if self.status != SelectionStatus.CurrentDay{
                 self.status = .Normal
                 self.labelView.backgroundColor = self.normalColor
@@ -88,8 +108,10 @@ class CalendarViewDateButton: UIButton {
         case .CurrentlyDisplayedItem:
             self.labelView.layer.borderColor = self.blueColor.CGColor
             self.labelView.layer.borderWidth = 2
-            self.labelView.alpha = 1
-            if self.status != SelectionStatus.CurrentDay{
+            UIView.animateWithDuration(animationTime, animations: {
+                self.labelView.alpha = 1
+            })
+            if self.status != SelectionStatus.CurrentDay || self.status != .PrevMonth || self.status != .NextMonth{
                 self.status = .CurrentlyDisplayedItem
             }
             break
@@ -113,9 +135,21 @@ class CalendarViewDateButton: UIButton {
                     self.status = .Deselected
                 }
             break
+        case .NextMonth:
+            UIView.animateWithDuration(animationTime, animations: {
+                self.labelView.alpha = 0.2
+            })
+            self.status = .NextMonth
+            break
+        case .PrevMonth:
+            UIView.animateWithDuration(animationTime, animations: {
+                self.labelView.alpha = 0.2
+            })
+            self.status = .PrevMonth
+            break
         case .DeselectCurrentDay:
             self.status = .Normal
-            self.labelView.backgroundColor = self.normalColor
+            self.setViewStatus(.Normal)
         default:
             if self.status != SelectionStatus.CurrentDay{
                 self.status = .None
@@ -123,8 +157,6 @@ class CalendarViewDateButton: UIButton {
             break
         }
     }
-    
-    
     
     func getDate()->String{
         return "\(self.month)-\(self.day)-\(self.year)"

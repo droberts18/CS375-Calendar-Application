@@ -26,7 +26,6 @@ class CalendarView: UIView{
     var yearLabel = UILabel()
     var dayLabels:[UILabel] = []
     var dateContainers: [CalendarViewDateButton] = []
-//    var currentDayInFocus:CalendarViewDateButton?
     var daysInView: [CalendarViewDateButton] = []
     
     var currentDay = Int()
@@ -36,6 +35,9 @@ class CalendarView: UIView{
     var modifiedDay = Int()
     var modifiedMonth = Int()
     var modifiedYear = Int()
+    
+    let calendarContainer = UIView()
+    //let todayButton = UIButton()
     
     convenience init(){
         self.init(frame: CGRect.zero)
@@ -64,7 +66,13 @@ class CalendarView: UIView{
             dayLabels.append(dayName)
         }
         
-        var prevDay = UIView()
+        self.addSubview(calendarContainer)
+        calendarContainer.autoPinEdgeToSuperviewEdge(.Left)
+        calendarContainer.autoPinEdgeToSuperviewEdge(.Right)
+        calendarContainer.autoPinEdge(.Top, toEdge: .Bottom, ofView: monthLabel)
+        calendarContainer.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self)
+        
+        var prevDayOfWeek:UIView?
         var first = true
         for day in dayLabels{
             
@@ -72,48 +80,182 @@ class CalendarView: UIView{
             day.font = day.font.fontWithSize(12)
             day.textColor = UIColor.whiteColor()
             
-            self.addSubview(day)
+            calendarContainer.addSubview(day)
             day.autoPinEdge(.Top, toEdge: .Bottom, ofView: monthLabel)
-            day.autoMatchDimension(.Width, toDimension: .Width, ofView: self, withMultiplier: 1/7)
-            day.autoMatchDimension(.Height, toDimension: .Height, ofView: self, withMultiplier: 1/9)
+            day.autoMatchDimension(.Width, toDimension: .Width, ofView: calendarContainer, withMultiplier: 1/7)
+            day.autoMatchDimension(.Height, toDimension: .Height, ofView: calendarContainer, withMultiplier: 1/9)
             if first{
-                day.autoPinEdge(.Left, toEdge: .Left, ofView: self)
+                day.autoPinEdge(.Left, toEdge: .Left, ofView: calendarContainer)
                 first = false
             }else{
-                day.autoPinEdge(.Left, toEdge: .Right, ofView: prevDay)
+                day.autoPinEdge(.Left, toEdge: .Right, ofView: prevDayOfWeek!)
             }
-            prevDay = day
+            prevDayOfWeek = day
         }
+        
+        
+        first = true
+        var currentDayOfWeek = 0
+        var prevDate:CalendarViewDateButton?
+        for _ in 0...41{
+            let dayButton = CalendarViewDateButton()
+            dateContainers.append(dayButton)
+            calendarContainer.addSubview(dayButton)
+            dayButton.autoMatchDimension(.Height, toDimension: .Height, ofView: calendarContainer, withMultiplier: 1/7)
+            dayButton.autoMatchDimension(.Width, toDimension: .Width, ofView: calendarContainer, withMultiplier: 1/7)
+            
+            if first{
+                dayButton.autoPinEdge(.Top, toEdge: .Bottom, ofView: dayLabels[0])
+                dayButton.autoPinEdge(.Left, toEdge: .Left, ofView: dayLabels[0])
+                first = false
+            }else if currentDayOfWeek > 0{
+                dayButton.autoPinEdge(.Top, toEdge: .Top, ofView: prevDate!)
+                dayButton.autoPinEdge(.Left, toEdge: .Right, ofView: prevDate!)
+            }else if currentDayOfWeek == 0{
+                dayButton.autoPinEdge(.Top, toEdge: .Bottom, ofView: prevDate!)
+                dayButton.autoPinEdge(.Left, toEdge: .Left, ofView: dayLabels[0])
+            }
+            
+            if currentDayOfWeek == 6{
+                currentDayOfWeek = 0
+            }else{
+                currentDayOfWeek += 1
+            }
+            prevDate = dayButton
+        }
+        
+//        self.addSubview(todayButton)
+//        todayButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self)
+//        todayButton.autoPinEdge(.Right, toEdge: .Right, ofView: self)
+//        todayButton.autoPinEdge(.Left, toEdge: .Left, ofView: self)
+//        todayButton.autoPinEdge(.Top, toEdge: .Bottom, ofView: calendarContainer)
+//        todayButton.autoMatchDimension(.Height, toDimension: .Height, ofView: self, withMultiplier: 1/8)
+//        todayButton.setTitle("Today", forState: .Normal)
+//        todayButton.titleLabel?.adjustsFontSizeToFitWidth = true
+//        //todayButton.titleLabel?.font = UIFont(name: "Helvetica", size: 10)
         
         updateCurrentInfo()
+        self.modifiedDay = self.currentDay
+        self.modifiedMonth = self.currentMonth
+        self.modifiedYear = self.currentYear
+        
         self.setMonth(self.currentMonth)
         self.setYear(self.currentYear)
-        self.setDaysInMonth(self.getNumDaysInMonth(self.currentMonth, year: self.currentYear), startDay: self.getStartDayInMonth(self.currentMonth, year: self.currentYear))
+//        self.setDaysInMonth(self.getNumDaysInMonth(self.currentMonth, year: self.currentYear), startDay: self.getStartDayInMonth(self.currentMonth, year: self.currentYear))
+        
+        self.updateMonth(self.currentMonth, year: self.currentYear)
     }
     
-    func calendarDayDidChange(notification : NSNotification)
-    {
-        if(self.modifiedMonth == self.currentMonth && self.modifiedYear == self.currentYear){
-            self.dateContainers[self.currentDay].setViewStatus(CalendarViewDateButton.SelectionStatus.DeselectCurrentDay)
-        }
-        let numDaysInMonth = self.getNumDaysInMonth(self.currentMonth, year: self.currentYear)
-        //if it's the last day in the month, update the current values
-        if(self.currentDay == numDaysInMonth){
-            self.currentDay = 1
-            if(self.currentMonth == 12){
-                self.currentMonth = 1
-                self.currentYear += 1
-            }else{
-                self.currentMonth += 1
+    
+    func updateMonth(month:Int, year:Int){
+        
+        self.updateCurrentInfo()
+        
+        let prevMonthAndYear = getPrevMonthAndYearNumber(month, year: year)
+        let numDaysInPrevMonth = getNumDaysInMonth(prevMonthAndYear.0, year: prevMonthAndYear.1)
+        
+        let nextMonthAndYear = getNextMonthAndYearNumber(month, year: year)
+        
+        let numDaysInCurrentMonth = getNumDaysInMonth(month, year: year)
+        let startDay = getStartDayInMonth(month, year: year)
+        
+        
+        //FOR PREVIOUS MONTH'S DAYS
+        if(startDay != 0){
+            var day = startDay - 1
+            var difference = 0
+            while(day >= 0){
+                dateContainers[day].setDate(prevMonthAndYear.0, day: numDaysInPrevMonth - difference, year: prevMonthAndYear.1)
+                if(dateContainers[day].getDate() == getCurrentDate()){
+                    dateContainers[day].setViewStatus(CalendarViewDateButton.SelectionStatus.CurrentDay)
+                    dateContainers[day].setViewStatus(CalendarViewDateButton.SelectionStatus.PrevMonth)
+                }else{
+                    dateContainers[day].setViewStatus(CalendarViewDateButton.SelectionStatus.DeselectCurrentDay)
+                    dateContainers[day].setViewStatus(CalendarViewDateButton.SelectionStatus.PrevMonth)
+                }
+                day -= 1
+                difference += 1
             }
-        }else{
-            self.currentDay += 1
         }
         
-        if(self.modifiedMonth == self.currentMonth && self.modifiedYear == self.currentYear){
-            self.dateContainers[self.currentDay].setViewStatus(CalendarViewDateButton.SelectionStatus.CurrentDay)
+        //FOR PREVIOUS MONTH'S DAYS
+        var date = 1
+        for day in startDay...numDaysInCurrentMonth + startDay - 1{
+            dateContainers[day].setDate(month, day: date, year: year)
+            if(dateContainers[day].getDate() == getCurrentDate()){
+                dateContainers[day].setViewStatus(CalendarViewDateButton.SelectionStatus.CurrentDay)
+                dateContainers[day].setViewStatus(CalendarViewDateButton.SelectionStatus.CurrentlyDisplayedItem)
+            }else{
+                dateContainers[day].setViewStatus(CalendarViewDateButton.SelectionStatus.DeselectCurrentDay)
+                dateContainers[day].setViewStatus(CalendarViewDateButton.SelectionStatus.Normal)
+            }
+            date += 1
+        }
+        
+        
+        //FOR NEXT MONTH'S DAYS
+        date = 1
+        for day in numDaysInCurrentMonth + startDay...dateContainers.count - 1{
+            dateContainers[day].setDate(nextMonthAndYear.0, day: date, year: nextMonthAndYear.1)
+            if(dateContainers[day].getDate() == getCurrentDate()){
+                dateContainers[day].setViewStatus(CalendarViewDateButton.SelectionStatus.CurrentDay)
+                dateContainers[day].setViewStatus(CalendarViewDateButton.SelectionStatus.NextMonth)
+            }else{
+                dateContainers[day].setViewStatus(CalendarViewDateButton.SelectionStatus.DeselectCurrentDay)
+                dateContainers[day].setViewStatus(CalendarViewDateButton.SelectionStatus.NextMonth)
+            }
+            date += 1
         }
     }
+    
+    
+    //returns the next valid month and year
+    func getNextMonthAndYearNumber(month:Int,year:Int) -> (Int,Int){
+        if(month <= 0 || month > 12){
+            return (-1,-1) //error
+        }
+        if(month == 12){
+            return (1,year + 1)
+        }else{
+            return (month + 1, year)
+        }
+    }
+    
+    //returns the previous valid month and year
+    func getPrevMonthAndYearNumber(month:Int,year:Int) -> (Int,Int){
+        if(month <= 0 || month > 12){
+            return (-1,-1) //error
+        }
+        if(month == 1){
+            return (12, year - 1)
+        }else{
+            return (month - 1, year)
+        }
+    }
+    
+//    func calendarDayDidChange(notification : NSNotification)
+//    {
+//        if(self.modifiedMonth == self.currentMonth && self.modifiedYear == self.currentYear){
+//            self.dateContainers[self.currentDay].setViewStatus(CalendarViewDateButton.SelectionStatus.DeselectCurrentDay)
+//        }
+//        let numDaysInMonth = self.getNumDaysInMonth(self.currentMonth, year: self.currentYear)
+//        //if it's the last day in the month, update the current values
+//        if(self.currentDay == numDaysInMonth){
+//            self.currentDay = 1
+//            if(self.currentMonth == 12){
+//                self.currentMonth = 1
+//                self.currentYear += 1
+//            }else{
+//                self.currentMonth += 1
+//            }
+//        }else{
+//            self.currentDay += 1
+//        }
+//        
+//        if(self.modifiedMonth == self.currentMonth && self.modifiedYear == self.currentYear){
+//            self.dateContainers[self.currentDay].setViewStatus(CalendarViewDateButton.SelectionStatus.CurrentDay)
+//        }
+//    }
     
     func setMonth(monthNumber:Int){
         switch monthNumber{
@@ -163,71 +305,69 @@ class CalendarView: UIView{
         self.yearLabel.text = "\(year)"
     }
     
-    //takes the number of days in a month and what day of the week sunday through saturday (0-6)
-    func setDaysInMonth(numDaysInMonth:Int, startDay:Int){
-        
-        if(!self.dateContainers.isEmpty){
-            for day in self.dateContainers{
-                UIView.animateWithDuration(0.5, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
-                    day.alpha = 0
-                }) { _ in
-                    day.removeFromSuperview()
-                }
-            }
-            dateContainers.removeAll()
-        }
-        
-        
-        if(startDay >= dayLabels.count || startDay < 0){
-            print("Invalid starting day number")
-            return
-        }else if(numDaysInMonth > 31 || numDaysInMonth < 1){
-            print("Invalid number of days in month")
-            return
-        }
-        
-        var currentDayOfWeek = startDay
-        var prevDate = UIView()
-        var first = true
-        var i = 0
-        while i < numDaysInMonth{
-            let dateContainer = CalendarViewDateButton(month: self.modifiedMonth, day: i+1, year: self.modifiedYear)
-            dateContainers.append(dateContainer)
-            self.addSubview(dateContainer)
-            dateContainer.autoMatchDimension(.Height, toDimension: .Height, ofView: self, withMultiplier: 1/8)
-            dateContainer.autoMatchDimension(.Width, toDimension: .Width, ofView: self, withMultiplier: 1/7)
-            
-            if(dateContainer.getDate() == self.getCurrentDate()){
-                dateContainer.setViewStatus(CalendarViewDateButton.SelectionStatus.CurrentDay) //current date
-            }else{
-                dateContainer.setViewStatus(CalendarViewDateButton.SelectionStatus.Normal) //normal date
-            }
-            
-            if first{
-                dateContainer.autoPinEdge(.Top, toEdge: .Bottom, ofView: dayLabels[startDay])
-                dateContainer.autoPinEdge(.Left, toEdge: .Left, ofView: dayLabels[startDay])
-                first = false
-            }else if currentDayOfWeek > 0{
-                dateContainer.autoPinEdge(.Top, toEdge: .Top, ofView: prevDate)
-                dateContainer.autoPinEdge(.Left, toEdge: .Right, ofView: prevDate)
-            }else if currentDayOfWeek == 0{
-                dateContainer.autoPinEdge(.Top, toEdge: .Bottom, ofView: prevDate)
-                dateContainer.autoPinEdge(.Left, toEdge: .Left, ofView: dayLabels[0])
-            }
-            
-            if currentDayOfWeek == 6{
-                currentDayOfWeek = 0
-            }else{
-                currentDayOfWeek += 1
-            }
-            
-            prevDate = dateContainer
-            i+=1
-        }
-    }
+    
+//    //takes the number of days in a month and what day of the week sunday through saturday (0-6)
+//    func setDaysInMonth(numDaysInMonth:Int, startDay:Int){
+//        if(!self.dateContainers.isEmpty){
+//            for day in self.dateContainers{
+//                UIView.animateWithDuration(0.5, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+//                    day.alpha = 0
+//                }) { _ in
+//                    day.removeFromSuperview()
+//                }
+//            }
+//            dateContainers.removeAll()
+//        }
+//        
+//        if(startDay >= dayLabels.count || startDay < 0){
+//            print("Invalid starting day number")
+//            return
+//        }else if(numDaysInMonth > 31 || numDaysInMonth < 1){
+//            print("Invalid number of days in month")
+//            return
+//        }
+//        
+//        var currentDayOfWeek = startDay
+//        var prevDate = UIView()
+//        var first = true
+//        var i = 0
+//        while i < numDaysInMonth{
+//            let dateContainer = CalendarViewDateButton(month: self.modifiedMonth, day: i+1, year: self.modifiedYear)
+//            dateContainers.append(dateContainer)
+//            calendarContainer.addSubview(dateContainer)
+//            dateContainer.autoMatchDimension(.Height, toDimension: .Height, ofView: calendarContainer, withMultiplier: 1/8)
+//            dateContainer.autoMatchDimension(.Width, toDimension: .Width, ofView: calendarContainer, withMultiplier: 1/7)
+//            
+//            if(dateContainer.getDate() == self.getCurrentDate()){
+//                dateContainer.setViewStatus(CalendarViewDateButton.SelectionStatus.CurrentDay) //current date
+//            }else{
+//                dateContainer.setViewStatus(CalendarViewDateButton.SelectionStatus.Normal) //normal date
+//            }
+//            
+//            if first{
+//                dateContainer.autoPinEdge(.Top, toEdge: .Bottom, ofView: dayLabels[startDay])
+//                dateContainer.autoPinEdge(.Left, toEdge: .Left, ofView: dayLabels[startDay])
+//                first = false
+//            }else if currentDayOfWeek > 0{
+//                dateContainer.autoPinEdge(.Top, toEdge: .Top, ofView: prevDate)
+//                dateContainer.autoPinEdge(.Left, toEdge: .Right, ofView: prevDate)
+//            }else if currentDayOfWeek == 0{
+//                dateContainer.autoPinEdge(.Top, toEdge: .Bottom, ofView: prevDate)
+//                dateContainer.autoPinEdge(.Left, toEdge: .Left, ofView: dayLabels[0])
+//            }
+//            
+//            if currentDayOfWeek == 6{
+//                currentDayOfWeek = 0
+//            }else{
+//                currentDayOfWeek += 1
+//            }
+//            
+//            prevDate = dateContainer
+//            i+=1
+//        }
+//    }
     
     func getNumDaysInMonth(month:Int, year:Int) -> Int{
-        
         if(month < 1 || month > 12){
             return 0
         }
@@ -268,10 +408,6 @@ class CalendarView: UIView{
         self.currentDay = (calendar?.component(NSCalendarUnit.Day, fromDate: NSDate()))!
         self.currentMonth = (calendar?.component(NSCalendarUnit.Month, fromDate: NSDate()))!
         self.currentYear = (calendar?.component(NSCalendarUnit.Year, fromDate: NSDate()))!
-        
-        self.modifiedDay = self.currentDay
-        self.modifiedMonth = self.currentMonth
-        self.modifiedYear = self.currentYear
     }
     
     
@@ -292,9 +428,10 @@ class CalendarView: UIView{
         self.modifiedDay = day
         self.modifiedYear = year
         
-        let numDays = self.getNumDaysInMonth(self.modifiedMonth, year: self.modifiedYear)
-        let startDay = self.getStartDayInMonth(self.modifiedMonth, year: self.modifiedYear)
-        self.setDaysInMonth(numDays, startDay: startDay)
+//        let numDays = self.getNumDaysInMonth(self.modifiedMonth, year: self.modifiedYear)
+//        let startDay = self.getStartDayInMonth(self.modifiedMonth, year: self.modifiedYear)
+        //self.setDaysInMonth(numDays, startDay: startDay)
+        self.updateMonth(month, year: year)
         self.setMonth(self.modifiedMonth)
         self.setYear(self.modifiedYear)
         self.setNeedsLayout()
@@ -307,9 +444,10 @@ class CalendarView: UIView{
             self.modifiedMonth = 1
             self.modifiedYear += 1
         }
-        let numDays = self.getNumDaysInMonth(self.modifiedMonth, year: self.modifiedYear)
-        let startDay = self.getStartDayInMonth(self.modifiedMonth, year: self.modifiedYear)
-        self.setDaysInMonth(numDays, startDay: startDay)
+//        let numDays = self.getNumDaysInMonth(self.modifiedMonth, year: self.modifiedYear)
+//        let startDay = self.getStartDayInMonth(self.modifiedMonth, year: self.modifiedYear)
+        //self.setDaysInMonth(numDays, startDay: startDay)
+        self.updateMonth(self.modifiedMonth, year: self.modifiedYear)
         self.setMonth(self.modifiedMonth)
         self.setYear(self.modifiedYear)
         self.setNeedsLayout()
@@ -323,9 +461,10 @@ class CalendarView: UIView{
             self.modifiedMonth = 12
             self.modifiedYear -= 1
         }
-        let numDays = self.getNumDaysInMonth(self.modifiedMonth, year: self.modifiedYear)
-        let startDay = self.getStartDayInMonth(self.modifiedMonth, year: self.modifiedYear)
-        self.setDaysInMonth(numDays, startDay: startDay)
+//        let numDays = self.getNumDaysInMonth(self.modifiedMonth, year: self.modifiedYear)
+//        let startDay = self.getStartDayInMonth(self.modifiedMonth, year: self.modifiedYear)
+        //self.setDaysInMonth(numDays, startDay: startDay)
+        self.updateMonth(self.modifiedMonth, year: self.modifiedYear)
         self.setMonth(self.modifiedMonth)
         self.setYear(self.modifiedYear)
         self.setNeedsLayout()
