@@ -32,6 +32,7 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
         
         self.view.addSubview(mapContainer)
         self.view.addSubview(eventView)
+        self.view.bringSubviewToFront(mapContainer)
         eventView.autoPinEdgeToSuperviewEdge(.Bottom)
         eventView.autoPinEdgeToSuperviewEdge(.Right)
         eventView.autoPinEdgeToSuperviewEdge(.Left)
@@ -129,5 +130,15 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
     func changeDimensions(s: UIPanGestureRecognizer){
         mapContainerConstraint.constant = s.locationInView(eventView).y
 //            s.locationInView(self.view).y
+        if(s.state == UIGestureRecognizerState.Ended && s.locationInView(self.view).y >= self.view.frame.height*(1/5)){
+            print(self.view.frame.height*(1/5))
+            print(s.locationInView(self.view).y)
+            UIView.animateWithDuration(2, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
+                self.view.setNeedsLayout()
+                self.view.layoutIfNeeded()
+                self.eventView.center.y = self.view.frame.height
+                }, completion: { finished in
+            })
+        }
     }
 }
