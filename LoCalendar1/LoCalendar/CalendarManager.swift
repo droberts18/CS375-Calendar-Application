@@ -288,8 +288,15 @@ class CalendarManager {
         //0 is red
         //1 is green
         //2 is blue
-        var rgbVals = [(CGFloat,CGFloat,CGFloat)](count: 24, repeatedValue: (CGFloat(200/255),CGFloat(200/255),CGFloat(200/255)))
-        let changeByVal:CGFloat = 75/255
+        //var rgbVals = [(CGFloat,CGFloat,CGFloat)](count: 24, repeatedValue: (CGFloat(0/255),CGFloat(50/255),CGFloat(100/255)))
+        //var rgbVals = [(CGFloat,CGFloat,CGFloat)](count: 24, repeatedValue: (CGFloat(0/255),CGFloat(50/255),CGFloat(100/255)))
+        let h:CGFloat = 208 //92
+        let s:CGFloat = 72 //72
+        let b:CGFloat = 30 //61.6
+        var hsbVals = [(CGFloat,CGFloat,CGFloat)] (count: 24, repeatedValue: (((h/360),(s/100),(b/100))))
+        
+        
+        let changeByVal:CGFloat = 50/100
         
         for event in events{
             if(!event.allDay){
@@ -310,37 +317,44 @@ class CalendarManager {
                                 //if the event is 0 in length
                                 if(startTime == endTime){
 //                                    rgbVals[hour].0 += changeByVal
-                                    rgbVals[hour].1 += changeByVal
-                                    rgbVals[hour].2 += changeByVal
+//                                    rgbVals[hour].1 += changeByVal/2
+//                                    rgbVals[hour].2 += changeByVal
+                                    hsbVals[hour].2 += changeByVal
                                 }else{
 //                                    rgbVals[hour].0 += changeByVal * (CGFloat(endTime) - CGFloat(startTime))
-                                    rgbVals[hour].1 += changeByVal * (CGFloat(endTime) - CGFloat(startTime))
-                                    rgbVals[hour].2 += changeByVal * (CGFloat(endTime) - CGFloat(startTime))
+//                                    rgbVals[hour].1 += (changeByVal * (CGFloat(endTime) - CGFloat(startTime)))/2
+//                                    rgbVals[hour].2 += changeByVal * (CGFloat(endTime) - CGFloat(startTime))
+                                    hsbVals[hour].2 += changeByVal * (CGFloat(endTime) - CGFloat(startTime))
                                 }
                             }else if(hour == startHour){
                                 if(startTime == Double(startHour)){
 //                                    rgbVals[hour].0 += changeByVal
-                                    rgbVals[hour].1 += changeByVal
-                                    rgbVals[hour].2 += changeByVal
+//                                    rgbVals[hour].1 += changeByVal/2
+//                                    rgbVals[hour].2 += changeByVal
+                                    hsbVals[hour].2 += changeByVal
                                 }else{
 //                                    rgbVals[hour].0 += changeByVal * (CGFloat(startTime) - CGFloat(startHour))
-                                    rgbVals[hour].1 += changeByVal * (CGFloat(startTime) - CGFloat(startHour))
-                                    rgbVals[hour].2 += changeByVal * (CGFloat(startTime) - CGFloat(startHour))
+//                                    rgbVals[hour].1 += (changeByVal * (CGFloat(startTime) - CGFloat(startHour)))/2
+//                                    rgbVals[hour].2 += changeByVal * (CGFloat(startTime) - CGFloat(startHour))
+                                    hsbVals[hour].2 += changeByVal * (CGFloat(startTime) - CGFloat(startHour))
                                 }
                             }else if(hour == endHour - 1){
                                 if(endTime == Double(endHour)){
 //                                    rgbVals[hour].0 += changeByVal
-                                    rgbVals[hour].1 += changeByVal
-                                    rgbVals[hour].2 += changeByVal
+//                                    rgbVals[hour].1 += changeByVal/2
+//                                    rgbVals[hour].2 += changeByVal
+                                    hsbVals[hour].2 += changeByVal
                                 }else{
 //                                    rgbVals[hour].0 += changeByVal * (1 - (CGFloat(endHour) - CGFloat(endTime)))
-                                    rgbVals[hour].1 += changeByVal * (1 - (CGFloat(endHour) - CGFloat(endTime)))
-                                    rgbVals[hour].2 += changeByVal * (1 - (CGFloat(endHour) - CGFloat(endTime)))
+//                                    rgbVals[hour].1 += (changeByVal * (1 - (CGFloat(endHour) - CGFloat(endTime))))/2
+//                                    rgbVals[hour].2 += changeByVal * (1 - (CGFloat(endHour) - CGFloat(endTime)))
+                                    hsbVals[hour].2 += changeByVal * (1 - (CGFloat(endHour) - CGFloat(endTime)))
                                 }
                             }else{
 //                                rgbVals[hour].0 += changeByVal
-                                rgbVals[hour].1 += changeByVal
-                                rgbVals[hour].2 += changeByVal
+//                                rgbVals[hour].1 += changeByVal/2
+//                                rgbVals[hour].2 += changeByVal
+                                hsbVals[hour].2 += changeByVal
                             }
                             hour += 1
                         }                    
@@ -349,10 +363,12 @@ class CalendarManager {
         }
         
         var hourValues = [UIColor]()
-        for rgb in rgbVals{
-            hourValues.append(UIColor(red: rgb.0, green: rgb.1, blue: rgb.2, alpha: 1))
+//        for rgb in rgbVals{
+//            hourValues.append(UIColor(red: rgb.0, green: rgb.1, blue: rgb.2, alpha: 1))
+//        }
+        for hsb in hsbVals{
+            hourValues.append(UIColor(hue: hsb.0, saturation: hsb.1, brightness: hsb.2, alpha: 1))
         }
-        
         return hourValues
     }
     
