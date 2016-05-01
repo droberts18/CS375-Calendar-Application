@@ -281,9 +281,15 @@ class CalendarManager {
         return weekDay
     }
     
-    func getAlphaValuesForHours(events:[EKEvent]) -> [Double]{
+    func getColorValuesForHours(events:[EKEvent]) -> [UIColor]{
         //var hourValues:[Double] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-        var hourValues = [Double](count: 24, repeatedValue: 0.1)
+        //var hourValues = [UIColor](count: 24, repeatedValue: UIColor(red: 20/255, green: 60/255, blue: 90/255, alpha: 1))
+        
+        //0 is red
+        //1 is green
+        //2 is blue
+        var rgbVals = [(CGFloat,CGFloat,CGFloat)](count: 24, repeatedValue: (CGFloat(200/255),CGFloat(200/255),CGFloat(200/255)))
+        let changeByVal:CGFloat = 75/255
         
         for event in events{
             if(!event.allDay){
@@ -303,30 +309,50 @@ class CalendarManager {
                             if(startHour == endHour){
                                 //if the event is 0 in length
                                 if(startTime == endTime){
-                                    hourValues[hour] += 0.1
+//                                    rgbVals[hour].0 += changeByVal
+                                    rgbVals[hour].1 += changeByVal
+                                    rgbVals[hour].2 += changeByVal
                                 }else{
-                                    hourValues[hour] += Double(endTime) - Double(startTime)
+//                                    rgbVals[hour].0 += changeByVal * (CGFloat(endTime) - CGFloat(startTime))
+                                    rgbVals[hour].1 += changeByVal * (CGFloat(endTime) - CGFloat(startTime))
+                                    rgbVals[hour].2 += changeByVal * (CGFloat(endTime) - CGFloat(startTime))
                                 }
                             }else if(hour == startHour){
                                 if(startTime == Double(startHour)){
-                                    hourValues[hour] += 1
+//                                    rgbVals[hour].0 += changeByVal
+                                    rgbVals[hour].1 += changeByVal
+                                    rgbVals[hour].2 += changeByVal
                                 }else{
-                                    hourValues[hour] += (Double(startTime) - Double(startHour))
+//                                    rgbVals[hour].0 += changeByVal * (CGFloat(startTime) - CGFloat(startHour))
+                                    rgbVals[hour].1 += changeByVal * (CGFloat(startTime) - CGFloat(startHour))
+                                    rgbVals[hour].2 += changeByVal * (CGFloat(startTime) - CGFloat(startHour))
                                 }
                             }else if(hour == endHour - 1){
                                 if(endTime == Double(endHour)){
-                                    hourValues[hour] += 1
+//                                    rgbVals[hour].0 += changeByVal
+                                    rgbVals[hour].1 += changeByVal
+                                    rgbVals[hour].2 += changeByVal
                                 }else{
-                                    hourValues[hour] += (1 - (Double(endHour) - Double(endTime)))
+//                                    rgbVals[hour].0 += changeByVal * (1 - (CGFloat(endHour) - CGFloat(endTime)))
+                                    rgbVals[hour].1 += changeByVal * (1 - (CGFloat(endHour) - CGFloat(endTime)))
+                                    rgbVals[hour].2 += changeByVal * (1 - (CGFloat(endHour) - CGFloat(endTime)))
                                 }
                             }else{
-                                hourValues[hour] += 1
+//                                rgbVals[hour].0 += changeByVal
+                                rgbVals[hour].1 += changeByVal
+                                rgbVals[hour].2 += changeByVal
                             }
                             hour += 1
                         }                    
                 }
             }
         }
+        
+        var hourValues = [UIColor]()
+        for rgb in rgbVals{
+            hourValues.append(UIColor(red: rgb.0, green: rgb.1, blue: rgb.2, alpha: 1))
+        }
+        
         return hourValues
     }
     

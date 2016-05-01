@@ -90,16 +90,14 @@ class CalendarViewDateButton: UIButton {
     
     func setViewStatus(status: SelectionStatus){
         
-        let animationTime = 0.0
+        //let animationTime = 0.0
         
         switch status {
         case .Normal:
             self.labelView.layer.borderColor = UIColor.clearColor().CGColor
             self.labelView.layer.borderWidth = 0
             
-            UIView.animateWithDuration(animationTime, animations: {
-                self.labelView.alpha = 0.7
-            })
+            self.labelView.alpha = 0.7
             if self.status != SelectionStatus.CurrentDay{
                 self.status = .Normal
                 self.labelView.backgroundColor = self.normalColor
@@ -108,10 +106,8 @@ class CalendarViewDateButton: UIButton {
         case .CurrentlyDisplayedItem:
             self.labelView.layer.borderColor = self.blueColor.CGColor
             self.labelView.layer.borderWidth = 2
-            UIView.animateWithDuration(animationTime, animations: {
-                self.labelView.alpha = 1
-            })
-            if self.status != SelectionStatus.CurrentDay || self.status != .PrevMonth || self.status != .NextMonth{
+            self.labelView.alpha = 1
+            if self.status != SelectionStatus.CurrentDay && self.status != .PrevMonth && self.status != .NextMonth{
                 self.status = .CurrentlyDisplayedItem
             }
             break
@@ -136,15 +132,11 @@ class CalendarViewDateButton: UIButton {
                 }
             break
         case .NextMonth:
-            UIView.animateWithDuration(animationTime, animations: {
-                self.labelView.alpha = 0.2
-            })
+            self.labelView.alpha = 0.2
             self.status = .NextMonth
             break
         case .PrevMonth:
-            UIView.animateWithDuration(animationTime, animations: {
-                self.labelView.alpha = 0.2
-            })
+            self.labelView.alpha = 0.2
             self.status = .PrevMonth
             break
         case .DeselectCurrentDay:
