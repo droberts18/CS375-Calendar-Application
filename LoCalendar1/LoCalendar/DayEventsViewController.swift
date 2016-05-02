@@ -164,7 +164,7 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
 //        slideArrow.autoPinEdge(.Top, toEdge: .Bottom, ofView: myMap, withOffset: 5)
         
         let slide = UIPanGestureRecognizer(target: self, action: #selector(DayEventsViewController.changeDimensions(_:)))
-        let arrowTap = UITapGestureRecognizer(target: self, action: #selector(DayEventsViewController.changeDimensions(_:)))
+        let arrowTap = UITapGestureRecognizer(target: self, action: #selector(DayEventsViewController.slideOnTap(_:)))
         eventViewSlider.addGestureRecognizer(slide)
         eventViewSlider.addGestureRecognizer(arrowTap)
     }
@@ -184,50 +184,66 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
     }
     
     func changeDimensions(s: UIPanGestureRecognizer){
-        mapContainerConstraint.constant = s.locationInView(eventView).y
-//            s.locationInView(self.view).y
         if(!self.fullScreenMap){
-            if(s.state == UIGestureRecognizerState.Ended && s.locationInView(self.view).y >= self.view.frame.height*(1/5)){
+            if(s.state == UIGestureRecognizerState.Ended && s.locationInView(self.view).y >= self.view.frame.height*(1/5) && s.velocityInView(self.view).y > 0){
                 print(self.view.frame.height*(1/5))
                 print(s.locationInView(self.view).y)
-                UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
-                    //self.eventViewSliderArrow = self.eventViewSliderArrowUp
-                    self.eventViewSlider.transform = CGAffineTransformMakeRotation(180 * CGFloat(M_PI)/180)
-                    
-                    self.halfShowingArrowConstraint.active = false
-                    self.heightOfMapConstraint.active = false
-                    self.bottomOfMapArrowConstraint.active = true
-                    //self.heightOfMapConstraint.constant = self.view.frame.size.height
-                    self.bottomMapConstraint.active = true
-                    self.view.setNeedsLayout()
-                    self.view.layoutIfNeeded()
-    //                self.eventView.center.y = self.view.frame.height
-                    }, completion: { finished in
-                        self.fullScreenMap = true
-                })
+                print("Slide down velocity: ", s.velocityInView(self.view))
+                slideDownAnimation()
             }
         }else{
-            if(s.state == UIGestureRecognizerState.Ended && s.locationInView(self.view).y <= self.view.frame.height){
+            if(s.state == UIGestureRecognizerState.Ended && s.locationInView(self.view).y <= self.view.frame.height && s.velocityInView(self.view).y < 0){
                 print(self.view.frame.height*(1/5))
                 print(s.locationInView(self.view).y)
-                UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
-                    //self.eventViewSliderArrow = self.eventViewSliderArrowDown
-                    self.eventViewSlider.transform = CGAffineTransformIdentity
-                    
-                    self.bottomMapConstraint.active = false
-                    self.bottomOfMapArrowConstraint.active = false
-                    
-                    self.halfShowingArrowConstraint.active = true
-                    self.heightOfMapConstraint.active = true
-                    
-                    
-                    
-                    self.view.setNeedsLayout()
-                    self.view.layoutIfNeeded()
-                    }, completion: { finished in
-                        self.fullScreenMap = false
-                })
+                print("Slide up velocity: ", s.velocityInView(self.view))
+                slideUpAnimation()
             }
+        }
+    }
+    
+    func slideDownAnimation(){
+        UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
+            //self.eventViewSliderArrow = self.eventViewSliderArrowUp
+            self.eventViewSlider.transform = CGAffineTransformMakeRotation(180 * CGFloat(M_PI)/180)
+            self.halfShowingArrowConstraint.active = false
+            self.heightOfMapConstraint.active = false
+            self.bottomOfMapArrowConstraint.active = true
+            //self.heightOfMapConstraint.constant = self.view.frame.size.height
+            self.bottomMapConstraint.active = true
+            self.view.setNeedsLayout()
+            self.view.layoutIfNeeded()
+            //                self.eventView.center.y = self.view.frame.height
+            }, completion: { finished in
+                self.fullScreenMap = true
+        })
+
+    }
+    
+    func slideUpAnimation(){
+        UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
+            //self.eventViewSliderArrow = self.eventViewSliderArrowDown
+            self.eventViewSlider.transform = CGAffineTransformIdentity
+            
+            self.bottomMapConstraint.active = false
+            self.bottomOfMapArrowConstraint.active = false
+            
+            self.halfShowingArrowConstraint.active = true
+            self.heightOfMapConstraint.active = true
+            
+            
+            self.view.setNeedsLayout()
+            self.view.layoutIfNeeded()
+            }, completion: { finished in
+                self.fullScreenMap = false
+        })
+    }
+    
+    func slideOnTap(s: UITapGestureRecognizer){
+        if(!fullScreenMap){
+            slideDownAnimation()
+        }
+        else{
+            slideUpAnimation()
         }
     }
 }
