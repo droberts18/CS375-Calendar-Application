@@ -82,8 +82,8 @@ class CalendarScrollCell: UITableViewCell {
         daySummaryContainer.autoPinEdge(.Left, toEdge: .Right, ofView: dateContainer)
         
         // ADDING TAP GESTURE TO BRING UP EVENTS FOR THE DAY
-        let cellTapGesture = UITapGestureRecognizer(target: self, action: #selector(CalendarScrollCell.seeDayEvents(_:)))
-        self.addGestureRecognizer(cellTapGesture)
+//        let cellTapGesture = UITapGestureRecognizer(target: self, action: #selector(CalendarScrollCell.seeDayEvents(_:)))
+//        self.addGestureRecognizer(cellTapGesture)
         
 //        var previousHour = UIView()
 //        var first = true
@@ -151,6 +151,7 @@ class CalendarScrollCell: UITableViewCell {
 //            hourCell.layer.borderColor = darkColor.CGColor
             
         }
+        self.constrainHourViews()
         self.addedViews = true
         self.setNeedsDisplay()
     }
@@ -176,6 +177,26 @@ class CalendarScrollCell: UITableViewCell {
         }
     }
     
+    func constrainHourViews(){
+        var first = true
+        var prevHour:UIView?
+        for hour in self.hourHeatMapViews{
+            if(first){
+                hour.autoPinEdge(.Left, toEdge: .Left, ofView: self.daySummaryContainer)
+                hour.autoPinEdge(.Top, toEdge: .Top, ofView: self.daySummaryContainer)
+                hour.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.daySummaryContainer)
+                hour.autoMatchDimension(.Width, toDimension: .Width, ofView: self.daySummaryContainer, withMultiplier: 1/24)
+                first = false
+            }else{
+                hour.autoPinEdge(.Left, toEdge: .Right, ofView: prevHour!)
+                hour.autoPinEdge(.Top, toEdge: .Top, ofView: prevHour!)
+                hour.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: prevHour!)
+                hour.autoMatchDimension(.Width, toDimension: .Width, ofView: self.daySummaryContainer, withMultiplier: 1/24)
+            }
+            prevHour = hour
+        }
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -188,8 +209,8 @@ class CalendarScrollCell: UITableViewCell {
         return "\(self.month)-\(self.day)-\(self.year)"
     }
 
-    func seeDayEvents(sender: UITapGestureRecognizer? = nil){
-        let dayEventsViewController = DayEventsViewController()
-        self.window?.rootViewController?.presentViewController(dayEventsViewController, animated: true, completion: nil)
-    }
+//    func seeDayEvents(sender: UITapGestureRecognizer? = nil){
+//        let dayEventsViewController = DayEventsViewController()
+//        self.window?.rootViewController?.presentViewController(dayEventsViewController, animated: true, completion: nil)
+//    }
 }

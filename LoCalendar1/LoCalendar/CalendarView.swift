@@ -382,7 +382,7 @@ class CalendarView: UIView{
         self.setNeedsLayout()
     }
     
-    func goForwardOneMonth(){
+    func incrementOneMonth(){
         if(self.modifiedMonth < 12){
             self.modifiedMonth += 1
         }else{
@@ -392,14 +392,14 @@ class CalendarView: UIView{
 //        let numDays = self.getNumDaysInMonth(self.modifiedMonth, year: self.modifiedYear)
 //        let startDay = self.getStartDayInMonth(self.modifiedMonth, year: self.modifiedYear)
         //self.setDaysInMonth(numDays, startDay: startDay)
-        self.updateMonth(self.modifiedMonth, year: self.modifiedYear)
-        self.setMonth(self.modifiedMonth)
-        self.setYear(self.modifiedYear)
-        self.setNeedsLayout()
+        //self.updateMonth(self.modifiedMonth, year: self.modifiedYear)
+//        self.setMonth(self.modifiedMonth)
+//        self.setYear(self.modifiedYear)
+        //self.setNeedsLayout()
         //self.layoutIfNeeded()
     }
     
-    func goBackwardOneMonth(){
+    func decrementOneMonth(){
         if(self.modifiedMonth > 1){
             self.modifiedMonth -= 1
         }else{
@@ -409,10 +409,10 @@ class CalendarView: UIView{
 //        let numDays = self.getNumDaysInMonth(self.modifiedMonth, year: self.modifiedYear)
 //        let startDay = self.getStartDayInMonth(self.modifiedMonth, year: self.modifiedYear)
         //self.setDaysInMonth(numDays, startDay: startDay)
-        self.updateMonth(self.modifiedMonth, year: self.modifiedYear)
-        self.setMonth(self.modifiedMonth)
-        self.setYear(self.modifiedYear)
-        self.setNeedsLayout()
+        //self.updateMonth(self.modifiedMonth, year: self.modifiedYear)
+//        self.setMonth(self.modifiedMonth)
+//        self.setYear(self.modifiedYear)
+        //self.setNeedsLayout()
         //self.layoutIfNeeded()
     }
 }

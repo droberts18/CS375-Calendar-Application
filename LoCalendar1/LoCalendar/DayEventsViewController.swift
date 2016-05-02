@@ -12,10 +12,21 @@ import MapKit
 import CoreLocation
 
 class DayEventsViewController: UIViewController, MKMapViewDelegate {
+    
+    let cellSelectColor = UIColor(red: 30/255, green: 33/255, blue: 40/255, alpha: 1)
+    let darkColor = UIColor(red: 24/255, green: 26/255, blue: 33/255, alpha: 1)
+    let whiteColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+    let lightDarkColor = UIColor(red: 42/255, green: 44/255, blue: 54/255, alpha: 1)
+    let blueColor = UIColor(red: 44/255, green: 105/255, blue: 157/255, alpha: 1)
+    let greenColor = UIColor(red: 96/255, green: 157/255, blue: 44/255, alpha: 1)
+    
     let mapContainer = UIView(forAutoLayout: ())
     let myMap = MKMapView(forAutoLayout: ())
     let eventView = UIView()
-    let eventViewSliderArrow = UIImage(named: "UpArrow.png")
+    var eventViewSliderArrowDown:UIImageView? = nil //(named: "DownArrow.png")
+    var eventViewSliderArrowUp:UIImageView? = nil //(named: "UpArrow.png")
+    var eventViewSliderArrow:UIImageView? = nil
+    var eventViewSlider = UIView()
     
     let initialLocation = CLLocation(latitude: LocationManager().getGeoLocation().coordinate.latitude, longitude: LocationManager().getGeoLocation().coordinate.longitude)
     let regionRadius = 1000.0
@@ -25,18 +36,29 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
     let objectAnnotation = MKPointAnnotation()
 
     var mapContainerConstraint = NSLayoutConstraint()
+    var halfShowingArrowConstraint = NSLayoutConstraint()
+    var bottomOfMapArrowConstraint = NSLayoutConstraint()
+    var heightOfMapConstraint = NSLayoutConstraint()
+    var bottomMapConstraint = NSLayoutConstraint()
+    var fullScreenMap = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+        let downArrow = UIImage(named: "DownArrow.png")
+        self.eventViewSliderArrowDown = UIImageView(image: downArrow)
         
+        let upArrow = UIImage(named: "UpArrow.png")
+        self.eventViewSliderArrowUp = UIImageView(image: upArrow)
+        
+        self.view.backgroundColor = darkColor
         self.view.addSubview(mapContainer)
         self.view.addSubview(eventView)
         self.view.bringSubviewToFront(mapContainer)
         eventView.autoPinEdgeToSuperviewEdge(.Bottom)
         eventView.autoPinEdgeToSuperviewEdge(.Right)
         eventView.autoPinEdgeToSuperviewEdge(.Left)
-        eventView.autoMatchDimension(.Height, toDimension: .Height, ofView: self.view, withMultiplier: 0.4)
+        //eventView.autoMatchDimension(.Height, toDimension: .Height, ofView: self.view, withMultiplier: 0.4)
         
         mapContainer.autoPinEdge(.Top, toEdge: .Top, ofView: self.view, withOffset: 0)
         mapContainer.autoPinEdge(.Left, toEdge: .Left, ofView: self.view, withOffset: 0)
@@ -44,6 +66,11 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
         
 //        mapContainerConstraint = mapContainer.autoMatchDimension(.Height, toDimension: .Height, ofView: self.view, withMultiplier: 0.6)
         mapContainerConstraint = mapContainer.autoPinEdge(.Bottom, toEdge: .Top, ofView: eventView)
+        heightOfMapConstraint = mapContainer.autoMatchDimension(.Height, toDimension: .Height, ofView: self.view, withMultiplier: 0.4)
+        //bottomMapConstraint = mapContainer.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view)
+        bottomMapConstraint = mapContainer.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view, withOffset: 0, relation: .LessThanOrEqual)
+        bottomMapConstraint.active = false
+        
         
         //map
         mapContainer.addSubview(myMap)
@@ -86,20 +113,47 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
 //        slideArrowView.autoAlignAxis(.Vertical, toSameAxisOfView: self.view)
 //        slideArrowView.autoSetDimension(.Height, toSize: 50)
 //        slideArrowView.autoSetDimension(.Width, toSize: 100)
-        let eventViewSlider = UIImageView(image: eventViewSliderArrow)
-        eventViewSlider.contentMode = UIViewContentMode.ScaleAspectFit
-        eventViewSlider.clipsToBounds = true
-        eventViewSlider.autoSetDimension(.Height, toSize: 40)
-        eventViewSlider.autoSetDimension(.Width, toSize: 60)
-        eventViewSlider.layer.cornerRadius = eventViewSlider.frame.size.width/2
-        eventViewSlider.backgroundColor = UIColor.blackColor()
+        
+        
+        
+        let eventViewSliderSize:CGFloat = 50
+        self.eventViewSliderArrow = eventViewSliderArrowDown
+        let sizeRatio = (eventViewSliderArrow!.frame.size.width)/(eventViewSliderArrow!.frame.size.height)
+        eventViewSliderArrow!.autoSetDimension(.Height, toSize: 20)
+        eventViewSliderArrow!.autoMatchDimension(.Width, toDimension: .Height, ofView: eventViewSliderArrow!, withMultiplier: sizeRatio)
+        
+        eventViewSlider.addSubview(eventViewSliderArrow!)
+        eventViewSliderArrow!.autoCenterInSuperview()
+        
+        eventViewSlider.autoSetDimension(.Width, toSize: eventViewSliderSize)
+        eventViewSlider.autoSetDimension(.Height, toSize: eventViewSliderSize)
+        eventViewSlider.layer.cornerRadius = eventViewSliderSize/2
+        eventViewSlider.backgroundColor = darkColor
         self.view.addSubview(eventViewSlider)
         eventViewSlider.userInteractionEnabled = true
+        
+        
+        
+        
+        
+        
+        
+        
+//        let eventViewSlider = UIImageView(image: eventViewSliderArrow)
+//        eventViewSlider.contentMode = UIViewContentMode.ScaleAspectFit
+//        eventViewSlider.clipsToBounds = true
+//        eventViewSlider.autoSetDimension(.Height, toSize: 40)
+//        eventViewSlider.autoSetDimension(.Width, toSize: 40)
+//        eventViewSlider.layer.cornerRadius = eventViewSlider.frame.size.width/2
+//        eventViewSlider.backgroundColor = UIColor.blackColor()
+//        self.view.addSubview(eventViewSlider)
+//        eventViewSlider.userInteractionEnabled = true
 //        eventViewSlider.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: eventView, withOffset: eventViewSlider.frame.size.height/2, relation: .GreaterThanOrEqual)
 //        eventViewSlider.autoConstrainAttribute(.Bottom, toAttribute: .Bottom, ofView: eventView, withMultiplier: 1, relation: .GreaterThanOrEqual)
-        eventViewSlider.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: myMap, withOffset: eventViewSlider.frame.size.height/2, relation: .GreaterThanOrEqual)
-
-
+        
+        self.bottomOfMapArrowConstraint = eventViewSlider.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: mapContainer, withOffset: -5)
+        self.bottomOfMapArrowConstraint.active = false
+        self.halfShowingArrowConstraint = eventViewSlider.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: mapContainer, withOffset: eventViewSliderSize/2)
         eventViewSlider.autoAlignAxisToSuperviewAxis(.Vertical)
         
 //        let slideArrow = UIView()
@@ -109,8 +163,10 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
 //        self.view.addSubview(slideArrow)
 //        slideArrow.autoPinEdge(.Top, toEdge: .Bottom, ofView: myMap, withOffset: 5)
         
-        let slide = UIPanGestureRecognizer(target: self, action: "changeDimensions:")
+        let slide = UIPanGestureRecognizer(target: self, action: #selector(DayEventsViewController.changeDimensions(_:)))
+        let arrowTap = UITapGestureRecognizer(target: self, action: #selector(DayEventsViewController.changeDimensions(_:)))
         eventViewSlider.addGestureRecognizer(slide)
+        eventViewSlider.addGestureRecognizer(arrowTap)
     }
     
     override func didReceiveMemoryWarning() {
@@ -130,15 +186,48 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
     func changeDimensions(s: UIPanGestureRecognizer){
         mapContainerConstraint.constant = s.locationInView(eventView).y
 //            s.locationInView(self.view).y
-        if(s.state == UIGestureRecognizerState.Ended && s.locationInView(self.view).y >= self.view.frame.height*(1/5)){
-            print(self.view.frame.height*(1/5))
-            print(s.locationInView(self.view).y)
-            UIView.animateWithDuration(2, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
-                self.view.setNeedsLayout()
-                self.view.layoutIfNeeded()
-                self.eventView.center.y = self.view.frame.height
-                }, completion: { finished in
-            })
+        if(!self.fullScreenMap){
+            if(s.state == UIGestureRecognizerState.Ended && s.locationInView(self.view).y >= self.view.frame.height*(1/5)){
+                print(self.view.frame.height*(1/5))
+                print(s.locationInView(self.view).y)
+                UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
+                    //self.eventViewSliderArrow = self.eventViewSliderArrowUp
+                    self.eventViewSlider.transform = CGAffineTransformMakeRotation(180 * CGFloat(M_PI)/180)
+                    
+                    self.halfShowingArrowConstraint.active = false
+                    self.heightOfMapConstraint.active = false
+                    self.bottomOfMapArrowConstraint.active = true
+                    //self.heightOfMapConstraint.constant = self.view.frame.size.height
+                    self.bottomMapConstraint.active = true
+                    self.view.setNeedsLayout()
+                    self.view.layoutIfNeeded()
+    //                self.eventView.center.y = self.view.frame.height
+                    }, completion: { finished in
+                        self.fullScreenMap = true
+                })
+            }
+        }else{
+            if(s.state == UIGestureRecognizerState.Ended && s.locationInView(self.view).y <= self.view.frame.height){
+                print(self.view.frame.height*(1/5))
+                print(s.locationInView(self.view).y)
+                UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
+                    //self.eventViewSliderArrow = self.eventViewSliderArrowDown
+                    self.eventViewSlider.transform = CGAffineTransformIdentity
+                    
+                    self.bottomMapConstraint.active = false
+                    self.bottomOfMapArrowConstraint.active = false
+                    
+                    self.halfShowingArrowConstraint.active = true
+                    self.heightOfMapConstraint.active = true
+                    
+                    
+                    
+                    self.view.setNeedsLayout()
+                    self.view.layoutIfNeeded()
+                    }, completion: { finished in
+                        self.fullScreenMap = false
+                })
+            }
         }
     }
 }
