@@ -28,11 +28,12 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
     var backwardMonth = UIButton()
     var dayTable = DayTable(forAutoLayout: ())
     var dayCellHeight = CGFloat()
-    var navButton:NavButton?
+    var bubbleButton:BubbleButton?
     
     var currentDaysInView = [NSIndexPath()]
     var dayCellMap = [String:Int]() //holds the row index for the different dates stored, with key mm-dd-yyyy format
-    var scrollCellMap = [NSIndexPath:CalendarScrollCell]() //caches the scrollview cells
+    //var scrollCellMap = [NSIndexPath:CalendarScrollCell]() //caches the scrollview cells
+    var cellCache = NSCache()
     var currentHighlightedButtons = [CalendarViewDateButton]()
     
     override func viewDidLoad() {
@@ -129,10 +130,12 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
             }
         }
         
-        self.navButton = NavButton(buttonColor: blueColor, imageFileName: "AddEventButtonPlus.png")
-        self.view.addSubview(navButton!)
-        self.navButton?.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: -5)
-        self.navButton?.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view, withOffset: -5)
+//        self.bubbleButton = BubbleButton(buttonColor: blueColor, imageFileName: "AddEventButtonPlus.png", identifier: "Menu")
+//        self.view.addSubview(bubbleButton!)
+//        self.bubbleButton?.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: -5)
+//        self.bubbleButton?.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view, withOffset: -5)
+//        
+//        bubbleButton?.addNavButton(greenColor, imageFileName: "AddLocation.png")
     }
     
     override func didReceiveMemoryWarning() {
@@ -295,8 +298,9 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
     {
         //let dayCell = tableView.dequeueReusableCellWithIdentifier("CalendarScrollCell", forIndexPath: indexPath) as! CalendarScrollCell
         let dayCell:CalendarScrollCell?
-        if let cell = self.scrollCellMap[indexPath]{
-            dayCell = cell
+        //if let cell = self.scrollCellMap[indexPath]{
+        if let cell = self.cellCache.objectForKey(indexPath){
+            dayCell = cell as! CalendarScrollCell
             if(!(dayCell?.addedViews)!){
                 dayCell?.setHeatMap()
             }
@@ -317,7 +321,8 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
             }
         }else{
             dayCell = CalendarScrollCell()
-            self.scrollCellMap[indexPath] = dayCell
+            //self.scrollCellMap[indexPath] = dayCell
+            self.cellCache.setObject(dayCell!, forKey: indexPath)
             
             //do all of the cell stuff asynchronously
             let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT

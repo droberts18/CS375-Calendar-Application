@@ -59,26 +59,7 @@ class NavButton: UIButton {
         buttonImageView.autoSetDimension(.Height, toSize: navButtonImageSize)
         buttonImageView.autoMatchDimension(.Width, toDimension: .Height, ofView: buttonImageView, withMultiplier: self.sizeRatio)
         buttonImageView.autoCenterInSuperview()
-        
-        self.addTarget(self, action: #selector(NavButton.onSelect(_:)), forControlEvents: UIControlEvents.TouchUpInside)
     }
     
-    func onSelect(sender: UIButton!){
-        let degrees:CGFloat = 45; //the value in degrees
-        
-        if(!self.buttonTapped){
-            UIView.animateWithDuration(0.33, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
-                self.transform = CGAffineTransformMakeRotation(degrees * CGFloat(M_PI)/180) //rotate the view by n degrees
-                }, completion: { (value: Bool) in
-            })
-            self.buttonTapped = true
-        }else{
-            UIView.animateWithDuration(0.33, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
-                self.transform = CGAffineTransformIdentity //set back to original position
-                }, completion: { (value: Bool) in
-            })
-            self.buttonTapped = false
-        }
-        
-    }
+    
 }
