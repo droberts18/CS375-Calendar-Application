@@ -55,7 +55,7 @@ class CalendarManager {
     func fillDateMap() -> [String:Int]{
         var dateMap = [String:Int]()
         var rowIndex = 0
-        for myYear in self.currentYear-30...self.currentYear+30{
+        for myYear in self.currentYear-5...self.currentYear+5{
             for myMonth in 1...12{
                 for myDay in 1...self.getNumDaysInMonth(myMonth, year: myYear){
                     dateMap["\(myMonth)-\(myDay)-\(myYear)"] = rowIndex

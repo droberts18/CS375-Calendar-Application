@@ -32,14 +32,15 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
     
     var currentDaysInView = [NSIndexPath()]
     var dayCellMap = [String:Int]() //holds the row index for the different dates stored, with key mm-dd-yyyy format
-    //var scrollCellMap = [NSIndexPath:CalendarScrollCell]() //caches the scrollview cells
-    var cellCache = NSCache()
+    var cellCache = NSCache() //caches the scrollview cells
     var currentHighlightedButtons = [CalendarViewDateButton]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         dayCellMap = calendarManager.fillDateMap()
+        cellCache.countLimit = 120 // cache up to two months worth of data
+        cellCache.evictsObjectsWithDiscardedContent = true
         
         self.view.addSubview(calendarContainer)
         self.calendarContainer.autoPinEdge(.Top, toEdge: .Top, ofView: self.view)
@@ -146,6 +147,7 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
     override func viewDidLayoutSubviews() {
         dayCellHeight = self.dayTable.frame.height/7
         if let indices = dayTable.indexPathsForVisibleRows {
+            self.currentDaysInView.removeAll()
             self.currentDaysInView = indices
             self.highlightCurrentDaysInView()
         }
@@ -181,6 +183,11 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         }
         
         currentHighlightedButtons.removeAll()
+        
+        if let indices = dayTable.indexPathsForVisibleRows {
+            self.currentDaysInView.removeAll()
+            self.currentDaysInView = indices
+        }
         
         for dayInView in self.currentDaysInView{
             if let tableCell = dayTable.cellForRowAtIndexPath(dayInView) as? CalendarScrollCell{
@@ -271,6 +278,7 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
                 dayTable.getScrollDirection(scrollDirection)
             }
             if let indices = dayTable.indexPathsForVisibleRows {
+                self.currentDaysInView.removeAll()
                 self.currentDaysInView = indices
             }
             if(self.currentHighlightedButtons.count < 7 || self.currentHighlightedButtons.count == 0){
@@ -300,7 +308,7 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         let dayCell:CalendarScrollCell?
         //if let cell = self.scrollCellMap[indexPath]{
         if let cell = self.cellCache.objectForKey(indexPath){
-            dayCell = cell as! CalendarScrollCell
+            dayCell = cell as? CalendarScrollCell
             if(!(dayCell?.addedViews)!){
                 dayCell?.setHeatMap()
             }
@@ -310,8 +318,8 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
 
                 let date = self.calendarManager.makeNSDateFromComponents(dayCell!.month, day: dayCell!.day, year: dayCell!.year)
                 let events = self.calendarManager.getEventsForDate(date)
-                let colorValues = self.calendarManager.getColorValuesForHours(events)
-                dayCell!.colorValues = colorValues
+                dayCell!.colorValues?.removeAll()
+                dayCell!.colorValues = self.calendarManager.getColorValuesForHours(events)
                 
                 dispatch_async(dispatch_get_main_queue()) {
                     UIView.animateWithDuration(0.5, animations: {
@@ -330,8 +338,8 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
                 
                 let date = self.calendarManager.makeNSDateFromComponents(dayCell!.month, day: dayCell!.day, year: dayCell!.year)
                 let events = self.calendarManager.getEventsForDate(date)
-                let colorValues = self.calendarManager.getColorValuesForHours(events)
-                dayCell!.colorValues = colorValues
+                dayCell!.colorValues?.removeAll()
+                dayCell!.colorValues = self.calendarManager.getColorValuesForHours(events)
 
                 dispatch_async(dispatch_get_main_queue()) {
                     UIView.animateWithDuration(0.5, animations: {

@@ -172,15 +172,15 @@
 				C394579A1CC55EA200946626 /* CalendarManager.swift */,
 				C323E2E71CBCD7E500927F3B /* AppDelegate.swift */,
 				C394579E1CCE03E900946626 /* DayEventsViewController.swift */,
+				C323E3221CBCD8F000927F3B /* DataManager.swift */,
+				C39318651CBF117400E7EA15 /* LocationManager.swift */,
+				C39318631CBEDD0500E7EA15 /* User.swift */,
 				C39457991CC499DD00946626 /* images */,
 				C323E2E91CBCD7E500927F3B /* ViewController.swift */,
 				C323E2EB1CBCD7E500927F3B /* Main.storyboard */,
 				C323E2EE1CBCD7E500927F3B /* Assets.xcassets */,
 				C323E2F01CBCD7E500927F3B /* LaunchScreen.storyboard */,
 				C323E2F31CBCD7E500927F3B /* Info.plist */,
-				C323E3221CBCD8F000927F3B /* DataManager.swift */,
-				C39318651CBF117400E7EA15 /* LocationManager.swift */,
-				C39318631CBEDD0500E7EA15 /* User.swift */,
 				C39457811CC097D600946626 /* PureLayout */,
 			);
 			path = LoCalendar;
@@ -317,7 +317,7 @@
 				TargetAttributes = {
 					C323E2E31CBCD7E500927F3B = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = P537ZEA4SP;
+						DevelopmentTeam = F63F9F65P7;
 					};
 					C323E2F71CBCD7E500927F3B = {
 						CreatedOnToolsVersion = 7.3;
@@ -602,7 +602,7 @@
 				);
 				INFOPLIST_FILE = LoCalendar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Drew-Roberts";
+				PRODUCT_BUNDLE_IDENTIFIER = TylerReardon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LoCal-Bridging-Header.h";
@@ -622,7 +622,7 @@
 				);
 				INFOPLIST_FILE = LoCalendar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Drew-Roberts";
+				PRODUCT_BUNDLE_IDENTIFIER = TylerReardon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LoCal-Bridging-Header.h";
