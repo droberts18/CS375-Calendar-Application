@@ -240,6 +240,7 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
     
     func slideOnTap(s: UITapGestureRecognizer){
         if(!fullScreenMap){
+            
             slideDownAnimation()
         }
         else{

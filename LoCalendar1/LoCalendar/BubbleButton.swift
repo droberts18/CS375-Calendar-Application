@@ -60,7 +60,7 @@ class BubbleButton: NavButton {
     func showButtons(){
 
         UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.0, options: .CurveEaseIn, animations: {
-                self.buttonImageView?.transform = CGAffineTransformMakeRotation(45 * CGFloat(M_PI)/180)
+                self.buttonImageView?.transform = CGAffineTransformMakeRotation(-45 * CGFloat(M_PI)/180) //turn the plus into an x
                 let rotateBy:CGFloat = -90/(CGFloat(self.navButtons.count)+1)
                 var currentRotation:CGFloat = 0
                 for button in self.navButtons{
@@ -100,6 +100,13 @@ class BubbleButton: NavButton {
         if(self.buttonTapped){
             for button in self.navButtons{
                 if(CGRectContainsPoint(button.0.bounds, button.0.convertPoint(point, fromView: self))){
+                    UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: .CurveEaseIn, animations: {
+                            button.0.transform = CGAffineTransformMakeScale(1.25, 1.25)
+                        }, completion: {(value:Bool) in
+                            UIView.animateWithDuration(0.2, animations: {
+                                button.0.transform = CGAffineTransformIdentity
+                            })
+                    })
                     return button.0
                 }
             }

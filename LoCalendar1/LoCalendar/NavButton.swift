@@ -44,7 +44,7 @@ class NavButton: UIButton {
     
     func customInitialization(){
         buttonHeight = self.autoSetDimension(.Height, toSize: navButtonSize)
-        buttonWidth = self.autoSetDimension(.Width, toSize: navButtonSize)
+        buttonWidth = self.autoMatchDimension(.Width, toDimension: .Height, ofView: self)
         
         self.backgroundColor = buttonColor
         self.layer.cornerRadius = navButtonSize/2
