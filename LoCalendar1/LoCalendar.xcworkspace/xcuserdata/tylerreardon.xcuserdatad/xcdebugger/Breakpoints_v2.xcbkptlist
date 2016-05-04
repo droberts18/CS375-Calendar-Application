@@ -249,91 +249,14 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CalendarScrollViewController.swift"
-            timestampString = "484045066.9757"
+            filePath = "LoCalendar/BubbleButton.swift"
+            timestampString = "484087878.211111"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "317"
-            endingLineNumber = "317"
-            landmarkName = "tableView(_:cellForRowAtIndexPath:)"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
+            landmarkName = "hitTest(_:withEvent:)"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "LoCalendar.CalendarScrollViewController.(tableView (__ObjC.UITableView, cellForRowAtIndexPath : __ObjC.NSIndexPath) -&gt; __ObjC.UITableViewCell).(closure #1)"
-                  moduleName = "LoCalendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tylerreardon/Google%20Drive/College/0-Junior/Spring/MobileAppDev/AppProject/CS375-Calendar-Application/LoCalendar1/CalendarScrollViewController.swift"
-                  timestampString = "484026637.94936"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "311"
-                  endingLineNumber = "311"
-                  offsetFromSymbolStart = "29">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "LoCalendar.CalendarScrollViewController.(tableView (__ObjC.UITableView, cellForRowAtIndexPath : __ObjC.NSIndexPath) -&gt; __ObjC.UITableViewCell).(closure #1).(closure #1)"
-                  moduleName = "LoCalendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tylerreardon/Google%20Drive/College/0-Junior/Spring/MobileAppDev/AppProject/CS375-Calendar-Application/LoCalendar1/CalendarScrollViewController.swift"
-                  timestampString = "484026637.949463"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "311"
-                  endingLineNumber = "311"
-                  offsetFromSymbolStart = "4">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "LoCalendar.CalendarScrollViewController.(tableView (__ObjC.UITableView, cellForRowAtIndexPath : __ObjC.NSIndexPath) -&gt; __ObjC.UITableViewCell).(closure #1).(closure #1).(closure #1)"
-                  moduleName = "LoCalendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tylerreardon/Google%20Drive/College/0-Junior/Spring/MobileAppDev/AppProject/CS375-Calendar-Application/LoCalendar1/CalendarScrollViewController.swift"
-                  timestampString = "484026637.949541"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "311"
-                  endingLineNumber = "311"
-                  offsetFromSymbolStart = "4">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "LoCalendar.CalendarScrollViewController.(tableView (__ObjC.UITableView, cellForRowAtIndexPath : __ObjC.NSIndexPath) -&gt; __ObjC.UITableViewCell).(closure #2)"
-                  moduleName = "LoCalendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tylerreardon/Google%20Drive/College/0-Junior/Spring/MobileAppDev/AppProject/CS375-Calendar-Application/LoCalendar1/CalendarScrollViewController.swift"
-                  timestampString = "484026637.949624"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "311"
-                  endingLineNumber = "311"
-                  offsetFromSymbolStart = "29">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "LoCalendar.CalendarScrollViewController.(tableView (__ObjC.UITableView, cellForRowAtIndexPath : __ObjC.NSIndexPath) -&gt; __ObjC.UITableViewCell).(closure #2).(closure #1)"
-                  moduleName = "LoCalendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tylerreardon/Google%20Drive/College/0-Junior/Spring/MobileAppDev/AppProject/CS375-Calendar-Application/LoCalendar1/CalendarScrollViewController.swift"
-                  timestampString = "484026637.949707"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "311"
-                  endingLineNumber = "311"
-                  offsetFromSymbolStart = "4">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

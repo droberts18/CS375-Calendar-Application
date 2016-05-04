@@ -324,16 +324,25 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
             
             let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
             dispatch_async(dispatch_get_global_queue(priority, 0)) {
-
-                let date = self.calendarManager.makeNSDateFromComponents(dayCell!.month, day: dayCell!.day, year: dayCell!.year)
-                let events = self.calendarManager.getEventsForDate(date)
-                dayCell!.colorValues?.removeAll()
-                dayCell!.colorValues = self.calendarManager.getColorValuesForHours(events)
                 
-                dispatch_async(dispatch_get_main_queue()) {
-                    UIView.animateWithDuration(0.5, animations: {
-                        dayCell!.updateHeatMap()
-                    })
+                var okToComplete = false
+                dispatch_sync(dispatch_get_main_queue(), { 
+                    if self.currentDaysInView.contains(indexPath){
+                        okToComplete = true
+                    }
+                })
+                
+                if(okToComplete){
+                    let date = self.calendarManager.makeNSDateFromComponents(dayCell!.month, day: dayCell!.day, year: dayCell!.year)
+                    let events = self.calendarManager.getEventsForDate(date)
+                    dayCell!.colorValues?.removeAll()
+                    dayCell!.colorValues = self.calendarManager.getColorValuesForHours(events)
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        UIView.animateWithDuration(0.5, animations: {
+                            dayCell!.updateHeatMap()
+                        })
+                    }
                 }
             }
         }else{

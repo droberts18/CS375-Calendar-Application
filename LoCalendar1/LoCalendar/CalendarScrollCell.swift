@@ -28,7 +28,7 @@ class CalendarScrollCell: UITableViewCell {
     //var alphaValues:[Double]?
     
     //    var eventSummaryViews = [UIView]()
-        var addedViews = false
+    var addedViews = false
     
     var hourHeatMapViews = [UIView]()
     

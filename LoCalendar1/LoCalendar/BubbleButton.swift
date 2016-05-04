@@ -27,6 +27,7 @@ class BubbleButton: NavButton {
         let newNavButtonContainer = UIView()
         newNavButtonContainer.userInteractionEnabled = false
         self.addSubview(newNavButtonContainer)
+        //self.superview?.addSubview(newNavButtonContainer)
         newNavButtonContainer.autoPinEdgesToSuperviewEdges()
         
         let newNavButton = NavButton(buttonColor: buttonColor, imageFileName: imageFileName)
@@ -46,19 +47,17 @@ class BubbleButton: NavButton {
         if(self.navButtons.count > 0){
             if(!self.buttonTapped){
                 self.showButtons()
-                self.buttonTapped = true
             }else{
                 UIView.animateWithDuration(0.33, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
                     self.hideButtons()
                     }, completion: { (value: Bool) in
                 })
-                self.buttonTapped = false
             }
         }
     }
     
     func showButtons(){
-
+        self.buttonTapped = true
         UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.0, options: .CurveEaseIn, animations: {
                 self.buttonImageView?.transform = CGAffineTransformMakeRotation(-45 * CGFloat(M_PI)/180) //turn the plus into an x
                 let rotateBy:CGFloat = -90/(CGFloat(self.navButtons.count)+1)
@@ -79,12 +78,13 @@ class BubbleButton: NavButton {
     }
     
     func hideButtons(){
+        self.buttonTapped = false
         UIView.animateWithDuration(0.5, animations: {
             self.transform = CGAffineTransformIdentity //set back to original position
             self.buttonImageView!.transform = CGAffineTransformIdentity //set back to original position
         })
         for button in self.navButtons{
-            UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.7, options: .CurveEaseIn, animations: {
+            UIView.animateWithDuration(0.3, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.7, options: .CurveEaseIn, animations: {
                 for button in self.navButtons{
                     button.0.alpha = 0
                     button.1.transform = CGAffineTransformIdentity
@@ -106,13 +106,19 @@ class BubbleButton: NavButton {
                             UIView.animateWithDuration(0.2, animations: {
                                 button.0.transform = CGAffineTransformIdentity
                             })
-                            self.hideButtons()
                     })
-                    return button.0
+                    
+                    if(!button.0.hidden){
+                        //wait to hide the buttons until after the function has returned
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5*Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
+                            self.hideButtons()
+                        })
+                        return button.0
+                    }
                 }
             }
         }
-            return super.hitTest(point, withEvent: event)
+        return super.hitTest(point, withEvent: event)
     }
     
 }
