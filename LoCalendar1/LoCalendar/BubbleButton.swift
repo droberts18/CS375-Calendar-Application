@@ -106,6 +106,7 @@ class BubbleButton: NavButton {
                             UIView.animateWithDuration(0.2, animations: {
                                 button.0.transform = CGAffineTransformIdentity
                             })
+                            self.hideButtons()
                     })
                     return button.0
                 }
