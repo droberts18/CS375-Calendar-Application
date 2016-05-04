@@ -11,10 +11,11 @@ import Foundation
 class BubbleButton: NavButton {
     
     //a list of tuples --> .0 is the navButton, .1 is the layout constraints associated with that button
-    //var navButtons = [(NavButton,[NSLayoutConstraint])]()
-    var navButtons = [NavButton]()
-    var navButtonConstraints = [NavButton:[NSLayoutConstraint]]()
-    
+    var navButtons = [(NavButton,UIView,NSLayoutConstraint)]()
+    var degrees:CGFloat = 135; //the value in degrees the button is rotated initially
+
+    //var navButtons = [NavButton]()
+    //var navButtonConstraints = [NavButton:[NSLayoutConstraint]]()
     
     convenience init(buttonColor:UIColor, imageFileName:String, identifier:String){
         self.init(buttonColor: buttonColor, imageFileName: imageFileName)
@@ -22,60 +23,88 @@ class BubbleButton: NavButton {
     }
     
     func addNavButton(buttonColor:UIColor,imageFileName:String){
-        let newNavButton = NavButton(buttonColor: buttonColor, imageFileName: imageFileName)
-        var layoutConstraints = [NSLayoutConstraint]()
-        self.navButtons.append(newNavButton)
-        self.addSubview(newNavButton)
-        newNavButton.hidden = true
         
-        //if the current navButton is the only one in the list
-        if(navButtons.count <= 1){
-            let bottomConstraint = newNavButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self)
-            let rightConstraint = newNavButton.autoPinEdge(.Right, toEdge: .Right, ofView: self)
-            navButtonConstraints[newNavButton] = layoutConstraints
-            navButtonConstraints[newNavButton]?.append(bottomConstraint)
-            navButtonConstraints[newNavButton]?.append(rightConstraint)
-            
-//            layoutConstraints.append(bottomConstraint)
-//            layoutConstraints.append(rightConstraint)
-        }else{
-            let bottomConstraint = newNavButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: navButtons[navButtons.count-2])
-            let rightConstraint = newNavButton.autoPinEdge(.Right, toEdge: .Right, ofView: navButtons[navButtons.count-2])
-            navButtonConstraints[navButtons[navButtons.count-2]] = layoutConstraints
-//            navButtonConstraints[navButtons[navButtons.count-2]] //.append(bottomConstraint)
-//            navButtonConstraints[navButtons[navButtons.count-2]].append(rightConstraint)
+        let newNavButtonContainer = UIView()
+        newNavButtonContainer.userInteractionEnabled = false
+        self.addSubview(newNavButtonContainer)
+        newNavButtonContainer.autoPinEdgesToSuperviewEdges()
+        
+        let newNavButton = NavButton(buttonColor: buttonColor, imageFileName: imageFileName)
+        newNavButtonContainer.addSubview(newNavButton)
+        newNavButton.userInteractionEnabled = true
+        newNavButton.hidden = true
+        newNavButton.alpha = 0
+        
+        let bottomConstraint = newNavButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: newNavButtonContainer)
+        newNavButton.autoAlignAxisToSuperviewAxis(.Vertical)
+        self.navButtons.append(newNavButton, newNavButtonContainer, bottomConstraint)
 
-        }
+        self.degrees = 180
     }
     
     func onSelect(sender: UIButton!){
-        let degrees:CGFloat = 45; //the value in degrees
-        if(!self.buttonTapped){
-            UIView.animateWithDuration(0.33, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
-                self.transform = CGAffineTransformMakeRotation(degrees * CGFloat(M_PI)/180) //rotate the view by n degrees
+        if(self.navButtons.count > 0){
+            if(!self.buttonTapped){
                 self.showButtons()
-                }, completion: { (value: Bool) in
-            })
-            self.buttonTapped = true
-        }else{
-            UIView.animateWithDuration(0.33, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
-                self.transform = CGAffineTransformIdentity //set back to original position
-                self.hideButtons()
-                }, completion: { (value: Bool) in
-            })
-            self.buttonTapped = false
+                self.buttonTapped = true
+            }else{
+                UIView.animateWithDuration(0.33, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+                    self.hideButtons()
+                    }, completion: { (value: Bool) in
+                })
+                self.buttonTapped = false
+            }
         }
     }
     
     func showButtons(){
-        for button in self.navButtons{
 
-        }
+        UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.0, options: .CurveEaseIn, animations: {
+                self.buttonImageView?.transform = CGAffineTransformMakeRotation(45 * CGFloat(M_PI)/180)
+                let rotateBy:CGFloat = -90/(CGFloat(self.navButtons.count)+1)
+                var currentRotation:CGFloat = 0
+                for button in self.navButtons{
+                    currentRotation += rotateBy
+                    let relativeDegreesToRotate:CGFloat = (360 - currentRotation)                   //degrees to rotate the image view on the button
+                    button.0.hidden = false                                                         //put the button into the view
+                    button.0.alpha = 1                                                              //make the button visible
+                    button.0.buttonImageView!.transform = CGAffineTransformMakeRotation(relativeDegreesToRotate * CGFloat(M_PI)/180) //make image vertical
+                    button.1.transform = CGAffineTransformMakeRotation(currentRotation*CGFloat(M_PI)/180)  //rotate the container view
+                    button.2.constant = -(CGFloat(self.navButtons.count))*self.navButtonSize  //how far the button is away from the origin
+                }
+            }, completion: {(value: Bool) in
+        })
+
+
     }
     
     func hideButtons(){
+        UIView.animateWithDuration(0.5, animations: {
+            self.transform = CGAffineTransformIdentity //set back to original position
+            self.buttonImageView!.transform = CGAffineTransformIdentity //set back to original position
+        })
         for button in self.navButtons{
-
+            UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.7, options: .CurveEaseIn, animations: {
+                for button in self.navButtons{
+                    button.0.alpha = 0
+                    button.1.transform = CGAffineTransformIdentity
+                }
+                }, completion: {(value: Bool) in
+                    button.0.hidden = true
+                    button.2.constant = 0
+            })
         }
     }
+    
+    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+        if(self.buttonTapped){
+            for button in self.navButtons{
+                if(CGRectContainsPoint(button.0.bounds, button.0.convertPoint(point, fromView: self))){
+                    return button.0
+                }
+            }
+        }
+            return super.hitTest(point, withEvent: event)
+    }
+    
 }

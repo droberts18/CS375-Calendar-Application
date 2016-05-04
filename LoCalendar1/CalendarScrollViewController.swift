@@ -131,12 +131,16 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
             }
         }
         
-//        self.bubbleButton = BubbleButton(buttonColor: blueColor, imageFileName: "AddEventButtonPlus.png", identifier: "Menu")
-//        self.view.addSubview(bubbleButton!)
-//        self.bubbleButton?.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: -5)
-//        self.bubbleButton?.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view, withOffset: -5)
-//        
-//        bubbleButton?.addNavButton(greenColor, imageFileName: "AddLocation.png")
+        self.bubbleButton = BubbleButton(buttonColor: blueColor, imageFileName: "AddEventButtonPlus.png", identifier: "Menu")
+        self.view.addSubview(bubbleButton!)
+        self.bubbleButton?.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: -5)
+        self.bubbleButton?.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view, withOffset: -5)
+        
+        bubbleButton?.addNavButton(greenColor, imageFileName: "AddLocation.png")
+        bubbleButton?.addNavButton(blueColor, imageFileName: "AddLocation.png")
+        bubbleButton?.addNavButton(darkColor, imageFileName: "AddLocation.png")
+        
+        bubbleButton?.navButtons[0].0.addTarget(self, action: #selector(CalendarScrollViewController.addLocation(_:)), forControlEvents: .TouchUpInside)
     }
     
     override func didReceiveMemoryWarning() {
@@ -430,8 +434,10 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         dayTable.dayTableScrollDirection = DayTable.ScrollDirections.None //set scroll action to none so it doesn't confuse the auto-alignment of cells
         calendarView.incrementOneMonth()    //increment the modified month
         calendarView.goToDate(calendarView.modifiedMonth, day: calendarView.modifiedDay, year: calendarView.modifiedYear)   //update the calendar view
-        let indexPath = NSIndexPath(forItem: dayCellMap[calendarView.getModifiedDateStartOfMonth()]!, inSection: 0)         //create the index path to get to the right cell
+        let indexPath = NSIndexPath(forItem: dayCellMap[calendarView.getModifiedDateStartOfMonth()]!, inSection: 0)         //create the index path
         self.dayTable.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: false)                            //go to the right cell
+        self.dayTable.systemScrolling = false
+        self.highlightCurrentDaysInView()                                                                                   //highlight the right cells
     }
     
     func goBackwardOneMonth(sender:UIButton!){
@@ -442,5 +448,9 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         let indexPath = NSIndexPath(forItem: dayCellMap[calendarView.getModifiedDateStartOfMonth()]!, inSection: 0)
         self.dayTable.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: false)
         dayTable.systemScrolling = false
+    }
+    
+    func addLocation(sender: UIButton!){
+        print("tapped!")
     }
 }

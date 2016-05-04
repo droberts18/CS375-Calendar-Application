@@ -25,6 +25,7 @@ class NavButton: UIButton {
     var buttonHeight = NSLayoutConstraint()
     var sizeRatio : CGFloat = CGFloat()
     var buttonTapped = false
+    var buttonImageView:UIImageView?
     
     override init (frame : CGRect) {
         super.init(frame : frame)
@@ -52,13 +53,13 @@ class NavButton: UIButton {
         self.userInteractionEnabled = true
         
         let buttonImage = UIImage(named: imageFileName)
-        let buttonImageView = UIImageView(image: buttonImage)
+        buttonImageView = UIImageView(image: buttonImage)
         self.sizeRatio = (buttonImage?.size.width)!/(buttonImage?.size.height)!
         
-        self.addSubview(buttonImageView)
-        buttonImageView.autoSetDimension(.Height, toSize: navButtonImageSize)
-        buttonImageView.autoMatchDimension(.Width, toDimension: .Height, ofView: buttonImageView, withMultiplier: self.sizeRatio)
-        buttonImageView.autoCenterInSuperview()
+        self.addSubview(buttonImageView!)
+        buttonImageView!.autoSetDimension(.Height, toSize: navButtonImageSize)
+        buttonImageView!.autoMatchDimension(.Width, toDimension: .Height, ofView: buttonImageView!, withMultiplier: self.sizeRatio)
+        buttonImageView!.autoCenterInSuperview()
     }
     
     
