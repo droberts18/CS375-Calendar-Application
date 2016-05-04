@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LoCalendar/DayEventsViewController.swift"
-            timestampString = "483649590.390282"
+            timestampString = "484086418.797751"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
+            startingLineNumber = "148"
+            endingLineNumber = "148"
             landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LoCalendar/DayEventsViewController.swift"
-            timestampString = "483649590.390282"
+            timestampString = "484086418.797751"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
             landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LoCalendar/DayEventsViewController.swift"
-            timestampString = "483649590.390282"
+            timestampString = "484086418.797751"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
             landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LoCalendar/DayEventsViewController.swift"
-            timestampString = "483649590.390282"
+            timestampString = "484086418.797751"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
             landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LoCalendar/DayEventsViewController.swift"
-            timestampString = "483914568.650375"
+            timestampString = "484086418.797751"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "195"
-            endingLineNumber = "195"
+            startingLineNumber = "205"
+            endingLineNumber = "205"
             landmarkName = "changeDimensions(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -90,12 +90,106 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LoCalendar/DayEventsViewController.swift"
-            timestampString = "483913904.160942"
+            timestampString = "484086418.797751"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "188"
-            endingLineNumber = "188"
+            startingLineNumber = "198"
+            endingLineNumber = "198"
             landmarkName = "changeDimensions(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LoCalendar/DayEventsViewController.swift"
+            timestampString = "484085190.653364"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "DayEventsViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LoCalendar.DayEventsViewController.eventViewSlider.getter : __ObjC.UIView"
+                  moduleName = "LoCalendar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/droberts/Desktop/Mobile%20Applications/CS375-Calendar-Application/LoCalendar1/LoCalendar/DayEventsViewController.swift"
+                  timestampString = "484085198.388636"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "48">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LoCalendar.DayEventsViewController.eventViewSlider.setter : __ObjC.UIView"
+                  moduleName = "LoCalendar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/droberts/Desktop/Mobile%20Applications/CS375-Calendar-Application/LoCalendar1/LoCalendar/DayEventsViewController.swift"
+                  timestampString = "484085199.224424"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "76">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LoCalendar.DayEventsViewController.init (nibName : Swift.Optional&lt;Swift.String&gt;, bundle : Swift.Optional&lt;__ObjC.NSBundle&gt;) -&gt; LoCalendar.DayEventsViewController"
+                  moduleName = "LoCalendar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/droberts/Desktop/Mobile%20Applications/CS375-Calendar-Application/LoCalendar1/LoCalendar/DayEventsViewController.swift"
+                  timestampString = "484085199.22472"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "552">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LoCalendar.DayEventsViewController.init (coder : __ObjC.NSCoder) -&gt; Swift.Optional&lt;LoCalendar.DayEventsViewController&gt;"
+                  moduleName = "LoCalendar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/droberts/Desktop/Mobile%20Applications/CS375-Calendar-Application/LoCalendar1/LoCalendar/DayEventsViewController.swift"
+                  timestampString = "484085199.224894"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "492">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LoCalendar/DayEventsViewController.swift"
+            timestampString = "484086418.797751"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
+            landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

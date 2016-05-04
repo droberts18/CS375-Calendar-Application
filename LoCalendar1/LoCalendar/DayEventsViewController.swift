@@ -27,6 +27,8 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
     var eventViewSliderArrowUp:UIImageView? = nil //(named: "UpArrow.png")
     var eventViewSliderArrow:UIImageView? = nil
     var eventViewSlider = UIView()
+    let exitButtonIMG = UIImage(named: "AddEventButtonPlus.png")
+
     
     let initialLocation = CLLocation(latitude: LocationManager().getGeoLocation().coordinate.latitude, longitude: LocationManager().getGeoLocation().coordinate.longitude)
     let regionRadius = 1000.0
@@ -83,6 +85,21 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
         objectAnnotation.title = "Mobile Applications"
         myMap.addAnnotation(objectAnnotation)
         
+        let exitButton = UIImageView(image: exitButtonIMG)
+        mapContainer.addSubview(exitButton)
+        exitButton.autoPinEdge(.Top, toEdge: .Top, ofView: mapContainer, withOffset: 5)
+        exitButton.autoPinEdge(.Left, toEdge: .Left, ofView: mapContainer, withOffset: 5)
+        exitButton.transform = CGAffineTransformMakeRotation((CGFloat(M_PI)/180)*45)
+        exitButton.userInteractionEnabled = true
+        let exitTap = UITapGestureRecognizer(target: self, action: "exit:")
+        exitButton.addGestureRecognizer(exitTap)
+        
+//        exitButton.transform = CGAffineTransformMakeRotation((CGFloat(M_PI)/180)*45)
+//        mapContainer.addSubview(exitButton)
+//        exitButton.autoPinEdge(.Top, toEdge: .Top, ofView: mapContainer, withOffset: 5)
+//        exitButton.autoPinEdge(.Left, toEdge: .Left, ofView: mapContainer, withOffset: 5)
+        
+        
         // TESTING PIN
 //        let localSearchRequest = MKLocalSearchRequest()
 //        localSearchRequest.naturalLanguageQuery = "Fred Meyer"
@@ -131,13 +148,6 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
         eventViewSlider.backgroundColor = darkColor
         self.view.addSubview(eventViewSlider)
         eventViewSlider.userInteractionEnabled = true
-        
-        
-        
-        
-        
-        
-        
         
 //        let eventViewSlider = UIImageView(image: eventViewSliderArrow)
 //        eventViewSlider.contentMode = UIViewContentMode.ScaleAspectFit
@@ -246,5 +256,9 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
         else{
             slideUpAnimation()
         }
+    }
+    
+    func exit(e: UITapGestureRecognizer){
+        self.presentViewController(CalendarScrollViewController(), animated: true, completion: {})
     }
 }
