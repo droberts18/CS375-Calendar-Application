@@ -42,18 +42,26 @@ class DeQueue{
     
     /// Add item to the back of the queue
     internal func pushBack(value: Any){
-        self.count += 1
-        _back.next = Item(newValue: value)
+        let itemToAdd = Item(newValue: value)
+        if(self.count == 0){
+            _front = itemToAdd
+        }
+        _back.next = itemToAdd
         _back.next?.prev = _back
         _back = _back.next!
+        self.count += 1
     }
     
     /// Add item to the front of the queue
     internal func pushFront(value: Any){
-        self.count += 1
-        _front.prev = Item(newValue: value)
+        let itemToAdd = Item(newValue: value)
+        if(self.count == 0){
+            _back = itemToAdd
+        }
+        _front.prev = itemToAdd
         _front.prev?.next = _front
         _front = _front.prev!
+        self.count += 1
     }
     
     /// Return and remove the item at the front of the queue
@@ -80,7 +88,12 @@ class DeQueue{
         
         
         let r = _front.value
-        _front = _front.next!
+        if(self.count > 1){
+            _front = _front.next!
+        }else{
+            _front = _back
+        }
+        
         return r
     }
     
@@ -103,7 +116,12 @@ class DeQueue{
 //        }
         
         let r = _back.value
-        _back = _back.prev!
+        if(self.count > 1){
+            _back = _back.prev!
+        }else{
+            _back = _front
+        }
+        
         return r
     }
     

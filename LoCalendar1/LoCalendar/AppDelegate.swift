@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        var dataManager = DataManager()
 //        dataManager.loginUser("something1@something.com", password: "test")
         
-        let queue = DeQueue()
+//        let queue = DeQueue()
 //        typealias blockType = () -> ()
 //        for _ in 0...10{
 //            let block: blockType = {
@@ -30,24 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            let b = queue.popFront() as? blockType
 //            b!()
 //        }
-        
-        for number in 0...10{
-//            queue.pushFront(number)
-            queue.pushBack(number)
-        }
-        
-        for number in 0...10{
-            print(queue.popBack())
-//            print(queue.popFront())
-        }
-        
-        //error 1
-        //queue.pushBack(number)
-        //queue.popFront()
-        
-        //error 2
-        //queue.pushFront(number)
-        //queue.popBack()
   
         return true
     }
