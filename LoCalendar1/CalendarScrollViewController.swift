@@ -22,18 +22,21 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
     let calendarManager = CalendarManager()
     let calendarContainerHeightMultiplyer = 0.35
     var calendarContainer = UIView()
-    let todayButton = UIButton()
-    var calendarView = CalendarView()
-    var forwardMonth = UIButton()
-    var backwardMonth = UIButton()
+    
     var dayTable = DayTable(forAutoLayout: ())
     var dayCellHeight = CGFloat()
     var bubbleButton:BubbleButton?
     
+    let todayButton = UIButton()
+    var forwardMonth = UIButton()
+    var backwardMonth = UIButton()
+    var calendarView = CalendarView()
+    var currentHighlightedButtons = [CalendarViewDateButton]()
+    
     var currentDaysInView = [NSIndexPath()]
     var dayCellMap = [String:Int]() //holds the row index for the different dates stored, with key mm-dd-yyyy format
     var cellCache = NSCache() //caches the scrollview cells
-    var currentHighlightedButtons = [CalendarViewDateButton]()
+    var threadQueue = DeQueue()
     
     override func viewDidLoad() {
         super.viewDidLoad()

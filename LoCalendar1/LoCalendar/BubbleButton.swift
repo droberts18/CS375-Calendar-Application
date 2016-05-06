@@ -73,8 +73,6 @@ class BubbleButton: NavButton {
                 }
             }, completion: {(value: Bool) in
         })
-
-
     }
     
     func hideButtons(){
@@ -100,13 +98,13 @@ class BubbleButton: NavButton {
         if(self.buttonTapped){
             for button in self.navButtons{
                 if(CGRectContainsPoint(button.0.bounds, button.0.convertPoint(point, fromView: self))){
-                    UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: .CurveEaseIn, animations: {
-                            button.0.transform = CGAffineTransformMakeScale(1.25, 1.25)
-                        }, completion: {(value:Bool) in
-                            UIView.animateWithDuration(0.2, animations: {
-                                button.0.transform = CGAffineTransformIdentity
-                            })
-                    })
+//                    UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: .CurveEaseIn, animations: {
+//                            button.0.transform = CGAffineTransformMakeScale(1.25, 1.25)
+//                        }, completion: {(value:Bool) in
+//                            UIView.animateWithDuration(0.2, animations: {
+//                                button.0.transform = CGAffineTransformIdentity
+//                            })
+//                    })
                     
                     if(!button.0.hidden){
                         //wait to hide the buttons until after the function has returned
