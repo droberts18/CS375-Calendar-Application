@@ -8,8 +8,6 @@
 
 import Foundation
 
-import Foundation
-
 class NavButton: UIButton {
     
     let eventView = UIView()

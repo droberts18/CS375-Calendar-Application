@@ -149,6 +149,7 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
 
         
         bubbleButton?.navButtons[0].0.addTarget(self, action: #selector(CalendarScrollViewController.addLocation(_:)), forControlEvents: .TouchUpInside)
+        bubbleButton?.navButtons[1].0.addTarget(self, action: #selector(CalendarScrollViewController.addEvent(_:)), forControlEvents: .TouchUpInside)
     }
     
     override func didReceiveMemoryWarning() {
@@ -469,5 +470,9 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
     
     func addLocation(sender: UIButton!){
         self.presentViewController(AddLocationViewController(), animated: true, completion: {})
+    }
+    
+    func addEvent(sender: UIButton!){
+        self.presentViewController(AddEventViewController(), animated: true, completion: {})
     }
 }

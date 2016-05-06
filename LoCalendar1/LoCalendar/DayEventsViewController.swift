@@ -57,6 +57,7 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
         self.view.addSubview(mapContainer)
         self.view.addSubview(eventView)
         self.view.bringSubviewToFront(mapContainer)
+        eventView.backgroundColor = darkColor
         eventView.autoPinEdgeToSuperviewEdge(.Bottom)
         eventView.autoPinEdgeToSuperviewEdge(.Right)
         eventView.autoPinEdgeToSuperviewEdge(.Left)
@@ -259,6 +260,6 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
     }
     
     func exit(e: UITapGestureRecognizer){
-        self.presentViewController(CalendarScrollViewController(), animated: true, completion: {})
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }
