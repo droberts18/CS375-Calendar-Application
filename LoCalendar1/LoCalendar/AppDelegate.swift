@@ -32,14 +32,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        }
         
         for number in 0...10{
-            queue.pushFront(number)
-//            queue.pushBack(number)
+//            queue.pushFront(number)
+            queue.pushBack(number)
         }
         
         for number in 0...10{
             print(queue.popBack())
 //            print(queue.popFront())
         }
+        
+        //error 1
+        //queue.pushBack(number)
+        //queue.popFront()
+        
+        //error 2
+        //queue.pushFront(number)
+        //queue.popBack()
   
         return true
     }

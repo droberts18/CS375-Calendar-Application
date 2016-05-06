@@ -88,8 +88,7 @@ class BubbleButton: NavButton {
                     button.1.transform = CGAffineTransformIdentity
                 }
                 }, completion: {(value: Bool) in
-                    button.0.hidden = true
-                    button.2.constant = 0
+                    //button.0.hidden = true
             })
         }
     }
@@ -98,18 +97,20 @@ class BubbleButton: NavButton {
         if(self.buttonTapped){
             for button in self.navButtons{
                 if(CGRectContainsPoint(button.0.bounds, button.0.convertPoint(point, fromView: self))){
-//                    UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: .CurveEaseIn, animations: {
-//                            button.0.transform = CGAffineTransformMakeScale(1.25, 1.25)
-//                        }, completion: {(value:Bool) in
-//                            UIView.animateWithDuration(0.2, animations: {
-//                                button.0.transform = CGAffineTransformIdentity
-//                            })
-//                    })
+                    UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: .CurveEaseIn, animations: {
+                            button.0.transform = CGAffineTransformMakeScale(1.25, 1.25)
+                        }, completion: {(value:Bool) in
+                            UIView.animateWithDuration(0.2, animations: {
+                                button.0.transform = CGAffineTransformIdentity
+                            })
+                    })
                     
                     if(!button.0.hidden){
                         //wait to hide the buttons until after the function has returned
                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5*Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
-                            self.hideButtons()
+                            if(!self.buttonTapped){
+                                self.hideButtons()
+                            }
                         })
                         return button.0
                     }

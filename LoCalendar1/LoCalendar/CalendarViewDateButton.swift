@@ -96,7 +96,6 @@ class CalendarViewDateButton: UIButton {
         case .Normal:
             self.labelView.layer.borderColor = UIColor.clearColor().CGColor
             self.labelView.layer.borderWidth = 0
-            
             self.labelView.alpha = 0.7
             if self.status != SelectionStatus.CurrentDay{
                 self.status = .Normal
