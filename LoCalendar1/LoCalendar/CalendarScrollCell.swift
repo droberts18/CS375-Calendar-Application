@@ -41,6 +41,7 @@ class CalendarScrollCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = backgColor
+        self.selectionStyle = .None
         self.layer.borderWidth = 0
         
         self.contentView.addSubview(container)
@@ -71,7 +72,6 @@ class CalendarScrollCell: UITableViewCell {
         
         dayDate.autoPinEdge(.Left, toEdge: .Left, ofView: dateContainer)
         dayDate.autoPinEdge(.Right, toEdge: .Right, ofView: dateContainer)
-        //dayDate.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: dateContainer)
         dayDate.font = UIFont(name: dayDate.font.fontName, size: 23)
         dayDate.textAlignment = .Center
         
@@ -81,75 +81,45 @@ class CalendarScrollCell: UITableViewCell {
         daySummaryContainer.autoPinEdgeToSuperviewEdge(.Right)
         daySummaryContainer.autoPinEdge(.Left, toEdge: .Right, ofView: dateContainer)
         
-        // ADDING TAP GESTURE TO BRING UP EVENTS FOR THE DAY
-//        let cellTapGesture = UITapGestureRecognizer(target: self, action: #selector(CalendarScrollCell.seeDayEvents(_:)))
-//        self.addGestureRecognizer(cellTapGesture)
-        
-//        var previousHour = UIView()
-//        var first = true
-        
         //add views for heat map
-        for index in 0...23{
-            var hourCell = UIView()
+        for _ in 0...23{
+            let hourCell = UIView()
             hourCell.layer.borderWidth = 0.5
             hourCell.layer.borderColor = darkColor.CGColor
             self.hourHeatMapViews.append(hourCell)
         }
-        //self.setHeatMap()
     }
     
     func setHeatMap(){
-        //var previousHour:UIView?
         var index = 0
         var first = true
 
         for hourCell in self.hourHeatMapViews{
-            
             UIView.animateWithDuration(0.5, delay: 0.1, options: UIViewAnimationOptions.CurveEaseIn, animations: {
                 self.daySummaryContainer.addSubview(hourCell)
-                
-                //self.daySummaryContainer.addSubview(hourCell)
-                //hourCell.autoMatchDimension(.Width, toDimension: .Width, ofView: self.daySummaryContainer, withMultiplier: 1/24)
-                //hourCell.autoPinEdgeToSuperviewEdge(.Top)
-                //hourCell.autoPinEdgeToSuperviewEdge(.Bottom)
-                
                 self.setHeatMapHour(hourCell, index: index)
                 
-                let hourLabel = UILabel()
-                hourCell.addSubview(hourLabel)
-                hourLabel.autoCenterInSuperview()
-                hourLabel.textAlignment = .Center
-                hourLabel.autoPinEdgesToSuperviewEdges()
-                hourLabel.textColor = UIColor.whiteColor()
-                hourLabel.font = hourLabel.font.fontWithSize(10)
+                    let hourLabel = UILabel()
+                    hourCell.addSubview(hourLabel)
+                    hourLabel.autoCenterInSuperview()
+                    hourLabel.textAlignment = .Center
+                    hourLabel.autoPinEdgesToSuperviewEdges()
+                    hourLabel.textColor = UIColor.whiteColor()
+                    hourLabel.font = hourLabel.font.fontWithSize(10)
+                    
+                    if first{
+                        hourLabel.text = "12"
+                    }else if(index < 13){
+                        hourLabel.text = "\(index)"
+                    }else{
+                        hourLabel.text = "\(index - 12)"
+                    }
                 
-                if first{
-                    hourLabel.text = "12"
-                }else if(index < 13){
-                    hourLabel.text = "\(index)"
-                }else{
-                    hourLabel.text = "\(index - 12)"
-                }
-//
-//                if first{
-//                    hourCell.autoPinEdge(.Left, toEdge: .Left, ofView: self.daySummaryContainer)
-//                    first = false
-//                }else{
-//                    hourCell.autoPinEdge(.Left, toEdge: .Right, ofView: previousHour!)
-//                }
-//                previousHour = hourCell
                 index += 1
                 first = false
                 
                 }, completion: { (complete: Bool) in
             })
-            
-
-            //hourCell.backgroundColor = blueColor
-//            hourCell.alpha = 0.1
-//            hourCell.layer.borderWidth = 0.5
-//            hourCell.layer.borderColor = darkColor.CGColor
-            
         }
         self.constrainHourViews()
         self.addedViews = true
@@ -161,7 +131,6 @@ class CalendarScrollCell: UITableViewCell {
             hourCell.frame = CGRectMake(xPos, 0, self.daySummaryContainer.frame.width/24,self.frame.height)
                 if let colorVals = self.colorValues{
                     if colorVals.count >= index{
-                        //hourCell.alpha = CGFloat(alphaVals[index])
                         hourCell.backgroundColor = colorValues![index]
                     }
                 }

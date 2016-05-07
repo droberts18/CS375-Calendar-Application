@@ -82,7 +82,7 @@ class BubbleButton: NavButton {
             self.buttonImageView!.transform = CGAffineTransformIdentity //set back to original position
         })
         for button in self.navButtons{
-            UIView.animateWithDuration(0.3, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.7, options: .CurveEaseIn, animations: {
+            UIView.animateWithDuration(0.3, delay: 0.15, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.7, options: .CurveEaseIn, animations: {
                 for button in self.navButtons{
                     button.0.alpha = 0
                     button.1.transform = CGAffineTransformIdentity
@@ -105,15 +105,17 @@ class BubbleButton: NavButton {
                             })
                     })
                     
-                    if(!button.0.hidden){
-                        //wait to hide the buttons until after the function has returned
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5*Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
-                            if(!self.buttonTapped){
-                                self.hideButtons()
-                            }
-                        })
-                        return button.0
-                    }
+//                    if(!button.0.hidden){
+//                        //wait to hide the buttons until after the function has returned
+//                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5*Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
+//                            if(!self.buttonTapped){
+//                                self.hideButtons()
+//                            }
+//                        })
+//                        return button.0
+//                    }
+                    self.hideButtons()
+                    return button.0
                 }
             }
         }

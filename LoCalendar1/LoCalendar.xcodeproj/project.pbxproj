@@ -170,8 +170,8 @@
 		C323E2E61CBCD7E500927F3B /* LoCalendar */ = {
 			isa = PBXGroup;
 			children = (
-				AF6450381CDD21C100870CD6 /* AddEventViewController.swift */,
 				C39457851CC0989100946626 /* CalendarScrollViewController.swift */,
+				AF6450381CDD21C100870CD6 /* AddEventViewController.swift */,
 				C300A0B91CDBCF1100A87CC4 /* DeQueue.swift */,
 				C3DF51251CDA78F70066886A /* AddLocationViewController.swift */,
 				C394579E1CCE03E900946626 /* DayEventsViewController.swift */,
@@ -329,7 +329,7 @@
 				TargetAttributes = {
 					C323E2E31CBCD7E500927F3B = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = P537ZEA4SP;
+						DevelopmentTeam = F63F9F65P7;
 					};
 					C323E2F71CBCD7E500927F3B = {
 						CreatedOnToolsVersion = 7.3;
@@ -618,7 +618,7 @@
 				);
 				INFOPLIST_FILE = LoCalendar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Drew-Roberts";
+				PRODUCT_BUNDLE_IDENTIFIER = TylerReardon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LoCal-Bridging-Header.h";
@@ -638,7 +638,7 @@
 				);
 				INFOPLIST_FILE = LoCalendar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Drew-Roberts";
+				PRODUCT_BUNDLE_IDENTIFIER = TylerReardon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LoCal-Bridging-Header.h";
