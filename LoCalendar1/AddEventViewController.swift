@@ -19,10 +19,13 @@ class AddEventViewController: UIViewController {
     
     let exitButtonIMG = UIImage(named: "AddEventButtonPlus.png")
     let eventName = UITextField()
+    let changeStartDateButton = UIButton()
+    let changeEndDateButton = UIButton()
     
     override func viewDidLoad() {
         self.view.backgroundColor = darkColor
         let font = UIFont.systemFontOfSize(40)
+        let font2 = UIFont.systemFontOfSize(20)
         
         let exitButton = UIImageView(image: exitButtonIMG)
         self.view.addSubview(exitButton)
@@ -43,6 +46,23 @@ class AddEventViewController: UIViewController {
         eventName.autoPinEdge(.Top, toEdge: .Bottom, ofView: exitButton, withOffset: 50)
         eventName.backgroundColor = lightDarkColor
         eventName.textColor = whiteColor
+
+        self.view.addSubview(changeStartDateButton)
+        changeStartDateButton.autoPinEdge(.Right, toEdge: .Right, ofView: eventName)
+        changeStartDateButton.autoPinEdge(.Left, toEdge: .Left, ofView: eventName)
+        changeStartDateButton.autoPinEdge(.Top, toEdge: .Bottom, ofView: eventName, withOffset: 20)
+        changeStartDateButton.backgroundColor = lightDarkColor
+        changeStartDateButton.setTitle("TAP TO SET START DATE", forState: UIControlState.Normal)
+        changeStartDateButton.setTitleColor(greenColor, forState: UIControlState.Normal)
+        changeStartDateButton.addTarget(self, action: "openCalendar:", forControlEvents: UIControlEvents.TouchUpInside)
+
+        self.view.addSubview(changeEndDateButton)
+        changeEndDateButton.autoPinEdge(.Left, toEdge: .Left, ofView: eventName)
+        changeEndDateButton.autoPinEdge(.Right, toEdge: .Right, ofView: eventName)
+        changeEndDateButton.autoPinEdge(.Top, toEdge: .Bottom, ofView: changeStartDateButton, withOffset: 20)
+        changeEndDateButton.backgroundColor = lightDarkColor
+        changeEndDateButton.setTitle("TAP TO SET END DATE", forState: UIControlState.Normal)
+        changeEndDateButton.setTitleColor(greenColor, forState: UIControlState.Normal)
     }
     
     override func didReceiveMemoryWarning() {
@@ -56,6 +76,11 @@ class AddEventViewController: UIViewController {
     
     func exit(e: UITapGestureRecognizer){
         self.dismissViewControllerAnimated(true, completion: nil)
+    }
+
+    
+    func openCalendar(sender: UIButton!){
+        //need animation
     }
 }
 
