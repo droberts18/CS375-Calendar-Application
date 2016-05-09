@@ -105,17 +105,13 @@ class BubbleButton: NavButton {
                             })
                     })
                     
-//                    if(!button.0.hidden){
-//                        //wait to hide the buttons until after the function has returned
-//                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5*Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
-//                            if(!self.buttonTapped){
-//                                self.hideButtons()
-//                            }
-//                        })
-//                        return button.0
-//                    }
-                    self.hideButtons()
-                    return button.0
+                    if(button.0.alpha != 0){
+                        //wait to hide the buttons until after the function has returned
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5*Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
+                            self.hideButtons()
+                        })
+                        return button.0
+                    }
                 }
             }
         }

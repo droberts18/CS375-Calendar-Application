@@ -7,7 +7,6 @@
 //
 
 import Foundation
-
 import UIKit
 
 class CalendarScrollViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
@@ -205,26 +204,27 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         if let indices = dayTable.indexPathsForVisibleRows {
             self.currentDaysInView.removeAll()
             self.currentDaysInView = indices
-        }
         
-        for dayInView in self.currentDaysInView{
-            if let tableCell = dayTable.cellForRowAtIndexPath(dayInView) as? CalendarScrollCell{
-                let startDay = calendarView.getStartDayInMonth(calendarView.modifiedMonth, year: calendarView.modifiedYear)
-                let date = calendarView.dateContainers[startDay + tableCell.day - 1] //zero based index for day of the month in dateContainers
-                if(tableCell.day == date.day && tableCell.month == date.month && tableCell.year == date.year){
-                    date.setViewStatus(CalendarViewDateButton.SelectionStatus.CurrentlyDisplayedItem)
-                    self.currentHighlightedButtons.append(date)
+        
+            for dayInView in self.currentDaysInView{
+                if let tableCell = dayTable.cellForRowAtIndexPath(dayInView) as? CalendarScrollCell{
+                    let startDay = calendarView.getStartDayInMonth(calendarView.modifiedMonth, year: calendarView.modifiedYear)
+                    let date = calendarView.dateContainers[startDay + tableCell.day - 1] //zero based index for day of the month in dateContainers
+                    if(tableCell.day == date.day && tableCell.month == date.month && tableCell.year == date.year){
+                        date.setViewStatus(CalendarViewDateButton.SelectionStatus.CurrentlyDisplayedItem)
+                        self.currentHighlightedButtons.append(date)
+                    }
                 }
             }
-        }
-        
-        //make sure the right amount of cells are highlighted
-        if(self.currentDaysInView.count > 7
-            && self.currentHighlightedButtons.count > 0
-            && self.currentHighlightedButtons.last?.day > 15
-            || self.currentHighlightedButtons.count > 7){
-                self.currentHighlightedButtons[0].setViewStatus(CalendarViewDateButton.SelectionStatus.Normal)
-                self.currentHighlightedButtons.removeFirst()
+            
+            //make sure the right amount of cells are highlighted
+            if(self.currentDaysInView.count > 7
+                && self.currentHighlightedButtons.count > 0
+                && self.currentHighlightedButtons.last?.day > 15
+                || self.currentHighlightedButtons.count > 7){
+                    self.currentHighlightedButtons[0].setViewStatus(CalendarViewDateButton.SelectionStatus.Normal)
+                    self.currentHighlightedButtons.removeFirst()
+            }
         }
         
     }
@@ -322,8 +322,6 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        
-        
         var taskToExecute:()->()
         var dayCell:CalendarScrollCell?
         if let cell = self.cellCache.objectForKey(indexPath){
@@ -501,7 +499,13 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.presentViewController(DayEventsViewController(), animated: true, completion: {})
+        let dayCell = tableView.cellForRowAtIndexPath(indexPath) as? CalendarScrollCell
+
+        UIView.animateWithDuration(0.5, animations: {
+            dayCell?.cellWasSelected()
+        }) { (value:Bool) in
+            self.presentViewController(DayEventsViewController(), animated: true, completion: {})
+        }
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView){

@@ -31,6 +31,7 @@ class CalendarScrollCell: UITableViewCell {
     var addedViews = false
     
     var hourHeatMapViews = [UIView]()
+    var hourHeatMapLabels = [UILabel]()
     
     var day = Int()
     var month = Int()
@@ -99,21 +100,24 @@ class CalendarScrollCell: UITableViewCell {
                 self.daySummaryContainer.addSubview(hourCell)
                 self.setHeatMapHour(hourCell, index: index)
                 
-                    let hourLabel = UILabel()
-                    hourCell.addSubview(hourLabel)
-                    hourLabel.autoCenterInSuperview()
-                    hourLabel.textAlignment = .Center
-                    hourLabel.autoPinEdgesToSuperviewEdges()
-                    hourLabel.textColor = UIColor.whiteColor()
-                    hourLabel.font = hourLabel.font.fontWithSize(10)
-                    
-                    if first{
-                        hourLabel.text = "12"
-                    }else if(index < 13){
-                        hourLabel.text = "\(index)"
-                    }else{
-                        hourLabel.text = "\(index - 12)"
-                    }
+//                    let hourLabel = UILabel()
+//                    hourCell.addSubview(hourLabel)
+////                    hourLabel.autoCenterInSuperview()
+////                    hourLabel.textAlignment = .Center
+////                    hourLabel.autoPinEdgesToSuperviewEdges()
+//                    hourLabel.textColor = UIColor.whiteColor()
+//                    hourLabel.font = hourLabel.font.fontWithSize(10)
+//                    
+//                    if first{
+//                        hourLabel.text = "12"
+//                    }else if(index < 13){
+//                        hourLabel.text = "\(index)"
+//                    }else{
+//                        hourLabel.text = "\(index - 12)"
+//                    }
+//                
+//                self.hourHeatMapLabels.append(hourLabel)
+//                hourLabel.hidden = true
                 
                 index += 1
                 first = false
@@ -163,6 +167,24 @@ class CalendarScrollCell: UITableViewCell {
                 hour.autoMatchDimension(.Width, toDimension: .Width, ofView: self.daySummaryContainer, withMultiplier: 1/24)
             }
             prevHour = hour
+        }
+    }
+    
+    func cellWasSelected(){
+        var currentHour = 0
+        for hour in self.hourHeatMapViews{
+            UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+                    hour.backgroundColor = self.darkColor
+                }, completion: { (value:Bool) in
+            })
+        }
+        
+        for hour in self.hourHeatMapViews{
+            UIView.animateWithDuration(0.2, delay: 0.2, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+                hour.backgroundColor = self.colorValues![currentHour]
+                currentHour += 1
+                }, completion: { (value:Bool) in
+            })
         }
     }
     
