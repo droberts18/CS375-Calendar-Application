@@ -149,8 +149,8 @@ class CalendarView: UIView{
     
     func updateMonth(month:Int, year:Int){
         
-        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+//        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+//        dispatch_async(dispatch_get_global_queue(priority, 0)) {
 
             self.updateCurrentInfo()
             
@@ -162,7 +162,7 @@ class CalendarView: UIView{
             let numDaysInCurrentMonth = self.getNumDaysInMonth(month, year: year)
             let startDay = self.getStartDayInMonth(month, year: year)
             
-            dispatch_async(dispatch_get_main_queue()) {
+//            dispatch_async(dispatch_get_main_queue()) {
 
                 //FOR PREVIOUS MONTH'S DAYS
                 if(startDay != 0){
@@ -210,8 +210,8 @@ class CalendarView: UIView{
                     }
                     date += 1
                 }
-            }
-        }
+//            }
+//        }
     }
     
     

@@ -91,9 +91,19 @@ class CalendarViewDateButton: UIButton {
     func setViewStatus(status: SelectionStatus){
         
         //let animationTime = 0.0
+        let debugging = false
         
         switch status {
         case .Normal:
+            
+            if debugging{
+                //DEBUGGING CODE
+                print("--")
+                print(self.getDate())
+                print("[+] set normal")
+                //END DEBUGGING CODE
+            }
+            
             self.labelView.layer.borderColor = UIColor.clearColor().CGColor
             self.labelView.layer.borderWidth = 0
             self.labelView.alpha = 0.7
@@ -103,6 +113,15 @@ class CalendarViewDateButton: UIButton {
             }
             break
         case .CurrentlyDisplayedItem:
+            
+            if debugging{
+                //DEBUGGING CODE
+                print("--")
+                print(self.getDate())
+                print("[+] set currentlyDisplayed")
+                //END DEBUGGING CODE
+            }
+            
             self.labelView.layer.borderColor = self.blueColor.CGColor
             self.labelView.layer.borderWidth = 2
             self.labelView.alpha = 1
@@ -111,12 +130,30 @@ class CalendarViewDateButton: UIButton {
             }
             break
         case .CurrentDay:
+            
+            if debugging{
+                //DEBUGGING CODE
+                print("--")
+                print(self.getDate())
+                print("[+] set currentDay")
+                //END DEBUGGING CODE
+            }
+            
             self.labelView.backgroundColor = self.blueColor
             if self.status != SelectionStatus.CurrentDay{
                 self.status = .CurrentDay
             }
             break
         case .SelectedItem:
+            
+            if debugging{
+                //DEBUGGING CODE
+                print("--")
+                print(self.getDate())
+                print("[+] set selected item")
+                //END DEBUGGING CODE
+            }
+            
                 self.labelView.layer.borderColor = self.greenColor.CGColor
                 self.labelView.layer.borderWidth = 2
                 if self.status != SelectionStatus.CurrentDay{
@@ -124,6 +161,15 @@ class CalendarViewDateButton: UIButton {
                 }
             break
         case .Deselected:
+            
+            if debugging{
+                //DEBUGGING CODE
+                print("--")
+                print(self.getDate())
+                print("[+] set deselected")
+                //END DEBUGGING CODE
+            }
+            
                 self.labelView.layer.borderColor = UIColor.clearColor().CGColor
                 self.labelView.layer.borderWidth = 0
                 if self.status != SelectionStatus.CurrentDay{
@@ -131,17 +177,53 @@ class CalendarViewDateButton: UIButton {
                 }
             break
         case .NextMonth:
+            
+            if debugging{
+                //DEBUGGING CODE
+                print("--")
+                print(self.getDate())
+                print("[+] set next month")
+                //END DEBUGGING CODE
+            }
+            
             self.labelView.alpha = 0.2
             self.status = .NextMonth
             break
         case .PrevMonth:
+            
+            if debugging{
+                //DEBUGGING CODE
+                print("--")
+                print(self.getDate())
+                print("[+] set previous month")
+                //END DEBUGGING CODE
+            }
+            
             self.labelView.alpha = 0.2
             self.status = .PrevMonth
             break
         case .DeselectCurrentDay:
+            
+            if debugging{
+                //DEBUGGING CODE
+                print("--")
+                print(self.getDate())
+                print("[+] set DeselectCurrentDay")
+                //END DEBUGGING CODE
+            }
+            
             self.status = .Normal
             self.setViewStatus(.Normal)
         default:
+            
+            if debugging{
+                //DEBUGGING CODE
+                print("--")
+                print(self.getDate())
+                print("[+] set default")
+                //END DEBUGGING CODE
+            }
+            
             if self.status != SelectionStatus.CurrentDay{
                 self.status = .None
             }

@@ -212,6 +212,8 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
                     let date = calendarView.dateContainers[startDay + tableCell.day - 1] //zero based index for day of the month in dateContainers
                     if(tableCell.day == date.day && tableCell.month == date.month && tableCell.year == date.year){
                         date.setViewStatus(CalendarViewDateButton.SelectionStatus.CurrentlyDisplayedItem)
+                        date.setNeedsDisplay()
+                        date.setNeedsLayout()
                         self.currentHighlightedButtons.append(date)
                     }
                 }
@@ -226,7 +228,6 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
                     self.currentHighlightedButtons.removeFirst()
             }
         }
-        
     }
     
     func changeMonthBasedOnScrollDirectionAndTopCell(cell: CalendarScrollCell){
@@ -238,7 +239,6 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
             && dayTable.scrolling){
             //calendarView.goForwardOneMonth()
             calendarView.goToDate(cell.month, day: cell.day, year: cell.year)
-            //updateCalendarView()
         }else if(cell.day >= 15
             && (cell.month == calendarView.modifiedMonth - 1
                 || cell.year == calendarView.modifiedYear - 1
@@ -247,7 +247,6 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
             && dayTable.scrolling){
             //calendarView.goBackwardOneMonth()
             calendarView.goToDate(cell.month, day: cell.day, year: cell.year)
-            //updateCalendarView()
         }
     }
     
