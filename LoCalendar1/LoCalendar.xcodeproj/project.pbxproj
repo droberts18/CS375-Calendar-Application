@@ -11,6 +11,7 @@
 		AF3404BE1CD1467D002AF64B /* DownArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = AF3404BC1CD1467D002AF64B /* DownArrow.png */; };
 		AF3404BF1CD1467D002AF64B /* UpArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = AF3404BD1CD1467D002AF64B /* UpArrow.png */; };
 		AF6450391CDD21C100870CD6 /* AddEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6450381CDD21C100870CD6 /* AddEventViewController.swift */; };
+		AF9428951CE2B7540070E32C /* SearchMapButton.png in Resources */ = {isa = PBXBuildFile; fileRef = AF9428941CE2B7540070E32C /* SearchMapButton.png */; };
 		C300A0BA1CDBCF1100A87CC4 /* DeQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C300A0B91CDBCF1100A87CC4 /* DeQueue.swift */; };
 		C323E2E81CBCD7E500927F3B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C323E2E71CBCD7E500927F3B /* AppDelegate.swift */; };
 		C323E2EA1CBCD7E500927F3B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C323E2E91CBCD7E500927F3B /* ViewController.swift */; };
@@ -66,6 +67,7 @@
 		AF3404BC1CD1467D002AF64B /* DownArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DownArrow.png; sourceTree = "<group>"; };
 		AF3404BD1CD1467D002AF64B /* UpArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UpArrow.png; sourceTree = "<group>"; };
 		AF6450381CDD21C100870CD6 /* AddEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddEventViewController.swift; path = ../AddEventViewController.swift; sourceTree = "<group>"; };
+		AF9428941CE2B7540070E32C /* SearchMapButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SearchMapButton.png; sourceTree = "<group>"; };
 		C300A0B91CDBCF1100A87CC4 /* DeQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeQueue.swift; sourceTree = "<group>"; };
 		C311923C1CBCDB070035478E /* LoCal-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LoCal-Bridging-Header.h"; sourceTree = "<group>"; };
 		C323E2E41CBCD7E500927F3B /* LoCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -245,6 +247,7 @@
 		C39457991CC499DD00946626 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				AF9428941CE2B7540070E32C /* SearchMapButton.png */,
 				C3BB79FA1CD7F376001E353F /* AddLocation.png */,
 				C3BB79F61CD72FDD001E353F /* AddEventButtonPlus.png */,
 				AF3404BC1CD1467D002AF64B /* DownArrow.png */,
@@ -374,6 +377,7 @@
 				C3BB79FB1CD7F376001E353F /* AddLocation.png in Resources */,
 				C39457971CC499D800946626 /* BackButton.png in Resources */,
 				C39457981CC499D800946626 /* ForwardButton.png in Resources */,
+				AF9428951CE2B7540070E32C /* SearchMapButton.png in Resources */,
 				C323E2ED1CBCD7E500927F3B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

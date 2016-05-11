@@ -360,6 +360,10 @@ class CalendarView: UIView{
         return "\(self.currentMonth)-\(self.currentDay)-\(self.currentYear)"
     }
     
+    func getFullCurrentDate() -> String{
+        return "\(self.monthLabel.text!) \(self.currentDay), \(self.currentYear)"
+    }
+    
     func getModifiedDate() -> String{
         return "\(self.modifiedMonth)-\(self.modifiedDay)-\(self.modifiedYear)"
     }
