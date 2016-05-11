@@ -17,6 +17,8 @@ class CalendarView: UIView{
     let blueColor = UIColor(red: 44/255, green: 105/255, blue: 157/255, alpha: 1)
     let greenColor = UIColor(red: 96/255, green: 157/255, blue: 44/255, alpha: 1)
     
+    static let calendarContainerHeightMultiplyer = 0.35
+    
     var monthName = String()
     var dayNames:[String] = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]
     var daysInMonth = Int()
@@ -50,7 +52,7 @@ class CalendarView: UIView{
     convenience init(){
         self.init(frame: CGRect.zero)
         
-        self.autoMatchDimension(.Height, toDimension: .Width, ofView: self, withMultiplier: 0.5)
+        //self.autoMatchDimension(.Height, toDimension: .Width, ofView: self, withMultiplier: 0.5)
     
         self.addSubview(allInfoContainer)
         allInfoContainer.autoPinEdgeToSuperviewEdge(.Top)

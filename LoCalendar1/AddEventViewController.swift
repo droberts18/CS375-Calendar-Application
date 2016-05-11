@@ -28,8 +28,10 @@ class AddEventViewController: UIViewController {
     
     var startDateCalendarIsOpen = false
     var endDateCalendarIsOpen = false
-    var bottomOfStartDateCalendarView = NSLayoutConstraint()
-    var bottomOfEndDateCalendarView = NSLayoutConstraint()
+    var startDateCalendarHeightConstraint:NSLayoutConstraint?
+    var endDateCalendarHeightConstraint:NSLayoutConstraint?
+    var bottomOfStartDateCalendarView:NSLayoutConstraint?
+    var bottomOfEndDateCalendarView:NSLayoutConstraint?
     
     override func viewDidLoad() {
         let addLocationFromSaved = NavButton(buttonColor: greenColor, imageFileName: "AddLocation.png")
@@ -72,14 +74,16 @@ class AddEventViewController: UIViewController {
         startDateCalendarContainer.autoPinEdge(.Left, toEdge: .Left, ofView: self.view)
         startDateCalendarContainer.autoPinEdge(.Right, toEdge: .Right, ofView: self.view)
         startDateCalendarContainer.autoPinEdge(.Top, toEdge: .Bottom, ofView: changeStartDateButton)
-        startDateCalendarContainer.autoSetDimension(.Height, toSize: 300)
+//        startDateCalendarContainer.autoSetDimension(.Height, toSize: 300)
+        startDateCalendarHeightConstraint = startDateCalendarContainer.autoMatchDimension(.Height, toDimension: .Height, ofView: self.view, withMultiplier: CGFloat(CalendarView.calendarContainerHeightMultiplyer))
+        startDateCalendarHeightConstraint?.active = false
         self.bottomOfStartDateCalendarView = startDateCalendarContainer.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: changeStartDateButton)
         
         startDateCalendarContainer.addSubview(startDateCalendar)
-        startDateCalendar.autoPinEdge(.Left, toEdge: .Left, ofView: startDateCalendarContainer, withOffset: 20)
-        startDateCalendar.autoPinEdge(.Right, toEdge: .Right, ofView: startDateCalendarContainer, withOffset: -20)
-        startDateCalendar.autoPinEdge(.Top, toEdge: .Top, ofView: startDateCalendarContainer, withOffset: 20)
-        startDateCalendar.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: startDateCalendarContainer, withOffset: -20)
+        startDateCalendar.autoPinEdge(.Left, toEdge: .Left, ofView: startDateCalendarContainer)
+        startDateCalendar.autoPinEdge(.Right, toEdge: .Right, ofView: startDateCalendarContainer)
+        startDateCalendar.autoPinEdge(.Top, toEdge: .Top, ofView: startDateCalendarContainer)
+        startDateCalendar.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: startDateCalendarContainer)
         startDateCalendar.monthLabel.textColor = darkColor
         startDateCalendar.hidden = true
 
@@ -97,14 +101,16 @@ class AddEventViewController: UIViewController {
         endDateCalendarContainer.autoPinEdge(.Left, toEdge: .Left, ofView: self.view)
         endDateCalendarContainer.autoPinEdge(.Right, toEdge: .Right, ofView: self.view)
         endDateCalendarContainer.autoPinEdge(.Top, toEdge: .Bottom, ofView: changeEndDateButton)
-        endDateCalendarContainer.autoSetDimension(.Height, toSize: 300)
+//        endDateCalendarContainer.autoSetDimension(.Height, toSize: 300)
+        endDateCalendarHeightConstraint = endDateCalendarContainer.autoMatchDimension(.Height, toDimension: .Height, ofView: self.view, withMultiplier: CGFloat(CalendarView.calendarContainerHeightMultiplyer))
+        endDateCalendarHeightConstraint?.active = false
         self.bottomOfEndDateCalendarView = endDateCalendarContainer.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: changeEndDateButton)
         
         endDateCalendarContainer.addSubview(endDateCalendar)
-        endDateCalendar.autoPinEdge(.Left, toEdge: .Left, ofView: endDateCalendarContainer, withOffset: 20)
-        endDateCalendar.autoPinEdge(.Right, toEdge: .Right, ofView: endDateCalendarContainer, withOffset: -20)
-        endDateCalendar.autoPinEdge(.Top, toEdge: .Top, ofView: endDateCalendarContainer, withOffset: 20)
-        endDateCalendar.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: endDateCalendarContainer, withOffset: -20)
+        endDateCalendar.autoPinEdge(.Left, toEdge: .Left, ofView: endDateCalendarContainer)
+        endDateCalendar.autoPinEdge(.Right, toEdge: .Right, ofView: endDateCalendarContainer)
+        endDateCalendar.autoPinEdge(.Top, toEdge: .Top, ofView: endDateCalendarContainer)
+        endDateCalendar.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: endDateCalendarContainer)
         endDateCalendar.monthLabel.textColor = darkColor
         endDateCalendar.hidden = true
         
@@ -136,12 +142,12 @@ class AddEventViewController: UIViewController {
             changeStartDateButton.setTitle(startDateCalendar.getFullCurrentDate(), forState: UIControlState.Normal)
             
             UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
-                self.bottomOfStartDateCalendarView.active = false
+                self.bottomOfStartDateCalendarView!.active = false
+                self.startDateCalendarHeightConstraint?.active = true
                 self.startDateCalendar.hidden = false
                 self.view.setNeedsLayout()
                 self.view.layoutIfNeeded()
                 }, completion: { finished in
-                    print("Animation completed")
                     self.startDateCalendarIsOpen = true
             })
         }
@@ -149,12 +155,12 @@ class AddEventViewController: UIViewController {
             changeStartDateButton.setTitle("TAP TO SET START DATE", forState: UIControlState.Normal)
             
             UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
-                self.bottomOfStartDateCalendarView.active = true
+                self.startDateCalendarHeightConstraint?.active = false
+                self.bottomOfStartDateCalendarView!.active = true
                 self.startDateCalendar.hidden = true
                 self.view.setNeedsLayout()
                 self.view.layoutIfNeeded()
                 }, completion: { finished in
-                    print("Animation completed")
                     self.startDateCalendarIsOpen = false
             })
         }
@@ -165,12 +171,12 @@ class AddEventViewController: UIViewController {
             changeEndDateButton.setTitle(endDateCalendar.getFullCurrentDate(), forState: UIControlState.Normal)
             
             UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
-                self.bottomOfEndDateCalendarView.active = false
+                self.bottomOfEndDateCalendarView!.active = false
                 self.endDateCalendar.hidden = false
+                self.endDateCalendarHeightConstraint?.active = true
                 self.view.setNeedsLayout()
                 self.view.layoutIfNeeded()
                 }, completion: { finished in
-                    print("Animation completed")
                     self.endDateCalendarIsOpen = true
             })
         }
@@ -178,12 +184,12 @@ class AddEventViewController: UIViewController {
             changeEndDateButton.setTitle("TAP TO SET END DATE", forState: UIControlState.Normal)
             
             UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
-                self.bottomOfEndDateCalendarView.active = true
+                self.endDateCalendarHeightConstraint?.active = false
+                self.bottomOfEndDateCalendarView!.active = true
                 self.endDateCalendar.hidden = true
                 self.view.setNeedsLayout()
                 self.view.layoutIfNeeded()
                 }, completion: { finished in
-                    print("Animation completed")
                     self.endDateCalendarIsOpen = false
             })
         }

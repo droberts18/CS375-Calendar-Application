@@ -54,12 +54,12 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         self.calendarContainer.autoPinEdge(.Top, toEdge: .Top, ofView: self.view)
         self.calendarContainer.autoPinEdge(.Left, toEdge: .Left, ofView: self.view)
         self.calendarContainer.autoPinEdge(.Right, toEdge: .Right, ofView: self.view)
-        self.calendarContainer.autoMatchDimension(.Height, toDimension: .Height, ofView: self.view, withMultiplier: CGFloat(calendarContainerHeightMultiplyer))
+        self.calendarContainer.autoMatchDimension(.Height, toDimension: .Height, ofView: self.view, withMultiplier: CGFloat(CalendarView.calendarContainerHeightMultiplyer))
         self.calendarContainer.backgroundColor = darkColor
         
         self.calendarContainer.addSubview(calendarView)
         //self.calendarView.autoCenterInSuperview()
-        //self.calendarView.autoPinEdgeToSuperviewEdge(.Top)
+        self.calendarView.autoPinEdgeToSuperviewEdge(.Top)
         self.calendarView.autoMatchDimension(.Width, toDimension: .Width, ofView: calendarContainer)
         self.calendarView.forwardMonth.addTarget(self, action: #selector(CalendarScrollViewController.goForwardOneMonth(_:)), forControlEvents: .TouchUpInside)
         self.calendarView.backwardMonth.addTarget(self, action: #selector(CalendarScrollViewController.goBackwardOneMonth(_:)), forControlEvents: .TouchUpInside)
@@ -117,24 +117,9 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
 //        }
 //        //END SIDE BUTTONS
         
-        self.view.addSubview(dayTable)
-        dayTable.backgroundColor = lightDarkColor
-        dayTable.autoPinEdge(.Top, toEdge: .Bottom, ofView: calendarContainer)
-        dayTable.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view)
-        dayTable.autoPinEdge(.Left, toEdge: .Left, ofView: self.view)
-        dayTable.autoPinEdge(.Right, toEdge: .Right, ofView: self.view)
-        dayTable.dataSource = self;
-        dayTable.delegate = self;
-        dayTable.registerClass(CalendarScrollCell.self, forCellReuseIdentifier: "CalendarScrollCell")
-        dayTable.showsVerticalScrollIndicator = false
-        dayTable.showsHorizontalScrollIndicator = false
-        dayTable.separatorColor = UIColor.clearColor()
-        dayTable.separatorStyle = .None
-        dayTable.separatorEffect = .None
-        
-        
         //SET UP HOUR LABELS
         self.view.addSubview(hourViewContainerContainer)
+        self.hourViewContainerContainer.backgroundColor = darkColor
         hourViewContainerContainer.autoPinEdgeToSuperviewEdge(.Left)
         hourViewContainerContainer.autoPinEdgeToSuperviewEdge(.Right)
         hourViewContainerContainer.autoPinEdge(.Top, toEdge: .Bottom, ofView: calendarContainer)
@@ -172,6 +157,23 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
             self.hourViewLabels.append(hourLabel)
         }
         //END HOUR LABEL SET UP
+        
+        //SET UP DAY TABLE
+        self.view.addSubview(dayTable)
+        dayTable.backgroundColor = lightDarkColor
+        dayTable.autoPinEdge(.Top, toEdge: .Bottom, ofView: hourViewContainerContainer)
+        dayTable.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view)
+        dayTable.autoPinEdge(.Left, toEdge: .Left, ofView: self.view)
+        dayTable.autoPinEdge(.Right, toEdge: .Right, ofView: self.view)
+        dayTable.dataSource = self;
+        dayTable.delegate = self;
+        dayTable.registerClass(CalendarScrollCell.self, forCellReuseIdentifier: "CalendarScrollCell")
+        dayTable.showsVerticalScrollIndicator = false
+        dayTable.showsHorizontalScrollIndicator = false
+        dayTable.separatorColor = UIColor.clearColor()
+        dayTable.separatorStyle = .None
+        dayTable.separatorEffect = .None
+        //END SET UP DAY TABLE
         
         for date in self.calendarView.dateContainers{
             date.addTarget(self, action: #selector(CalendarScrollViewController.onDateButtonTap(_:)), forControlEvents: UIControlEvents.TouchUpInside)
