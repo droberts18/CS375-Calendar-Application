@@ -39,7 +39,7 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
     var currentDaysInView = [NSIndexPath()]
     var dayCellMap = [String:Int]() //holds the row index for the different dates stored, with key mm-dd-yyyy format
     var cellCache = NSCache() //caches the scrollview cells
-    var taskQueue = DeQueue()
+    //var taskQueue = DeQueue()
     var threadQueue = NSOperationQueue()
     var viewFirstLoaded = true
     
@@ -47,7 +47,7 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         super.viewDidLoad()
         self.threadQueue.maxConcurrentOperationCount = 7
         dayCellMap = calendarManager.fillDateMap()
-        cellCache.countLimit = 120 // cache up to two months worth of data
+        cellCache.countLimit = 120 // cache up to four months worth of data
         cellCache.evictsObjectsWithDiscardedContent = true
         
         self.view.addSubview(calendarContainer)
@@ -58,8 +58,11 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         self.calendarContainer.backgroundColor = darkColor
         
         self.calendarContainer.addSubview(calendarView)
-        self.calendarView.autoCenterInSuperview()
-        self.calendarView.autoMatchDimension(.Width, toDimension: .Width, ofView: calendarContainer, withMultiplier: 0.75)
+        //self.calendarView.autoCenterInSuperview()
+        //self.calendarView.autoPinEdgeToSuperviewEdge(.Top)
+        self.calendarView.autoMatchDimension(.Width, toDimension: .Width, ofView: calendarContainer)
+        self.calendarView.forwardMonth.addTarget(self, action: #selector(CalendarScrollViewController.goForwardOneMonth(_:)), forControlEvents: .TouchUpInside)
+        self.calendarView.backwardMonth.addTarget(self, action: #selector(CalendarScrollViewController.goBackwardOneMonth(_:)), forControlEvents: .TouchUpInside)
         
         self.calendarContainer.addSubview(todayButton)
         self.todayButton.autoPinEdge(.Top, toEdge: .Bottom, ofView: calendarView)
@@ -69,50 +72,50 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         self.todayButton.setTitle("Today", forState: .Normal)
         self.todayButton.addTarget(self, action: #selector(CalendarScrollViewController.todayButtonTap(_:)), forControlEvents: .TouchUpInside)
         
-        //SIDE BUTTONS
-        let rightSide = UIView()
-        self.calendarContainer.addSubview(rightSide)
-        rightSide.autoPinEdge(.Left, toEdge: .Right, ofView: calendarView)
-        rightSide.autoPinEdge(.Right, toEdge: .Right, ofView: calendarContainer)
-        rightSide.autoPinEdge(.Top, toEdge: .Top, ofView: calendarContainer)
-        rightSide.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarContainer)
-        rightSide.addSubview(forwardMonth)
-        self.forwardMonth.autoMatchDimension(.Width, toDimension: .Width, ofView: rightSide, withMultiplier: 1)
-        self.forwardMonth.autoMatchDimension(.Height, toDimension: .Height, ofView: rightSide, withMultiplier: 1)
-        self.forwardMonth.autoCenterInSuperview()
-        let forwardImage = UIImage(named: "ForwardButton.png")
-        let forwardButtonImageView = UIImageView(image: forwardImage)
-        self.forwardMonth.addSubview(forwardButtonImageView)
-        forwardButtonImageView.autoCenterInSuperview()
-        forwardButtonImageView.alpha = 0.25
-        self.forwardMonth.addTarget(self, action: #selector(CalendarScrollViewController.goForwardOneMonth(_:)), forControlEvents: .TouchUpInside)
-        let leftSide = UIView()
-        self.calendarContainer.addSubview(leftSide)
-        leftSide.autoPinEdge(.Right, toEdge: .Left, ofView: calendarView)
-        leftSide.autoPinEdge(.Left, toEdge: .Left, ofView: calendarContainer)
-        leftSide.autoPinEdge(.Top, toEdge: .Top, ofView: calendarContainer)
-        leftSide.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarContainer)
-        leftSide.addSubview(backwardMonth)
-        self.backwardMonth.autoMatchDimension(.Width, toDimension: .Width, ofView: leftSide, withMultiplier: 1)
-        self.backwardMonth.autoMatchDimension(.Height, toDimension: .Height, ofView: leftSide, withMultiplier: 1)
-        self.backwardMonth.autoCenterInSuperview()
-        let backImage = UIImage(named: "BackButton.png")
-        let backButtonImageView = UIImageView(image: backImage)
-        self.backwardMonth.addSubview(backButtonImageView)
-        backButtonImageView.autoCenterInSuperview()
-        backButtonImageView.alpha = 0.25
-        self.backwardMonth.addTarget(self, action: #selector(CalendarScrollViewController.goBackwardOneMonth(_:)), forControlEvents: .TouchUpInside)
-        
-        if let width = forwardImage?.size.width{
-            if let height = forwardImage?.size.height{
-                let ratio = width/height
-                forwardButtonImageView.autoSetDimension(.Height, toSize: 30)
-                forwardButtonImageView.autoMatchDimension(.Width, toDimension: .Height, ofView: forwardButtonImageView, withMultiplier: ratio)
-                backButtonImageView.autoSetDimension(.Height, toSize: 30)
-                backButtonImageView.autoMatchDimension(.Width, toDimension: .Height, ofView: backButtonImageView, withMultiplier: ratio)
-            }
-        }
-        //END SIDE BUTTONS
+//        //SIDE BUTTONS
+//        let rightSide = UIView()
+//        self.calendarContainer.addSubview(rightSide)
+//        rightSide.autoPinEdge(.Left, toEdge: .Right, ofView: calendarView)
+//        rightSide.autoPinEdge(.Right, toEdge: .Right, ofView: calendarContainer)
+//        rightSide.autoPinEdge(.Top, toEdge: .Top, ofView: calendarContainer)
+//        rightSide.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarContainer)
+//        rightSide.addSubview(forwardMonth)
+//        self.forwardMonth.autoMatchDimension(.Width, toDimension: .Width, ofView: rightSide, withMultiplier: 1)
+//        self.forwardMonth.autoMatchDimension(.Height, toDimension: .Height, ofView: rightSide, withMultiplier: 1)
+//        self.forwardMonth.autoCenterInSuperview()
+//        let forwardImage = UIImage(named: "ForwardButton.png")
+//        let forwardButtonImageView = UIImageView(image: forwardImage)
+//        self.forwardMonth.addSubview(forwardButtonImageView)
+//        forwardButtonImageView.autoCenterInSuperview()
+//        forwardButtonImageView.alpha = 0.25
+//        self.forwardMonth.addTarget(self, action: #selector(CalendarScrollViewController.goForwardOneMonth(_:)), forControlEvents: .TouchUpInside)
+//        let leftSide = UIView()
+//        self.calendarContainer.addSubview(leftSide)
+//        leftSide.autoPinEdge(.Right, toEdge: .Left, ofView: calendarView)
+//        leftSide.autoPinEdge(.Left, toEdge: .Left, ofView: calendarContainer)
+//        leftSide.autoPinEdge(.Top, toEdge: .Top, ofView: calendarContainer)
+//        leftSide.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarContainer)
+//        leftSide.addSubview(backwardMonth)
+//        self.backwardMonth.autoMatchDimension(.Width, toDimension: .Width, ofView: leftSide, withMultiplier: 1)
+//        self.backwardMonth.autoMatchDimension(.Height, toDimension: .Height, ofView: leftSide, withMultiplier: 1)
+//        self.backwardMonth.autoCenterInSuperview()
+//        let backImage = UIImage(named: "BackButton.png")
+//        let backButtonImageView = UIImageView(image: backImage)
+//        self.backwardMonth.addSubview(backButtonImageView)
+//        backButtonImageView.autoCenterInSuperview()
+//        backButtonImageView.alpha = 0.25
+//        self.backwardMonth.addTarget(self, action: #selector(CalendarScrollViewController.goBackwardOneMonth(_:)), forControlEvents: .TouchUpInside)
+//        
+//        if let width = forwardImage?.size.width{
+//            if let height = forwardImage?.size.height{
+//                let ratio = width/height
+//                forwardButtonImageView.autoSetDimension(.Height, toSize: 30)
+//                forwardButtonImageView.autoMatchDimension(.Width, toDimension: .Height, ofView: forwardButtonImageView, withMultiplier: ratio)
+//                backButtonImageView.autoSetDimension(.Height, toSize: 30)
+//                backButtonImageView.autoMatchDimension(.Width, toDimension: .Height, ofView: backButtonImageView, withMultiplier: ratio)
+//            }
+//        }
+//        //END SIDE BUTTONS
         
         self.view.addSubview(dayTable)
         dayTable.backgroundColor = lightDarkColor
@@ -610,8 +613,8 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
     func goForwardOneMonth(sender:UIButton!){
         dayTable.setContentOffset(dayTable.contentOffset, animated: false) //stop any previous scrolling actions
         dayTable.dayTableScrollDirection = DayTable.ScrollDirections.None //set scroll action to none so it doesn't confuse the auto-alignment of cells
-        calendarView.incrementOneMonth()    //increment the modified month
-        calendarView.goToDate(calendarView.modifiedMonth, day: calendarView.modifiedDay, year: calendarView.modifiedYear)   //update the calendar view
+//        calendarView.incrementOneMonth()    //increment the modified month
+//        calendarView.goToDate(calendarView.modifiedMonth, day: calendarView.modifiedDay, year: calendarView.modifiedYear)   //update the calendar view
         let indexPath = NSIndexPath(forItem: dayCellMap[calendarView.getModifiedDateStartOfMonth()]!, inSection: 0)         //create the index path
         self.dayTable.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: false)                            //go to the right cell
         self.dayTable.systemScrolling = false
@@ -621,8 +624,8 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
     func goBackwardOneMonth(sender:UIButton!){
         dayTable.setContentOffset(dayTable.contentOffset, animated: false)
         dayTable.dayTableScrollDirection = DayTable.ScrollDirections.None
-        calendarView.decrementOneMonth()
-        calendarView.goToDate(calendarView.modifiedMonth, day: calendarView.modifiedDay, year: calendarView.modifiedYear)
+//        calendarView.decrementOneMonth()
+//        calendarView.goToDate(calendarView.modifiedMonth, day: calendarView.modifiedDay, year: calendarView.modifiedYear)
         let indexPath = NSIndexPath(forItem: dayCellMap[calendarView.getModifiedDateStartOfMonth()]!, inSection: 0)
         self.dayTable.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: false)
         dayTable.systemScrolling = false

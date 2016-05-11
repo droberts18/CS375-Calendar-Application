@@ -36,17 +36,33 @@ class CalendarView: UIView{
     var modifiedMonth = Int()
     var modifiedYear = Int()
     
+    let allInfoContainer = UIView()
     let calendarContainer = UIView()
+    var forwardMonth = UIButton()
+    var backwardMonth = UIButton()
     //let todayButton = UIButton()
+    
+    var monthLabelHeightConstraint:NSLayoutConstraint?
+    var yearLabelHeightConstraint:NSLayoutConstraint?
+    var dayOfWeekHeightConstraints = [NSLayoutConstraint]()
+    var dayHeightConstraints = [NSLayoutConstraint]()
     
     convenience init(){
         self.init(frame: CGRect.zero)
+        
+        self.autoMatchDimension(.Height, toDimension: .Width, ofView: self, withMultiplier: 0.5)
     
+        self.addSubview(allInfoContainer)
+        allInfoContainer.autoPinEdgeToSuperviewEdge(.Top)
+        allInfoContainer.autoPinEdgeToSuperviewEdge(.Bottom)
+        allInfoContainer.autoMatchDimension(.Width, toDimension: .Width, ofView: self, withMultiplier: 0.75)
+        allInfoContainer.autoAlignAxisToSuperviewAxis(.Vertical)
+        
         //set month day label
-        self.addSubview(monthLabel)
-        monthLabel.autoPinEdge(.Top, toEdge: .Top, ofView: self)
-        monthLabel.autoPinEdge(.Left, toEdge: .Left, ofView: self)
-        monthLabel.autoMatchDimension(.Height, toDimension: .Height, ofView: self, withMultiplier: 1/8)
+        allInfoContainer.addSubview(monthLabel)
+        monthLabel.autoPinEdge(.Top, toEdge: .Top, ofView: allInfoContainer)
+        monthLabel.autoPinEdge(.Left, toEdge: .Left, ofView: allInfoContainer)
+        monthLabelHeightConstraint = monthLabel.autoMatchDimension(.Height, toDimension: .Height, ofView: allInfoContainer, withMultiplier: 1/8)
         monthLabel.textColor = UIColor.whiteColor()
         monthLabel.textAlignment = .Right
         monthLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 16.0)
@@ -54,8 +70,8 @@ class CalendarView: UIView{
         
         self.addSubview(yearLabel)
         yearLabel.autoPinEdge(.Top, toEdge: .Top, ofView: monthLabel)
-        yearLabel.autoMatchDimension(.Height, toDimension: .Height, ofView: self, withMultiplier: 1/8)
-        yearLabel.autoPinEdge(.Right, toEdge: .Right, ofView: self)
+        yearLabelHeightConstraint = yearLabel.autoMatchDimension(.Height, toDimension: .Height, ofView: allInfoContainer, withMultiplier: 1/8)
+        yearLabel.autoPinEdge(.Right, toEdge: .Right, ofView: allInfoContainer)
         yearLabel.textColor = UIColor.whiteColor()
         yearLabel.textAlignment = .Left
         
@@ -66,11 +82,11 @@ class CalendarView: UIView{
             dayLabels.append(dayName)
         }
         
-        self.addSubview(calendarContainer)
+        allInfoContainer.addSubview(calendarContainer)
         calendarContainer.autoPinEdgeToSuperviewEdge(.Left)
         calendarContainer.autoPinEdgeToSuperviewEdge(.Right)
         calendarContainer.autoPinEdge(.Top, toEdge: .Bottom, ofView: monthLabel)
-        calendarContainer.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self)
+        calendarContainer.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: allInfoContainer)
         
         var prevDayOfWeek:UIView?
         var first = true
@@ -83,7 +99,8 @@ class CalendarView: UIView{
             calendarContainer.addSubview(day)
             day.autoPinEdge(.Top, toEdge: .Bottom, ofView: monthLabel)
             day.autoMatchDimension(.Width, toDimension: .Width, ofView: calendarContainer, withMultiplier: 1/7)
-            day.autoMatchDimension(.Height, toDimension: .Height, ofView: calendarContainer, withMultiplier: 1/9)
+            let dayHeightConstraint = day.autoMatchDimension(.Height, toDimension: .Height, ofView: calendarContainer, withMultiplier: 1/9)
+            self.dayOfWeekHeightConstraints.append(dayHeightConstraint)
             if first{
                 day.autoPinEdge(.Left, toEdge: .Left, ofView: calendarContainer)
                 first = false
@@ -101,7 +118,8 @@ class CalendarView: UIView{
             let dayButton = CalendarViewDateButton()
             dateContainers.append(dayButton)
             calendarContainer.addSubview(dayButton)
-            dayButton.autoMatchDimension(.Height, toDimension: .Height, ofView: calendarContainer, withMultiplier: 1/7)
+            let dayHeightConstraint = dayButton.autoMatchDimension(.Height, toDimension: .Height, ofView: calendarContainer, withMultiplier: 1/7)
+            self.dayHeightConstraints.append(dayHeightConstraint)
             dayButton.autoMatchDimension(.Width, toDimension: .Width, ofView: calendarContainer, withMultiplier: 1/7)
             
             if first{
@@ -123,6 +141,56 @@ class CalendarView: UIView{
             }
             prevDate = dayButton
         }
+        
+        //SIDE BUTTONS
+        let rightSide = UIView()
+        self.addSubview(rightSide)
+        rightSide.autoPinEdge(.Left, toEdge: .Right, ofView: allInfoContainer)
+        rightSide.autoPinEdge(.Right, toEdge: .Right, ofView: self)
+        rightSide.autoPinEdge(.Top, toEdge: .Top, ofView: self)
+        rightSide.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self)
+        rightSide.userInteractionEnabled = true
+        rightSide.addSubview(forwardMonth)
+        self.forwardMonth.autoMatchDimension(.Width, toDimension: .Width, ofView: rightSide, withMultiplier: 1)
+        self.forwardMonth.autoMatchDimension(.Height, toDimension: .Height, ofView: rightSide, withMultiplier: 1)
+        self.forwardMonth.autoCenterInSuperview()
+        let forwardImage = UIImage(named: "ForwardButton.png")
+        let forwardButtonImageView = UIImageView(image: forwardImage)
+        self.forwardMonth.addSubview(forwardButtonImageView)
+        forwardButtonImageView.autoCenterInSuperview()
+        forwardButtonImageView.alpha = 0.25
+        self.forwardMonth.userInteractionEnabled = true
+        self.forwardMonth.addTarget(self, action: #selector(CalendarView.goForwardOneMonth(_:)), forControlEvents: .TouchUpInside)
+        
+        let leftSide = UIView()
+        self.addSubview(leftSide)
+        leftSide.autoPinEdge(.Right, toEdge: .Left, ofView: allInfoContainer)
+        leftSide.autoPinEdge(.Left, toEdge: .Left, ofView: self)
+        leftSide.autoPinEdge(.Top, toEdge: .Top, ofView: self)
+        leftSide.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self)
+        leftSide.userInteractionEnabled = true
+        leftSide.addSubview(backwardMonth)
+        self.backwardMonth.autoMatchDimension(.Width, toDimension: .Width, ofView: leftSide, withMultiplier: 1)
+        self.backwardMonth.autoMatchDimension(.Height, toDimension: .Height, ofView: leftSide, withMultiplier: 1)
+        self.backwardMonth.autoCenterInSuperview()
+        let backImage = UIImage(named: "BackButton.png")
+        let backButtonImageView = UIImageView(image: backImage)
+        self.backwardMonth.addSubview(backButtonImageView)
+        backButtonImageView.autoCenterInSuperview()
+        backButtonImageView.alpha = 0.25
+        self.backwardMonth.userInteractionEnabled = true
+        self.backwardMonth.addTarget(self, action: #selector(CalendarView.goBackwardOneMonth(_:)), forControlEvents: .TouchUpInside)
+        
+        if let width = forwardImage?.size.width{
+            if let height = forwardImage?.size.height{
+                let ratio = width/height
+                forwardButtonImageView.autoSetDimension(.Height, toSize: 30)
+                forwardButtonImageView.autoMatchDimension(.Width, toDimension: .Height, ofView: forwardButtonImageView, withMultiplier: ratio)
+                backButtonImageView.autoSetDimension(.Height, toSize: 30)
+                backButtonImageView.autoMatchDimension(.Width, toDimension: .Height, ofView: backButtonImageView, withMultiplier: ratio)
+            }
+        }
+        //END SIDE BUTTONS
         
 //        self.addSubview(todayButton)
 //        todayButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self)
@@ -419,4 +487,38 @@ class CalendarView: UIView{
         //self.setNeedsLayout()
         //self.layoutIfNeeded()
     }
+    
+    func disableConstraints(){
+        self.monthLabelHeightConstraint?.active = false
+        self.yearLabelHeightConstraint?.active = false
+        for constraint in self.dayOfWeekHeightConstraints{
+            constraint.active = false
+        }
+        for constraint in self.dayHeightConstraints{
+            constraint.active = false
+        }
+    }
+    
+    func enableConstraints(){
+        self.monthLabelHeightConstraint?.active = true
+        self.yearLabelHeightConstraint?.active = true
+        for constraint in self.dayOfWeekHeightConstraints{
+            constraint.active = true
+        }
+        for constraint in self.dayHeightConstraints{
+            constraint.active = true
+        }
+    }
+    
+    func goForwardOneMonth(sender:UIButton!){
+        self.incrementOneMonth()    //increment the modified month
+        self.goToDate(self.modifiedMonth, day: self.modifiedDay, year: self.modifiedYear)   //update the calendar view
+    }
+    
+    func goBackwardOneMonth(sender:UIButton!){
+        self.decrementOneMonth()
+        self.goToDate(self.modifiedMonth, day: self.modifiedDay, year: self.modifiedYear)
+    }
+    
+    
 }
