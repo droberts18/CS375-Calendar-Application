@@ -22,6 +22,10 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
     let calendarContainerHeightMultiplyer = 0.35
     var calendarContainer = UIView()
     
+    var hourViewContainerContainer = UIView()
+    var hourViewContainer = UIView()
+    var hourViewLabels = [UILabel]()
+    
     var dayTable = DayTable(forAutoLayout: ())
     var dayCellHeight = CGFloat()
     var bubbleButton:BubbleButton?
@@ -125,15 +129,51 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         dayTable.separatorStyle = .None
         dayTable.separatorEffect = .None
         
-        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-        dispatch_async(dispatch_get_global_queue(priority, 0)) {
-            for date in self.calendarView.dateContainers{
-                date.addTarget(self, action: #selector(CalendarScrollViewController.onDateButtonTap(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        
+        //SET UP HOUR LABELS
+        self.view.addSubview(hourViewContainerContainer)
+        hourViewContainerContainer.autoPinEdgeToSuperviewEdge(.Left)
+        hourViewContainerContainer.autoPinEdgeToSuperviewEdge(.Right)
+        hourViewContainerContainer.autoPinEdge(.Top, toEdge: .Bottom, ofView: calendarContainer)
+        self.hourViewContainerContainer.addSubview(self.hourViewContainer)
+        self.hourViewContainer.autoMatchDimension(.Width, toDimension: .Width, ofView: hourViewContainerContainer, withMultiplier: (1-CalendarScrollCell.proportionOfDateContainer))
+        self.hourViewContainer.autoPinEdgeToSuperviewEdge(.Top)
+        self.hourViewContainer.autoPinEdgeToSuperviewEdge(.Bottom)
+        self.hourViewContainer.autoPinEdgeToSuperviewEdge(.Right)
+        var prevHour:UILabel?
+        for hour in 0...23{
+            let hourLabel = UILabel()
+            self.hourViewContainer.addSubview(hourLabel)
+            hourLabel.autoPinEdgeToSuperviewEdge(.Top)
+            hourLabel.autoPinEdgeToSuperviewEdge(.Bottom)
+            hourLabel.autoMatchDimension(.Width, toDimension: .Width, ofView: self.hourViewContainer, withMultiplier: 1/24)
+            hourLabel.textAlignment = .Center
+            hourLabel.textColor = UIColor.whiteColor()
+            hourLabel.font = hourLabel.font.fontWithSize(10)
+//            hourLabel.transform = CGAffineTransformMakeRotation(-90*CGFloat(M_PI)/180)  //rotate the label 90 degrees
+            
+            if hour == 0{
+                hourLabel.text = "12"
+            }else if(hour < 13){
+                hourLabel.text = "\(hour)"
+            }else{
+                hourLabel.text = "\(hour - 12)"
             }
-            dispatch_async(dispatch_get_main_queue()) {
-                self.highlightCurrentDaysInView()
+            
+            if hour == 0{
+                hourLabel.autoPinEdgeToSuperviewEdge(.Left)
+            }else{
+                hourLabel.autoPinEdge(.Left, toEdge: .Right, ofView: prevHour!)
             }
+            prevHour = hourLabel
+            self.hourViewLabels.append(hourLabel)
         }
+        //END HOUR LABEL SET UP
+        
+        for date in self.calendarView.dateContainers{
+            date.addTarget(self, action: #selector(CalendarScrollViewController.onDateButtonTap(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        }
+        self.highlightCurrentDaysInView()
         
         self.bubbleButton = BubbleButton(buttonColor: blueColor, imageFileName: "AddEventButtonPlus.png", identifier: "Menu")
         self.view.addSubview(bubbleButton!)

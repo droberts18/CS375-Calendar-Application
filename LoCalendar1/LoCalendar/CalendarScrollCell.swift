@@ -31,13 +31,13 @@ class CalendarScrollCell: UITableViewCell {
     var addedViews = false
     
     var hourHeatMapViews = [UIView]()
-    var hourHeatMapLabels = [UILabel]()
+    //var hourHeatMapLabels = [UILabel]()
     
     var day = Int()
     var month = Int()
     var year = Int()
     
-    let proportionOfDateContainer:CGFloat = 0.13
+    static let proportionOfDateContainer:CGFloat = 0.13
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -53,7 +53,7 @@ class CalendarScrollCell: UITableViewCell {
         dateContainer.autoPinEdgeToSuperviewEdge(.Left)
         dateContainer.autoPinEdgeToSuperviewEdge(.Top)
         dateContainer.autoPinEdgeToSuperviewEdge(.Bottom)
-        dateContainer.autoMatchDimension(.Width, toDimension: .Width, ofView: container, withMultiplier: proportionOfDateContainer)
+        dateContainer.autoMatchDimension(.Width, toDimension: .Width, ofView: container, withMultiplier: CalendarScrollCell.proportionOfDateContainer)
         
         dateContainer.addSubview(dayName)
         dateContainer.addSubview(dayDate)
