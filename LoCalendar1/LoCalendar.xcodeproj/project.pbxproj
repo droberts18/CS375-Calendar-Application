@@ -13,6 +13,7 @@
 		AF6450391CDD21C100870CD6 /* AddEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6450381CDD21C100870CD6 /* AddEventViewController.swift */; };
 		AF9428991CE3BBD90070E32C /* SearchMapButton.png in Resources */ = {isa = PBXBuildFile; fileRef = AF9428981CE3BBD90070E32C /* SearchMapButton.png */; };
 		AF94289B1CE3BED90070E32C /* LoginPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF94289A1CE3BED90070E32C /* LoginPageViewController.swift */; };
+		AF94289D1CE3CA540070E32C /* PageContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF94289C1CE3CA540070E32C /* PageContentViewController.swift */; };
 		C300A0BA1CDBCF1100A87CC4 /* DeQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C300A0B91CDBCF1100A87CC4 /* DeQueue.swift */; };
 		C323E2E81CBCD7E500927F3B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C323E2E71CBCD7E500927F3B /* AppDelegate.swift */; };
 		C323E2EA1CBCD7E500927F3B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C323E2E91CBCD7E500927F3B /* ViewController.swift */; };
@@ -70,6 +71,7 @@
 		AF6450381CDD21C100870CD6 /* AddEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddEventViewController.swift; path = ../AddEventViewController.swift; sourceTree = "<group>"; };
 		AF9428981CE3BBD90070E32C /* SearchMapButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SearchMapButton.png; sourceTree = "<group>"; };
 		AF94289A1CE3BED90070E32C /* LoginPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginPageViewController.swift; sourceTree = "<group>"; };
+		AF94289C1CE3CA540070E32C /* PageContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageContentViewController.swift; sourceTree = "<group>"; };
 		C300A0B91CDBCF1100A87CC4 /* DeQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeQueue.swift; sourceTree = "<group>"; };
 		C311923C1CBCDB070035478E /* LoCal-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LoCal-Bridging-Header.h"; sourceTree = "<group>"; };
 		C323E2E41CBCD7E500927F3B /* LoCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -175,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				AF94289A1CE3BED90070E32C /* LoginPageViewController.swift */,
+				AF94289C1CE3CA540070E32C /* PageContentViewController.swift */,
 				C39457851CC0989100946626 /* CalendarScrollViewController.swift */,
 				AF6450381CDD21C100870CD6 /* AddEventViewController.swift */,
 				C300A0B91CDBCF1100A87CC4 /* DeQueue.swift */,
@@ -335,7 +338,7 @@
 				TargetAttributes = {
 					C323E2E31CBCD7E500927F3B = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = F63F9F65P7;
+						DevelopmentTeam = P537ZEA4SP;
 					};
 					C323E2F71CBCD7E500927F3B = {
 						CreatedOnToolsVersion = 7.3;
@@ -457,6 +460,7 @@
 				C394578C1CC0AFE100946626 /* CalendarView.swift in Sources */,
 				C3BB79F91CD7E63D001E353F /* BubbleButton.swift in Sources */,
 				C394579D1CCAAB7E00946626 /* DayTable.swift in Sources */,
+				AF94289D1CE3CA540070E32C /* PageContentViewController.swift in Sources */,
 				C39318641CBEDD0500E7EA15 /* User.swift in Sources */,
 				AF6450391CDD21C100870CD6 /* AddEventViewController.swift in Sources */,
 				C39457861CC0989100946626 /* CalendarScrollViewController.swift in Sources */,
@@ -626,7 +630,7 @@
 				);
 				INFOPLIST_FILE = LoCalendar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = TylerReardon;
+				PRODUCT_BUNDLE_IDENTIFIER = "Drew-Roberts";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LoCal-Bridging-Header.h";
@@ -646,7 +650,7 @@
 				);
 				INFOPLIST_FILE = LoCalendar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = TylerReardon;
+				PRODUCT_BUNDLE_IDENTIFIER = "Drew-Roberts";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LoCal-Bridging-Header.h";

@@ -1,5 +1,5 @@
 //
-//  LoginViewController.swift
+//  LoginPageContentViewController.swift
 //  LoCalendar
 //
 //  Created by Drew Roberts on 5/11/16.
@@ -9,6 +9,6 @@
 import Foundation
 import UIKit
 
-class LoginPage: UIPageViewController {
+class PageContentViewController: UIViewController{
 
 }
