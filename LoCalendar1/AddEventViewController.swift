@@ -31,10 +31,9 @@ class AddEventViewController: UIViewController {
     var bottomOfStartDateCalendarView = NSLayoutConstraint()
     var bottomOfEndDateCalendarView = NSLayoutConstraint()
     
-    // need to change shade of green
-    let searchMapButton = NavButton(buttonColor: UIColor.greenColor(), imageFileName: "SearchMapButton.png")
-    
     override func viewDidLoad() {
+        let addLocationFromSaved = NavButton(buttonColor: greenColor, imageFileName: "AddLocation.png")
+        let searchMapButton = NavButton(buttonColor: blueColor, imageFileName: "SearchMapButton.png")
         self.view.backgroundColor = darkColor
         let font = UIFont.systemFontOfSize(40)
         let font2 = UIFont.systemFontOfSize(20)
@@ -109,9 +108,13 @@ class AddEventViewController: UIViewController {
         endDateCalendar.monthLabel.textColor = darkColor
         endDateCalendar.hidden = true
         
+        self.view.addSubview(addLocationFromSaved)
+        addLocationFromSaved.autoPinEdge(.Top, toEdge: .Bottom, ofView: endDateCalendarContainer, withOffset: 20)
+        addLocationFromSaved.autoPinEdge(.Right, toEdge: .Right, ofView: eventName)
+        
         self.view.addSubview(searchMapButton)
         searchMapButton.autoPinEdge(.Top, toEdge: .Bottom, ofView: endDateCalendarContainer, withOffset: 20)
-        searchMapButton.autoPinEdge(.Right, toEdge: .Right, ofView: eventName)
+        searchMapButton.autoPinEdge(.Right, toEdge: .Left, ofView: addLocationFromSaved, withOffset: -20)
     }
     
     override func didReceiveMemoryWarning() {
