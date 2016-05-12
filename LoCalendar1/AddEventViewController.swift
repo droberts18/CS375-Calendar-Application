@@ -144,69 +144,23 @@ class AddEventViewController: UIViewController {
     
     func toggleStartDateCalendar(sender: UIButton!){
         if(!startDateCalendarIsOpen){
-//            changeStartDateButton.setTitle(startDateCalendar.getFormattedCurrentDate(), forState: UIControlState.Normal)
-//            UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
-//                self.bottomOfStartDateCalendarView!.active = false
-//                self.startDateCalendarHeightConstraint?.active = true
-//                self.startDateCalendar.hidden = false
-//                self.view.setNeedsLayout()
-//                self.view.layoutIfNeeded()
-//                }, completion: { finished in
-//                    self.startDateCalendarIsOpen = true
-//            })
             showStartDateCalendar()
         }
         else{
-//            changeStartDateButton.setTitle("TAP TO SET START DATE", forState: UIControlState.Normal)
-//            UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
-//                self.startDateCalendarHeightConstraint?.active = false
-//                self.bottomOfStartDateCalendarView!.active = true
-//                self.startDateCalendar.hidden = true
-//                self.view.setNeedsLayout()
-//                self.view.layoutIfNeeded()
-//                }, completion: { finished in
-//                    self.startDateCalendarIsOpen = false
-//            })
             hideStartDateCalendar()
         }
     }
     
     func toggleEndDateCalendar(sender: UIButton!){
         if(!endDateCalendarIsOpen){
-//            changeEndDateButton.setTitle(endDateCalendar.getFormattedCurrentDate(), forState: UIControlState.Normal)
-//            UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
-//                self.bottomOfEndDateCalendarView!.active = false
-//                self.endDateCalendar.hidden = false
-//                self.endDateCalendarHeightConstraint?.active = true
-//                self.view.setNeedsLayout()
-//                self.view.layoutIfNeeded()
-//                }, completion: { finished in
-//                    self.endDateCalendarIsOpen = true
-//            })
             showEndDateCalendar()
         }
         else{
-//            changeEndDateButton.setTitle("TAP TO SET END DATE", forState: UIControlState.Normal)
-//            UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
-//                self.endDateCalendarHeightConstraint?.active = false
-//                self.bottomOfEndDateCalendarView!.active = true
-//                self.endDateCalendar.hidden = true
-//                self.view.setNeedsLayout()
-//                self.view.layoutIfNeeded()
-//                }, completion: { finished in
-//                    self.endDateCalendarIsOpen = false
-//            })
             hideEndDateCalendar()
         }
     }
     
     func hideStartDateCalendar(){
-//        if(self.startDateSelected){
-//            changeStartDateButton.setTitle(startDateCalendar.getFormattedModifiedDate(), forState: UIControlState.Normal)
-//        }else{
-//            changeStartDateButton.setTitle("TAP TO SET START DATE", forState: UIControlState.Normal)
-//            self.startDateSelected = true
-//        }
         changeStartDateButton.setTitle(startDateCalendar.getFormattedModifiedDate(), forState: UIControlState.Normal)
         UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
             self.startDateCalendarHeightConstraint?.active = false
@@ -220,7 +174,7 @@ class AddEventViewController: UIViewController {
     }
     
     func showStartDateCalendar(){
-        changeStartDateButton.setTitle(startDateCalendar.getFormattedCurrentDate(), forState: UIControlState.Normal)
+        changeStartDateButton.setTitle(startDateCalendar.getFormattedModifiedDate(), forState: UIControlState.Normal)
         UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
             self.bottomOfStartDateCalendarView!.active = false
             self.startDateCalendarHeightConstraint?.active = true
@@ -233,13 +187,7 @@ class AddEventViewController: UIViewController {
     }
     
     func hideEndDateCalendar(){
-//        if(self.endDateSelected){
-//            changeEndDateButton.setTitle(endDateCalendar.getFormattedModifiedDate(), forState: UIControlState.Normal)
-//        }else{
-//            changeEndDateButton.setTitle("TAP TO SET END DATE", forState: UIControlState.Normal)
-//            self.endDateSelected = true
-//        }
-        changeStartDateButton.setTitle(startDateCalendar.getFormattedModifiedDate(), forState: UIControlState.Normal)
+        changeEndDateButton.setTitle(endDateCalendar.getFormattedModifiedDate(), forState: UIControlState.Normal)
         UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
             self.endDateCalendarHeightConstraint?.active = false
             self.bottomOfEndDateCalendarView!.active = true
@@ -252,7 +200,7 @@ class AddEventViewController: UIViewController {
     }
     
     func showEndDateCalendar(){
-        changeEndDateButton.setTitle(endDateCalendar.getFormattedCurrentDate(), forState: UIControlState.Normal)
+        changeEndDateButton.setTitle(endDateCalendar.getFormattedModifiedDate(), forState: UIControlState.Normal)
         UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
             self.bottomOfEndDateCalendarView!.active = false
             self.endDateCalendar.hidden = false
