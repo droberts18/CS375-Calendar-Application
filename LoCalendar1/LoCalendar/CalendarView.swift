@@ -194,46 +194,27 @@ class CalendarView: UIView{
         }
         //END SIDE BUTTONS
         
-//        self.addSubview(todayButton)
-//        todayButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self)
-//        todayButton.autoPinEdge(.Right, toEdge: .Right, ofView: self)
-//        todayButton.autoPinEdge(.Left, toEdge: .Left, ofView: self)
-//        todayButton.autoPinEdge(.Top, toEdge: .Bottom, ofView: calendarContainer)
-//        todayButton.autoMatchDimension(.Height, toDimension: .Height, ofView: self, withMultiplier: 1/8)
-//        todayButton.setTitle("Today", forState: .Normal)
-//        todayButton.titleLabel?.adjustsFontSizeToFitWidth = true
-//        //todayButton.titleLabel?.font = UIFont(name: "Helvetica", size: 10)
-        
         updateCurrentInfo()
         self.modifiedDay = self.currentDay
         self.modifiedMonth = self.currentMonth
         self.modifiedYear = self.currentYear
-        
         self.setMonth(self.currentMonth)
         self.setYear(self.currentYear)
-//        self.setDaysInMonth(self.getNumDaysInMonth(self.currentMonth, year: self.currentYear), startDay: self.getStartDayInMonth(self.currentMonth, year: self.currentYear))
-        
         self.updateMonth(self.currentMonth, year: self.currentYear)
+        
+        self.addActionToDateButtons(self, action: #selector(CalendarView.updateModifiedDateFromButtonDate(_:)))
     }
     
     
     func updateMonth(month:Int, year:Int){
-        
-//        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-//        dispatch_async(dispatch_get_global_queue(priority, 0)) {
 
             self.updateCurrentInfo()
-            
             let prevMonthAndYear = self.getPrevMonthAndYearNumber(month, year: year)
             let numDaysInPrevMonth = self.getNumDaysInMonth(prevMonthAndYear.0, year: prevMonthAndYear.1)
-            
             let nextMonthAndYear = self.getNextMonthAndYearNumber(month, year: year)
-            
             let numDaysInCurrentMonth = self.getNumDaysInMonth(month, year: year)
             let startDay = self.getStartDayInMonth(month, year: year)
-            
-//            dispatch_async(dispatch_get_main_queue()) {
-
+        
                 //FOR PREVIOUS MONTH'S DAYS
                 if(startDay != 0){
                     var day = startDay - 1
@@ -280,8 +261,6 @@ class CalendarView: UIView{
                     }
                     date += 1
                 }
-//            }
-//        }
     }
     
     
@@ -430,8 +409,12 @@ class CalendarView: UIView{
         return "\(self.currentMonth)-\(self.currentDay)-\(self.currentYear)"
     }
     
-    func getFullCurrentDate() -> String{
+    func getFormattedCurrentDate() -> String{
         return "\(self.monthLabel.text!) \(self.currentDay), \(self.currentYear)"
+    }
+    
+    func getFormattedModifiedDate() -> String{
+        return "\(self.monthLabel.text!) \(self.modifiedDay), \(self.modifiedYear)"
     }
     
     func getModifiedDate() -> String{
@@ -447,9 +430,6 @@ class CalendarView: UIView{
         self.modifiedDay = day
         self.modifiedYear = year
         
-//        let numDays = self.getNumDaysInMonth(self.modifiedMonth, year: self.modifiedYear)
-//        let startDay = self.getStartDayInMonth(self.modifiedMonth, year: self.modifiedYear)
-        //self.setDaysInMonth(numDays, startDay: startDay)
         self.updateMonth(month, year: year)
         self.setMonth(self.modifiedMonth)
         self.setYear(self.modifiedYear)
@@ -463,14 +443,6 @@ class CalendarView: UIView{
             self.modifiedMonth = 1
             self.modifiedYear += 1
         }
-//        let numDays = self.getNumDaysInMonth(self.modifiedMonth, year: self.modifiedYear)
-//        let startDay = self.getStartDayInMonth(self.modifiedMonth, year: self.modifiedYear)
-        //self.setDaysInMonth(numDays, startDay: startDay)
-        //self.updateMonth(self.modifiedMonth, year: self.modifiedYear)
-//        self.setMonth(self.modifiedMonth)
-//        self.setYear(self.modifiedYear)
-        //self.setNeedsLayout()
-        //self.layoutIfNeeded()
     }
     
     func decrementOneMonth(){
@@ -480,14 +452,12 @@ class CalendarView: UIView{
             self.modifiedMonth = 12
             self.modifiedYear -= 1
         }
-//        let numDays = self.getNumDaysInMonth(self.modifiedMonth, year: self.modifiedYear)
-//        let startDay = self.getStartDayInMonth(self.modifiedMonth, year: self.modifiedYear)
-        //self.setDaysInMonth(numDays, startDay: startDay)
-        //self.updateMonth(self.modifiedMonth, year: self.modifiedYear)
-//        self.setMonth(self.modifiedMonth)
-//        self.setYear(self.modifiedYear)
-        //self.setNeedsLayout()
-        //self.layoutIfNeeded()
+    }
+    
+    func updateModifiedDate(month:Int,day:Int,year:Int){
+        self.modifiedMonth = month
+        self.modifiedDay = day
+        self.modifiedYear = year
     }
     
     func disableConstraints(){
@@ -522,5 +492,16 @@ class CalendarView: UIView{
         self.goToDate(self.modifiedMonth, day: self.modifiedDay, year: self.modifiedYear)
     }
     
+    func updateModifiedDateFromButtonDate(sender:UIButton!){
+        if let dateButton = sender as? CalendarViewDateButton{
+            self.updateModifiedDate(dateButton.month, day: dateButton.day, year: dateButton.year)
+        }
+    }
+    
+    func addActionToDateButtons(target: AnyObject, action:Selector){
+        for button in self.dateContainers{
+            button.addTarget(target, action: action, forControlEvents: .TouchUpInside)
+        }
+    }
     
 }

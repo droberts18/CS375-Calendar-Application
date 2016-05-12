@@ -175,24 +175,19 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         dayTable.separatorEffect = .None
         //END SET UP DAY TABLE
         
-        for date in self.calendarView.dateContainers{
-            date.addTarget(self, action: #selector(CalendarScrollViewController.onDateButtonTap(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        }
+        calendarView.addActionToDateButtons(self, action: #selector(CalendarScrollViewController.onDateButtonTap(_:)))
         self.highlightCurrentDaysInView()
         
         self.bubbleButton = BubbleButton(buttonColor: blueColor, imageFileName: "AddEventButtonPlus.png", identifier: "Menu")
         self.view.addSubview(bubbleButton!)
         self.bubbleButton?.autoPinEdge(.Right, toEdge: .Right, ofView: self.view, withOffset: -7)
         self.bubbleButton?.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view, withOffset: -7)
-        //self.bubbleButton?.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: self.view, withOffset: (self.bubbleButton?.navButtonSize)!/2)
-        
         
         bubbleButton?.addNavButton(greenColor, imageFileName: "AddLocation.png")
         bubbleButton?.addNavButton(blueColor, imageFileName: "AddLocation.png")
         bubbleButton?.addNavButton(darkColor, imageFileName: "AddLocation.png")
 //        bubbleButton?.addNavButton(lightDarkColor, imageFileName: "AddLocation.png")
 //        bubbleButton?.addNavButton(whiteColor, imageFileName: "AddLocation.png")
-
         
         bubbleButton?.navButtons[0].0.addTarget(self, action: #selector(CalendarScrollViewController.addLocation(_:)), forControlEvents: .TouchUpInside)
         bubbleButton?.navButtons[1].0.addTarget(self, action: #selector(CalendarScrollViewController.addEvent(_:)), forControlEvents: .TouchUpInside)
