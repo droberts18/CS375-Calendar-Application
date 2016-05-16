@@ -25,6 +25,8 @@ class AddEventViewController: UIViewController {
     let endDateCalendarContainer = UIView()
     let startDateCalendar = CalendarView()
     let endDateCalendar = CalendarView()
+    let startDateHeatMap = DayHeatMap()
+    let endDateHeatMap = DayHeatMap()
     
     var startDateCalendarIsOpen = false
     var endDateCalendarIsOpen = false
@@ -90,12 +92,18 @@ class AddEventViewController: UIViewController {
         startDateCalendar.hidden = true
         startDateCalendar.addActionToDateButtons(self, action: #selector(AddEventViewController.selectStartDate(_:)))
         //END START DATE
+        
+        self.view.addSubview(startDateHeatMap)
+        startDateHeatMap.autoPinEdge(.Top, toEdge: .Bottom, ofView: startDateCalendarContainer, withOffset: 20)
+        startDateHeatMap.autoSetDimension(.Height, toSize: 30)
+        startDateHeatMap.autoSetDimension(.Width, toSize: 100)
+        startDateHeatMap.autoPinEdge(.Left, toEdge: .Left, ofView: eventName)
 
         //END DATE
         self.view.addSubview(changeEndDateButton)
         changeEndDateButton.autoPinEdge(.Left, toEdge: .Left, ofView: eventName)
         changeEndDateButton.autoPinEdge(.Right, toEdge: .Right, ofView: eventName)
-        changeEndDateButton.autoPinEdge(.Top, toEdge: .Bottom, ofView: startDateCalendarContainer, withOffset: 20)
+        changeEndDateButton.autoPinEdge(.Top, toEdge: .Bottom, ofView: startDateHeatMap, withOffset: 20)
         changeEndDateButton.backgroundColor = lightDarkColor
         changeEndDateButton.setTitle("TAP TO SET END DATE", forState: UIControlState.Normal)
         changeEndDateButton.setTitleColor(greenColor, forState: UIControlState.Normal)
@@ -109,6 +117,10 @@ class AddEventViewController: UIViewController {
         endDateCalendarHeightConstraint = endDateCalendarContainer.autoMatchDimension(.Height, toDimension: .Height, ofView: self.view, withMultiplier: CGFloat(CalendarView.calendarContainerHeightMultiplyer))
         endDateCalendarHeightConstraint?.active = false
         self.bottomOfEndDateCalendarView = endDateCalendarContainer.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: changeEndDateButton)
+        
+        self.view.addSubview(endDateHeatMap)
+        endDateHeatMap.autoPinEdge(.Top, toEdge: .Bottom, ofView: endDateCalendarContainer, withOffset: 20)
+        endDateHeatMap.autoPinEdge(.Left, toEdge: .Left, ofView: eventName)
         
         endDateCalendarContainer.addSubview(endDateCalendar)
         endDateCalendar.autoPinEdge(.Left, toEdge: .Left, ofView: endDateCalendarContainer)
@@ -170,6 +182,7 @@ class AddEventViewController: UIViewController {
             self.view.layoutIfNeeded()
             }, completion: { finished in
                 self.startDateCalendarIsOpen = false
+                
         })
     }
     
