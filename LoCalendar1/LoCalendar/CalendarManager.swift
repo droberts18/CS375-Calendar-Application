@@ -52,6 +52,7 @@ class CalendarManager {
         fillDateMap()
     }
     
+    ///Creates a map of all the dates and their corresponding row numbers (for use with a UITableView)
     func fillDateMap() -> [String:Int]{
         var dateMap = [String:Int]()
         var rowIndex = 0
@@ -67,6 +68,7 @@ class CalendarManager {
         return dateMap
     }
     
+    ///Check to see if the user has given access to the phone's calendar
     func checkStatus(){
         let status = EKEventStore.authorizationStatusForEntityType(EKEntityType.Event)
         switch (status) {
@@ -89,6 +91,7 @@ class CalendarManager {
         }
     }
     
+    ///Make an NSDate object given a month, day and year
     func makeNSDateFromComponents(month:Int, day:Int, year:Int) -> NSDate{
         let newDateComponents = NSDateComponents()
         newDateComponents.day = day
@@ -98,8 +101,8 @@ class CalendarManager {
         return newDate!
     }
     
+    ///Get a list of all the events that happen on a given date
     func getEventsForDate(date: NSDate) -> [EKEvent]{
-        
         let beginningOfDay = calendar.startOfDayForDate(date)
         
         var endOfDay: NSDate? {
@@ -109,13 +112,7 @@ class CalendarManager {
             return NSCalendar.currentCalendar().dateByAddingComponents(components, toDate: beginningOfDay, options: NSCalendarOptions())
         }
         
-//        var titles : [String] = []
-//        var startDates : [NSDate] = []
-//        var endDates : [NSDate] = []
-        
-//        let eventStore = EKEventStore()
         let calendars = eventStore.calendarsForEntityType(.Event)
-        
         var myEvents = [EKEvent]()
         
         for calendar in calendars {
@@ -136,6 +133,7 @@ class CalendarManager {
         return myEvents
     }
     
+    ///Get the time an event starts in decimal form (i.e. 1:30 would be 13.5)
     func getEventStartTimeForUI(event: EKEvent) -> Double{
         let timestamp = NSDateFormatter.localizedStringFromDate(event.startDate, dateStyle: .NoStyle, timeStyle: .ShortStyle)
         let timeComponents = timestamp.componentsSeparatedByString(" ")
@@ -156,6 +154,7 @@ class CalendarManager {
         return timeNumber
     }
     
+    ///Get the time an event ends in decimal form (i.e. 1:30 would be 13.5)
     func getEventEndTimeForUI(event: EKEvent) -> Double{
         let timestamp = NSDateFormatter.localizedStringFromDate(event.endDate, dateStyle: .NoStyle, timeStyle: .ShortStyle)
         let timeComponents = timestamp.componentsSeparatedByString(" ")
@@ -174,6 +173,7 @@ class CalendarManager {
         return timeNumber
     }
     
+    ///Get the start time in string format (hh:mm pm/am)
     func getFormattedEventStartTime(event: EKEvent) -> String{
         let timestamp = NSDateFormatter.localizedStringFromDate(event.startDate, dateStyle: .NoStyle, timeStyle: .ShortStyle)
         let timePieces = timestamp.componentsSeparatedByString(" ")
@@ -188,6 +188,7 @@ class CalendarManager {
         return timestamp
     }
     
+    ///Get the end time in string format (hh:mm pm/am)
     func getFormattedEventEndTime(event: EKEvent) -> String{
         let timestamp = NSDateFormatter.localizedStringFromDate(event.endDate, dateStyle: .NoStyle, timeStyle: .ShortStyle)
         let timePieces = timestamp.componentsSeparatedByString(" ")
@@ -202,6 +203,7 @@ class CalendarManager {
         return timestamp
     }
     
+    ///Get the string (mm-dd-yyyy) for an NSDate
     func getDateString(date: NSDate) -> String{
         let components = calendar.components([.Day , .Month , .Year], fromDate: date)
         let year =  components.year
@@ -211,14 +213,17 @@ class CalendarManager {
         return "\(month)-\(day)-\(year)"
     }
     
+    ///Get the formatted string (mm-dd-yyyy) for a given month, date, and year
     func getDateString(month:Int,day:Int,year:Int) -> String{
         return "\(month)-\(day)-\(year)"
     }
     
+    ///Get the formatted string (mm-dd-yyyy) for the current day
     func getCurrentDateString() -> String{
         return getDateString(self.currentMonth, day: self.currentDay, year: self.currentYear)
     }
     
+    ///Get a tuple (month, day, year) based off of the current day plus an offset
     func getDateFromCurrentDateWithOffset(offset:Int) -> (Int,Int,Int){
         let newDateComponents = NSDateComponents()
         newDateComponents.day = self.currentDay + offset
@@ -235,9 +240,9 @@ class CalendarManager {
             return dateTuple
         }
         return (-1,-1,-1) //error
-}
+    }
     
-    
+    ///Get the number of days in a given year
     func getNumDaysInYear(year:Int) -> Int{
         var totalDays = 0
         let calendar = NSCalendar.currentCalendar()
@@ -253,8 +258,8 @@ class CalendarManager {
         return totalDays
     }
     
+    //Get the number of days in a given month
     func getNumDaysInMonth(month:Int, year:Int) -> Int{
-        
         if(month < 1 || month > 12){
             return 0
         }
@@ -271,6 +276,7 @@ class CalendarManager {
         return numDays
     }
     
+    ///Get the day of the week (integer) based on the string given (mm-dd-yyyy)
     func getDayOfWeek(today:String)->Int {
         let formatter  = NSDateFormatter()
         formatter.dateFormat = "MM-dd-yyyy"
@@ -281,6 +287,7 @@ class CalendarManager {
         return weekDay
     }
     
+    //Get a list of color values based on how much of each hour has been taken up by events
     func getColorValuesForHours(events:[EKEvent]) -> [UIColor]{
         //var hourValues:[Double] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         //var hourValues = [UIColor](count: 24, repeatedValue: UIColor(red: 20/255, green: 60/255, blue: 90/255, alpha: 1))
@@ -306,6 +313,10 @@ class CalendarManager {
                 
                 let startHour:Int = Int(startTime)
                 let endHour:Int = Int(ceil(endTime))
+                
+                if(startTime >= 15.8 && startTime <= 15.85){
+                    print("creative nonfiction")
+                }
                 
                 //update all the hours
                 if startHour <= endHour{
@@ -336,7 +347,7 @@ class CalendarManager {
 //                                    rgbVals[hour].0 += changeByVal * (CGFloat(startTime) - CGFloat(startHour))
 //                                    rgbVals[hour].1 += (changeByVal * (CGFloat(startTime) - CGFloat(startHour)))/2
 //                                    rgbVals[hour].2 += changeByVal * (CGFloat(startTime) - CGFloat(startHour))
-                                    hsbVals[hour].2 += changeByVal * (CGFloat(startTime) - CGFloat(startHour))
+                                    hsbVals[hour].2 += changeByVal * (1 - (CGFloat(startTime) - CGFloat(startHour)))
                                 }
                             }else if(hour == endHour - 1){
                                 if(endTime == Double(endHour)){
@@ -372,7 +383,7 @@ class CalendarManager {
         return hourValues
     }
     
-    
+    ///Returns the three letter day in caps given the day of the week (1 being Sunday)
     func getDayString(dayNumber: Int) -> String{
         switch dayNumber{
         case 1:

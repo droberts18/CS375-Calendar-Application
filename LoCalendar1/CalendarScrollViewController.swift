@@ -153,6 +153,7 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
             }else{
                 hourLabel.autoPinEdge(.Left, toEdge: .Right, ofView: prevHour!)
             }
+            hourLabel.alpha = 0.25
             prevHour = hourLabel
             self.hourViewLabels.append(hourLabel)
         }
