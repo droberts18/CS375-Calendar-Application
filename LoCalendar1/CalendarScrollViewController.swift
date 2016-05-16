@@ -68,7 +68,7 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         self.todayButton.autoPinEdge(.Top, toEdge: .Bottom, ofView: calendarView)
         self.todayButton.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: calendarContainer)
         self.todayButton.autoMatchDimension(.Width, toDimension: .Width, ofView: calendarContainer)
-        self.todayButton.autoSetDimension(.Height, toSize: 20)
+        self.todayButton.autoSetDimension(.Height, toSize: 40)
         self.todayButton.setTitle("Today", forState: .Normal)
         self.todayButton.addTarget(self, action: #selector(CalendarScrollViewController.todayButtonTap(_:)), forControlEvents: .TouchUpInside)
         
@@ -544,7 +544,7 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         UIView.animateWithDuration(0.5, animations: {
             dayCell?.cellWasSelected()
         }) { (value:Bool) in
-            self.presentViewController(DayEventsViewController(), animated: true, completion: {})
+            self.presentViewController(DayEventsViewController(month: (dayCell?.month)!,day: (dayCell?.day)!, year: (dayCell?.year)!), animated: true, completion: {})
         }
     }
     
@@ -585,7 +585,6 @@ class CalendarScrollViewController: UIViewController, UITableViewDataSource, UIT
         }
         
     }
-    
     
     func onDateButtonTap(sender:UIButton!){
         if let date = sender as? CalendarViewDateButton{

@@ -13,7 +13,6 @@ class CalendarManager {
     
     let eventStore = EKEventStore()
     let calendar = NSCalendar.currentCalendar()
-    //var eventDictionary = [String:[EKEvent]]()
     var authorized = false
     var numberOfDaysLoaded = Int()
     
@@ -21,35 +20,13 @@ class CalendarManager {
     var currentMonth = Int()
     var currentYear = Int()
     
-    var firstDayLoaded = Int()
-    var firstMonthLoaded = Int()
-    var firstYearLoaded = Int()
-    
-    var lastDayLoaded = Int()
-    var lastMonthLoaded = Int()
-    var lastYearLoaded = Int()
-    
     init(){
         let calendar = NSCalendar.init(calendarIdentifier: NSCalendarIdentifierGregorian)
         self.currentDay = (calendar?.component(NSCalendarUnit.Day, fromDate: NSDate()))!
         self.currentMonth = (calendar?.component(NSCalendarUnit.Month, fromDate: NSDate()))!
         self.currentYear = (calendar?.component(NSCalendarUnit.Year, fromDate: NSDate()))!
-        
-        self.firstDayLoaded = self.currentDay
-        self.firstMonthLoaded = self.currentMonth
-        self.firstYearLoaded = self.currentYear
-        
-        self.lastDayLoaded = self.currentDay
-        self.lastMonthLoaded = self.currentMonth
-        self.lastYearLoaded = self.currentYear
-        
         numberOfDaysLoaded = getNumDaysInYear(self.currentYear) + getNumDaysInYear(self.currentYear - 1)
         checkStatus()
-        
-//        var today = NSDate()
-//        self.getEventsForDate(today)
-        
-        fillDateMap()
     }
     
     ///Creates a map of all the dates and their corresponding row numbers (for use with a UITableView)
@@ -313,10 +290,6 @@ class CalendarManager {
                 
                 let startHour:Int = Int(startTime)
                 let endHour:Int = Int(ceil(endTime))
-                
-                if(startTime >= 15.8 && startTime <= 15.85){
-                    print("creative nonfiction")
-                }
                 
                 //update all the hours
                 if startHour <= endHour{

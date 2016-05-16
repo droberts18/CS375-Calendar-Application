@@ -19,14 +19,15 @@ class LocationManager: NSObject, CLLocationManagerDelegate  {
         super.init()
         manager.delegate = self
         manager.desiredAccuracy = kCLLocationAccuracyBest
-        manager.requestAlwaysAuthorization()
         if CLLocationManager.locationServicesEnabled() {
             switch(CLLocationManager.authorizationStatus()) {
             case .NotDetermined, .Restricted, .Denied:
                 print("No access to location services")
+                manager.requestAlwaysAuthorization()
                 break
             case .AuthorizedAlways, .AuthorizedWhenInUse:
                 manager.startUpdatingLocation()
+                self.currentLocation = self.getGeoLocation()
                 break
             }
         } else {

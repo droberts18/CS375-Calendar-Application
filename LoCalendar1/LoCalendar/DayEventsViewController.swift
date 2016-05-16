@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import MapKit
+import EventKit
 import CoreLocation
 
 class DayEventsViewController: UIViewController, MKMapViewDelegate {
@@ -24,34 +25,46 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
     let myMap = MKMapView(forAutoLayout: ())
     let eventView = UIView()
     var eventViewSliderArrowDown:UIImageView? = nil //(named: "DownArrow.png")
-    var eventViewSliderArrowUp:UIImageView? = nil //(named: "UpArrow.png")
     var eventViewSliderArrow:UIImageView? = nil
     var eventViewSlider = UIView()
     let exitButtonIMG = UIImage(named: "AddEventButtonPlus.png")
-
     
-    let initialLocation = CLLocation(latitude: LocationManager().getGeoLocation().coordinate.latitude, longitude: LocationManager().getGeoLocation().coordinate.longitude)
+    var initialLocation:CLLocation? = nil //CLLocation(latitude: LocationManager().getGeoLocation().coordinate.latitude, longitude: LocationManager().getGeoLocation().coordinate.longitude)
     let regionRadius = 1000.0
     
     // TESTING PIN
     let pinLocation : CLLocationCoordinate2D = CLLocationCoordinate2DMake(LocationManager().getGeoLocation().coordinate.latitude, LocationManager().getGeoLocation().coordinate.longitude)
     let objectAnnotation = MKPointAnnotation()
 
+    //variables to allow the animation to fullscreen map
     var mapContainerConstraint = NSLayoutConstraint()
     var halfShowingArrowConstraint = NSLayoutConstraint()
     var bottomOfMapArrowConstraint = NSLayoutConstraint()
     var heightOfMapConstraint = NSLayoutConstraint()
     var bottomMapConstraint = NSLayoutConstraint()
     var fullScreenMap = false
+    
+    let locationManager = LocationManager()
+    let calendarManager = CalendarManager()
+    var dayEvents = [EKEvent]()
+    
+    
+    convenience init(month:Int, day:Int, year:Int){
+        self.init()
+        calendarManager.checkStatus()
+        initialLocation = locationManager.getGeoLocation()
+        let date = calendarManager.makeNSDateFromComponents(month, day: day, year: year)
+        self.dayEvents = calendarManager.getEventsForDate(date)
+        for event in dayEvents{
+            print(event)
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         let downArrow = UIImage(named: "DownArrow.png")
         self.eventViewSliderArrowDown = UIImageView(image: downArrow)
-        
-        let upArrow = UIImage(named: "UpArrow.png")
-        self.eventViewSliderArrowUp = UIImageView(image: upArrow)
         
         self.view.backgroundColor = darkColor
         self.view.addSubview(mapContainer)
@@ -79,8 +92,8 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
         mapContainer.addSubview(myMap)
         myMap.autoPinEdgesToSuperviewEdges()
         myMap.delegate = self
-        print(initialLocation.coordinate.latitude, "   ", initialLocation.coordinate.longitude)
-        centerMapOnLocation(initialLocation)
+        print(initialLocation!.coordinate.latitude, "   ", initialLocation!.coordinate.longitude)
+        centerMapOnLocation(initialLocation!)
         
         objectAnnotation.coordinate = pinLocation
         objectAnnotation.title = "Mobile Applications"
@@ -92,46 +105,8 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
         exitButton.autoPinEdge(.Left, toEdge: .Left, ofView: mapContainer, withOffset: 5)
         exitButton.transform = CGAffineTransformMakeRotation((CGFloat(M_PI)/180)*45)
         exitButton.userInteractionEnabled = true
-        let exitTap = UITapGestureRecognizer(target: self, action: "exit:")
+        let exitTap = UITapGestureRecognizer(target: self, action: #selector(DayEventsViewController.exit(_:)))
         exitButton.addGestureRecognizer(exitTap)
-        
-//        exitButton.transform = CGAffineTransformMakeRotation((CGFloat(M_PI)/180)*45)
-//        mapContainer.addSubview(exitButton)
-//        exitButton.autoPinEdge(.Top, toEdge: .Top, ofView: mapContainer, withOffset: 5)
-//        exitButton.autoPinEdge(.Left, toEdge: .Left, ofView: mapContainer, withOffset: 5)
-        
-        
-        // TESTING PIN
-//        let localSearchRequest = MKLocalSearchRequest()
-//        localSearchRequest.naturalLanguageQuery = "Fred Meyer"
-//        let localSearch = MKLocalSearch(request: localSearchRequest)
-//        localSearch.startWithCompletionHandler{(LocalSearchResponse, error) -> Void
-//        in
-//            if LocalSearchResponse == nil {
-//                let alertController = UIAlertController(title: nil, message: "Place Not Found", preferredStyle: UIAlertControllerStyle.Alert)
-//                alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
-//                self.presentViewController(alertController, animated: true, completion: nil)
-//                return
-//            }
-//            else{
-//                let pointAnnotation = MKPointAnnotation()
-//                pointAnnotation.title = "Get Groceries"
-//                pointAnnotation.coordinate = CLLocationCoordinate2DMake(localSearchResponse!.boundingRegion.center.latitude, localSearchResponse!.boundingRegion.center.longitude)
-//                
-//                
-//            }
-//        }
-        
-        
-        // ADDING SLIDE ARROW FOR USER TO CHANGE MAP AND EVENTS VIEW SIZES
-//        let slideArrow = UIImage(named: "DownArrow.png")
-//        let slideArrowView = UIImageView(image: slideArrow)
-//        self.view.addSubview(slideArrowView)
-//        slideArrowView.autoPinEdge(.Top, toEdge: .Bottom, ofView: myMap, withOffset: 5)
-//        slideArrowView.autoAlignAxis(.Vertical, toSameAxisOfView: self.view)
-//        slideArrowView.autoSetDimension(.Height, toSize: 50)
-//        slideArrowView.autoSetDimension(.Width, toSize: 100)
-        
         
         
         let eventViewSliderSize:CGFloat = 50
@@ -150,29 +125,10 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
         self.view.addSubview(eventViewSlider)
         eventViewSlider.userInteractionEnabled = true
         
-//        let eventViewSlider = UIImageView(image: eventViewSliderArrow)
-//        eventViewSlider.contentMode = UIViewContentMode.ScaleAspectFit
-//        eventViewSlider.clipsToBounds = true
-//        eventViewSlider.autoSetDimension(.Height, toSize: 40)
-//        eventViewSlider.autoSetDimension(.Width, toSize: 40)
-//        eventViewSlider.layer.cornerRadius = eventViewSlider.frame.size.width/2
-//        eventViewSlider.backgroundColor = UIColor.blackColor()
-//        self.view.addSubview(eventViewSlider)
-//        eventViewSlider.userInteractionEnabled = true
-//        eventViewSlider.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: eventView, withOffset: eventViewSlider.frame.size.height/2, relation: .GreaterThanOrEqual)
-//        eventViewSlider.autoConstrainAttribute(.Bottom, toAttribute: .Bottom, ofView: eventView, withMultiplier: 1, relation: .GreaterThanOrEqual)
-        
         self.bottomOfMapArrowConstraint = eventViewSlider.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: mapContainer, withOffset: -5)
         self.bottomOfMapArrowConstraint.active = false
         self.halfShowingArrowConstraint = eventViewSlider.autoPinEdge(.Bottom, toEdge: .Bottom, ofView: mapContainer, withOffset: eventViewSliderSize/2)
         eventViewSlider.autoAlignAxisToSuperviewAxis(.Vertical)
-        
-//        let slideArrow = UIView()
-//        slideArrow.backgroundColor = UIColor.redColor()
-//        slideArrow.autoSetDimension(.Height, toSize: 100)
-//        slideArrow.autoSetDimension(.Width, toSize: 100)
-//        self.view.addSubview(slideArrow)
-//        slideArrow.autoPinEdge(.Top, toEdge: .Bottom, ofView: myMap, withOffset: 5)
         
         let slide = UIPanGestureRecognizer(target: self, action: #selector(DayEventsViewController.changeDimensions(_:)))
         let arrowTap = UITapGestureRecognizer(target: self, action: #selector(DayEventsViewController.slideOnTap(_:)))
@@ -214,16 +170,13 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
     
     func slideDownAnimation(){
         UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
-            //self.eventViewSliderArrow = self.eventViewSliderArrowUp
-            self.eventViewSlider.transform = CGAffineTransformMakeRotation(180 * CGFloat(M_PI)/180)
-            self.halfShowingArrowConstraint.active = false
-            self.heightOfMapConstraint.active = false
-            self.bottomOfMapArrowConstraint.active = true
-            //self.heightOfMapConstraint.constant = self.view.frame.size.height
-            self.bottomMapConstraint.active = true
-            self.view.setNeedsLayout()
-            self.view.layoutIfNeeded()
-            //                self.eventView.center.y = self.view.frame.height
+                self.eventViewSlider.transform = CGAffineTransformMakeRotation(180 * CGFloat(M_PI)/180)
+                self.halfShowingArrowConstraint.active = false
+                self.heightOfMapConstraint.active = false
+                self.bottomOfMapArrowConstraint.active = true
+                self.bottomMapConstraint.active = true
+                self.view.setNeedsLayout()
+                self.view.layoutIfNeeded()
             }, completion: { finished in
                 self.fullScreenMap = true
         })
@@ -232,18 +185,14 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
     
     func slideUpAnimation(){
         UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
-            //self.eventViewSliderArrow = self.eventViewSliderArrowDown
-            self.eventViewSlider.transform = CGAffineTransformIdentity
-            
-            self.bottomMapConstraint.active = false
-            self.bottomOfMapArrowConstraint.active = false
-            
-            self.halfShowingArrowConstraint.active = true
-            self.heightOfMapConstraint.active = true
-            
-            
-            self.view.setNeedsLayout()
-            self.view.layoutIfNeeded()
+                self.eventViewSlider.transform = CGAffineTransformIdentity
+                self.bottomMapConstraint.active = false
+                self.bottomOfMapArrowConstraint.active = false
+                self.halfShowingArrowConstraint.active = true
+                self.heightOfMapConstraint.active = true
+                
+                self.view.setNeedsLayout()
+                self.view.layoutIfNeeded()
             }, completion: { finished in
                 self.fullScreenMap = false
         })
@@ -251,7 +200,6 @@ class DayEventsViewController: UIViewController, MKMapViewDelegate {
     
     func slideOnTap(s: UITapGestureRecognizer){
         if(!fullScreenMap){
-            
             slideDownAnimation()
         }
         else{
